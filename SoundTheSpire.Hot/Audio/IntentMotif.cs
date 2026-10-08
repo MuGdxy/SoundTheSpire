@@ -25,9 +25,9 @@ public static class IntentMotif
 
     private const double GapBetweenEnemies = 0.3;
 
-    private static readonly int[] RiffStrikes = { 0, 3, 6 };
-    private const int RiffCycleSteps = 8;
-    private const double RiffStepSeconds = 0.09;
+    private const string RiffPattern = "1xx1xx1x";
+    private const double RiffStepSeconds = 0.12;
+    private const double DoubleHitGap = 0.2;
     private const double PalmMuteSeconds = 0.07;
     private const double StrumSpread = 0.008;
 
@@ -105,7 +105,7 @@ public static class IntentMotif
         };
         var velocity = AttackVelocities[tier - 1];
 
-        var hits = Math.Clamp(intent.Hits, 1, 8);
+        var hits = Math.Clamp(intent.Hits, 1, 16);
         if (hits == 1)
         {
             var duration = 0.2 + tier * 0.1;
@@ -116,23 +116,28 @@ public static class IntentMotif
     }
 
     /// <summary>
-    /// Multi-hit attacks as a power-chord riff on the 1xx1xx1x grid (strikes on steps 0, 3, 6 of 8):
-    /// the first strike is an open strum that rings, the rest are palm-muted chugs.
+    /// Multi-hit attacks as a power-chord riff, one strike per hit on an even grid, following
+    /// <see cref="RiffPattern"/> ('1' = open strum, 'x' = palm-muted chug): 3 hits = 1xx triplet, 4 = 1xx1, ...
+    /// A double hit is two open strums so it can't be mistaken for the start of a longer riff.
     /// </summary>
     private static double PlayRiff(SynthEngine engine, double t, int channel, int velocity, int hits, int[] keys)
     {
-        var lastStep = 0;
+        if (hits == 2)
+        {
+            engine.Strum(t, DoubleHitGap, channel, velocity, StrumSpread, keys);
+            engine.Strum(t + DoubleHitGap, RiffStepSeconds * 2, channel, velocity, StrumSpread, keys);
+            return t + DoubleHitGap + RiffStepSeconds * 2 + 0.15;
+        }
+
         for (var h = 0; h < hits; h++)
         {
-            var step = h / RiffStrikes.Length * RiffCycleSteps + RiffStrikes[h % RiffStrikes.Length];
-            var at = t + step * RiffStepSeconds;
-            if (h == 0)
-                engine.Strum(at, RiffStrikes[1] * RiffStepSeconds, channel, velocity, StrumSpread, keys);
+            var at = t + h * RiffStepSeconds;
+            if (RiffPattern[h % RiffPattern.Length] == '1')
+                engine.Strum(at, RiffStepSeconds, channel, velocity, StrumSpread, keys);
             else
                 engine.Strum(at, PalmMuteSeconds, channel, Math.Max(1, velocity - 8), StrumSpread, keys);
-            lastStep = step;
         }
-        return t + (lastStep + 2) * RiffStepSeconds + 0.15;
+        return t + hits * RiffStepSeconds + 0.15;
     }
 
     private static double Arpeggio(SynthEngine engine, double t, int channel, int velocity, params int[] keys)
