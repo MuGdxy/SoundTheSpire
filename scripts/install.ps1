@@ -67,6 +67,7 @@ $target = Join-Path $mods "SoundTheSpire"
 if ($Uninstall) {
     if (Test-Path $target) { Remove-Item -Recurse -Force $target; Write-Host "已卸载。" -ForegroundColor Green }
     else { Write-Host "没有安装，无需卸载。" }
+    Write-Host "如果在创意工坊订阅过本模组，请在 Steam 创意工坊里取消订阅。"
     return
 }
 

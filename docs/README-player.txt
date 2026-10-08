@@ -20,7 +20,9 @@ Sound the Spire —— 用耳朵玩《杀戮尖塔 2》
 4. 启动游戏。若游戏询问是否加载模组，选择加载。
 
 开模组时游戏使用一份单独的存档（modded），原来的进度不受影响，也不会出现在这里。
-卸载：删除 mods\SoundTheSpire 文件夹即可，回到原来的存档。
+卸载：双击发布页里的 uninstall.bat，或在 PowerShell 里粘贴：
+   irm https://raw.githubusercontent.com/MuGdxy/SoundTheSpire/main/scripts/uninstall.ps1 | iex
+也可以手动删除 mods\SoundTheSpire 文件夹。卸载后回到原来的存档。创意工坊订阅的，在 Steam 里取消订阅。
 
 联机：所有玩家都要装同一个版本的本模组。
 

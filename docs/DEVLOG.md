@@ -274,3 +274,4 @@ v1 不做：朗读、手牌信息、导航、地图、商店、事件、多人�
 - 创意工坊上架流程：`workshop/` 工作区 + `scripts/workshop.ps1`，用官方上传工具；已私密上传，物品 ID 3815971689。
 - 仓库首页 `README.md`：Logo、一键安装 / 卸载命令、按键；去掉 `install.ps1` 的 BOM（它让 `irm | iex` 先报一行错）。
 - 教学关按钮（`TutorialButton`）：主菜单（无子菜单时）和一局中非战斗时显示在左下角；主菜单点击开一局不存档的铁甲战士（种子 `LISTEN`），进入地图后自动进教学关，一局中点击等同 F10。版本 v0.0.2。
+- 卸载入口：`scripts/uninstall.ps1`（`irm …/uninstall.ps1 | iex`，内部调用 `install.ps1 -Uninstall`）和 `uninstall.bat`，作为发布附件。注意编辑工具会给 `install.ps1` 加回 BOM，改完要检查首字节。

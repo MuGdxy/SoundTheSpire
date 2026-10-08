@@ -17,11 +17,13 @@ irm https://raw.githubusercontent.com/MuGdxy/SoundTheSpire/main/scripts/install.
 它会自动找到游戏、下载[最新发布](https://github.com/MuGdxy/SoundTheSpire/releases/latest)并装进 `mods\SoundTheSpire`；以后再运行一次就是更新。
 也可以在[发布页](https://github.com/MuGdxy/SoundTheSpire/releases/latest)下载 `install.bat` 双击运行，效果相同。
 
-卸载：
+**卸载**：在 PowerShell 粘贴运行（或在[发布页](https://github.com/MuGdxy/SoundTheSpire/releases/latest)下载 `uninstall.bat` 双击）：
 
 ```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/MuGdxy/SoundTheSpire/main/scripts/install.ps1))) -Uninstall
+irm https://raw.githubusercontent.com/MuGdxy/SoundTheSpire/main/scripts/uninstall.ps1 | iex
 ```
+
+它删除游戏目录下的 `mods\SoundTheSpire`。通过创意工坊订阅的，在 Steam 里取消订阅即可。
 
 **手动安装**：从发布页下载 `SoundTheSpire-<版本>.zip`，把里面的 `SoundTheSpire` 文件夹放进游戏目录的 `mods` 文件夹（没有就新建），变成 `Slay the Spire 2\mods\SoundTheSpire\SoundTheSpire.dll`。
 
