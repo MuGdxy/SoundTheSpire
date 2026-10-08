@@ -64,6 +64,7 @@ public static class IntentVeil
         MainFile.Logger.Info($"Intent veil {(enabled ? "on" : "off")}");
         if (!enabled)
             Restore();
+        NumberVeil.Refresh();
     }
 
     public static void Restore()

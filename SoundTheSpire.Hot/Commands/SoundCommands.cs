@@ -117,6 +117,7 @@ public class StsVeilConsoleCmd : AbstractConsoleCmd
         if (enabled is not { } value)
             return new CmdResult(false, $"Expected on or off, got '{args[0]}'.");
         IntentVeil.Set(value);
-        return new CmdResult(true, $"Intent veil {(value ? $"on: {IntentVeil.Apply()}" : "off")}.");
+        var intents = value ? $"on: {IntentVeil.Apply()}" : "off";
+        return new CmdResult(true, $"Intent veil {intents}; {NumberVeil.Report()}.");
     }
 }
