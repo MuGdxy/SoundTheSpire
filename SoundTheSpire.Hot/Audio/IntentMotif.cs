@@ -55,9 +55,9 @@ public static class IntentMotif
             Schedule(engine, start + i * slot, phrases[i].Enemy, phrases[i].Phrase);
     }
 
-    // Do (quarter) - sol (dotted half) on trumpet, C5 and G5, filling one bar; on its own channel, centered.
+    // Do (quarter) - sol (dotted half) on trumpet, C4 and G4, filling one bar; on its own channel, centered.
     private const int IntroChannel = 8;
-    private static readonly (int Key, double Bars)[] IntroNotes = { (72, 0.25), (79, 0.75) };
+    private static readonly (int Key, double Bars)[] IntroNotes = { (60, 0.25), (67, 0.75) };
 
     private static double PlayIntro(SynthEngine engine)
     {
