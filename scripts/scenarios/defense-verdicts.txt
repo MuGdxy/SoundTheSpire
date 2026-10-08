@@ -6,19 +6,28 @@ sts_intent 0 attack 4
 sts_intent 1 attack 8
 sts_intent 2 attack 10
 sleep 2
-# Undefended -> Partial (5 of 22): sus4 left hanging.
+# Incoming 22. Undefended -> PartialLow (5/22): diminished.
 block 5
 sleep 2.5
-# Partial -> Resolved (25 of 22): sus4 -> C major.
-block 20
+# PartialLow -> PartialMid (10/22): minor.
+block 5
 sleep 2.5
-# Resolved -> Partial (25 of 44): the intent got heavier.
+# PartialMid -> PartialHigh (16/22): sus4 left hanging.
+block 6
+sleep 2.5
+# Same tier (18/22): silent.
+block 2
+sleep 1
+# PartialHigh -> Resolved (25/22): sus4 -> C major.
+block 7
+sleep 2.5
+# Resolved -> PartialMid (25/44): the intent got heavier.
 sts_intent 1 attack 30
 sleep 2.5
-# Partial -> Resolved (25 of 14): attacker killed.
+# PartialMid -> Resolved (25/14): attacker killed.
 kill 1
 sleep 2.5
-# Still resolved: no phrase.
+# Still resolved: silent.
 block 5
 sleep 1
 sts_state

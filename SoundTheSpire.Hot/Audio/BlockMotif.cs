@@ -4,7 +4,7 @@ namespace SoundTheSpire.Hot.Audio;
 /// The defensive side, on piano in C like the intent intro. Block gains themselves already have the game's own sound.
 /// <list type="bullet">
 /// <item>Resolved (block covers incoming): sus4 → C major.</item>
-/// <item>Partly covered: sus4 left hanging.</item>
+/// <item>Partly covered, by share of incoming: under 1/3 diminished, under 2/3 minor, otherwise sus4 left hanging.</item>
 /// <item>No block at all against an attack: a dissonant phrase.</item>
 /// <item>No incoming attack: C major alone.</item>
 /// </list>
@@ -17,15 +17,25 @@ public static class BlockMotif
     private const double BeatSeconds = 60.0 / 120;
     public const double BarSeconds = BeatSeconds * 4;
 
+    private static readonly int[] Diminished = { 60, 63, 66 };   // C Eb Gb
+    private static readonly int[] Minor = { 60, 63, 67 };        // C Eb G
     private static readonly int[] Suspended = { 60, 65, 67 };    // C F G
     private static readonly int[] Resolved = { 60, 64, 67, 72 }; // C E G C
     private static readonly int[] Clash = { 60, 61, 66 };        // C Db Gb
     private static readonly int[] ClashAfter = { 59, 60, 65 };   // B C F
 
-    public enum Verdict { Resolved, Partial, Undefended }
+    /// <summary>Ordered from no cover to full cover; the partial tiers climb a harmonic ladder towards resolution.</summary>
+    public enum Verdict { Undefended, PartialLow, PartialMid, PartialHigh, Resolved }
 
-    public static Verdict Judge(int block, int incoming) =>
-        block >= incoming ? Verdict.Resolved : block > 0 ? Verdict.Partial : Verdict.Undefended;
+    public static Verdict Judge(int block, int incoming)
+    {
+        if (block >= incoming)
+            return Verdict.Resolved;
+        if (block <= 0)
+            return Verdict.Undefended;
+        var cover = (double)block / incoming;
+        return cover < 1.0 / 3 ? Verdict.PartialLow : cover < 2.0 / 3 ? Verdict.PartialMid : Verdict.PartialHigh;
+    }
 
     public static void PlayStatus(SynthEngine engine, int block, int incoming)
     {
@@ -46,10 +56,16 @@ public static class BlockMotif
         {
             ScheduleResolved(engine, at);
         }
-        else if (verdict == Verdict.Partial)
+        else if (verdict != Verdict.Undefended)
         {
+            var chord = verdict switch
+            {
+                Verdict.PartialLow => Diminished,
+                Verdict.PartialMid => Minor,
+                _ => Suspended,
+            };
             Setup(engine, at);
-            engine.Chord(at, BeatSeconds * 3, Channel, 80, Suspended);
+            engine.Chord(at, BeatSeconds * 3, Channel, 80, chord);
         }
         else
         {
