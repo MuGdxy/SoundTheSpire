@@ -9,7 +9,11 @@ public static class Midi
     public static class Program
     {
         public const int AcousticGrandPiano = 0;
+        public const int ChurchOrgan = 19;
         public const int DistortionGuitar = 30;
+        public const int StringEnsemble = 48;
+        public const int BrassSection = 61;
+        public const int SquareLead = 80;
     }
 
     public static class Drum

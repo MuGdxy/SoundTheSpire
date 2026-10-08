@@ -1,0 +1,33 @@
+# Every articulation once: the five damage tiers on one enemy, then defend / buff / debuff / multi-hit.
+sts_menu
+wait menu
+sts_run ironclad
+wait run
+fight SLIMES_WEAK
+wait combat
+sts_intent 0 attack 3
+sts_intents 0
+sleep 1.2
+sts_intent 0 attack 7
+sts_intents 0
+sleep 1.2
+sts_intent 0 attack 15
+sts_intents 0
+sleep 1.2
+sts_intent 0 attack 30
+sts_intents 0
+sleep 1.2
+sts_intent 0 attack 50
+sts_intents 0
+sleep 1.5
+sts_intent 0 defend 8
+sts_intents 0
+sleep 1.2
+sts_intent 0 buff 2
+sts_intents 0
+sleep 1.2
+sts_intent 0 debuff 2
+sts_intents 0
+sleep 1.2
+sts_intent 0 attack 6 4
+sts_intents 0

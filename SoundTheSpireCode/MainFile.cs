@@ -4,6 +4,7 @@ using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
 using SoundTheSpire.SoundTheSpireCode.Audio;
+using SoundTheSpire.SoundTheSpireCode.Combat;
 using SoundTheSpire.SoundTheSpireCode.Core;
 
 namespace SoundTheSpire.SoundTheSpireCode;
@@ -60,8 +61,8 @@ public partial class MainFile : Node
 
         var started = DateTime.UtcNow;
         var engine = SynthEngine.Create(soundFont, tree.Root);
-        MainThread.Frame += engine.Pump;
         MainThread.Frame += PollTestHotkey;
+        MainThread.Frame += IntentAnnouncer.PollReplayKey;
         Logger.Info($"Synth engine ready at {engine.SampleRate} Hz in {(DateTime.UtcNow - started).TotalMilliseconds:F0} ms");
     }
 

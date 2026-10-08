@@ -1,4 +1,4 @@
-# Three enemies, one per damage tier the game uses for attack icons (<5, <10, <20, <40, 40+).
+# Three slimes with different attacks: the whole line-up, then each enemy as if selected.
 sts_menu
 wait menu
 sts_run ironclad
@@ -9,4 +9,10 @@ sts_intent 0 attack 4
 sts_intent 1 attack 15
 sts_intent 2 attack 8 3
 sts_state
-sts_test
+sts_intents
+sleep 4
+sts_intents 0
+sleep 1.5
+sts_intents 1
+sleep 1.5
+sts_intents 2
