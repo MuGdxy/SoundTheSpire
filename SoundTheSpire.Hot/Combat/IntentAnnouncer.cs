@@ -28,14 +28,14 @@ public static class IntentAnnouncer
         return true;
     }
 
-    public static bool PlayEnemy(int screenIndex)
+    /// <param name="slot">Enemy index as used by sts_state and sts_intent.</param>
+    public static bool PlayEnemy(int slot)
     {
         if (CombatReader.CurrentCombat is not { } combat || SynthEngine.Instance is not { } engine)
             return false;
-        var enemies = CombatReader.ReadEnemies(combat);
-        if (screenIndex < 0 || screenIndex >= enemies.Count)
+        if (CombatReader.ReadEnemies(combat).FirstOrDefault(e => e.Slot == slot) is not { } enemy)
             return false;
-        IntentMotif.Play(engine, enemies[screenIndex]);
+        IntentMotif.Play(engine, enemy);
         return true;
     }
 

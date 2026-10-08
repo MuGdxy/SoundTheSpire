@@ -27,8 +27,8 @@ public class StsTestConsoleCmd : AbstractConsoleCmd
 public class StsIntentsConsoleCmd : AbstractConsoleCmd
 {
     public override string CmdName => "sts_intents";
-    public override string Args => "[screen_index]";
-    public override string Description => "Play the enemy intent motif: all enemies, or one by left-to-right position.";
+    public override string Args => "[enemy_index]";
+    public override string Description => "Play the enemy intent motif: all enemies left to right, or one enemy (index as in sts_state).";
     public override bool IsNetworked => false;
     public override bool DebugOnly => false;
 
@@ -40,9 +40,9 @@ public class StsIntentsConsoleCmd : AbstractConsoleCmd
                 : new CmdResult(false, "Not in combat or synth not running.");
 
         if (!int.TryParse(args[0], out var index))
-            return new CmdResult(false, $"Bad screen index '{args[0]}'.");
+            return new CmdResult(false, $"Bad enemy index '{args[0]}'.");
         return IntentAnnouncer.PlayEnemy(index)
-            ? new CmdResult(true, $"Playing intent of enemy {index} (left to right).")
-            : new CmdResult(false, $"No enemy at screen index {index}, or not in combat.");
+            ? new CmdResult(true, $"Playing intent of enemy {index}.")
+            : new CmdResult(false, $"No living enemy {index}, or not in combat.");
     }
 }

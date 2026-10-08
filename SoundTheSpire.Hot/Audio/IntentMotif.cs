@@ -4,7 +4,9 @@ namespace SoundTheSpire.Hot.Audio;
 
 /// <summary>
 /// One phrase per enemy, left to right. Instrument = which enemy, pan = where it stands,
-/// articulation = intent kind, pitch = attack damage tier, number of strikes = attack hits.
+/// articulation = intent kind, number of strikes = attack hits.
+/// Attacks: the harder they hit, the lower, louder, thicker and longer; light attacks are high, soft and thin.
+/// No percussion in attacks: drums carry no clear pitch, so the damage tier would be lost.
 /// </summary>
 public static class IntentMotif
 {
@@ -17,8 +19,9 @@ public static class IntentMotif
         Midi.Program.ChurchOrgan,
     };
 
-    // Root note per damage tier; the tiers match the game's attack intent icons.
-    private static readonly int[] AttackRoots = { 43, 48, 53, 58, 64 };
+    // Per damage tier (the game's attack icon tiers), lightest first.
+    private static readonly int[] AttackRoots = { 72, 64, 55, 48, 40 };
+    private static readonly int[] AttackVelocities = { 45, 62, 82, 104, 124 };
 
     private const double GapBetweenEnemies = 0.3;
 
@@ -88,17 +91,20 @@ public static class IntentMotif
         var root = AttackRoots[tier - 1];
         var keys = tier switch
         {
-            <= 2 => new[] { root, root + 7 },
-            <= 4 => new[] { root, root + 7, root + 12 },
-            _ => new[] { root, root + 7, root + 12, root + 19 },
+            1 => new[] { root },
+            2 => new[] { root, root + 7 },
+            3 => new[] { root, root + 7, root + 12 },
+            4 => new[] { root - 12, root, root + 7 },
+            _ => new[] { root - 12, root, root + 7, root + 12 },
         };
-        var velocity = 70 + tier * 10;
+        var velocity = AttackVelocities[tier - 1];
 
         var hits = Math.Clamp(intent.Hits, 1, 8);
         if (hits == 1)
         {
-            engine.Chord(t, 0.4, channel, velocity, keys);
-            return t + 0.5;
+            var duration = 0.2 + tier * 0.1;
+            engine.Chord(t, duration, channel, velocity, keys);
+            return t + duration + 0.1;
         }
         for (var h = 0; h < hits; h++)
             engine.Chord(t + h * 0.16, 0.12, channel, velocity, keys);
