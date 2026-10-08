@@ -1,8 +1,9 @@
-﻿# Sound the Spire 一键安装 / 更新 / 卸载。
+# Sound the Spire 一键安装 / 更新 / 卸载。
 # 用法（PowerShell 中粘贴）：irm https://raw.githubusercontent.com/MuGdxy/SoundTheSpire/main/scripts/install.ps1 | iex
 # 或双击发布页里的 install.bat。
 # 参数（直接运行脚本时）：-ZipPath 本地压缩包  -GamePath 游戏目录  -Uninstall 卸载
-# No param() block: piped through iex the file starts with a BOM, which a param() block can't follow.
+# No BOM: through irm it would become a stray command before the first line. Windows PowerShell 5 reads a BOM-less
+# local file as ANSI, so run a local copy as: & ([scriptblock]::Create((Get-Content -Raw -Encoding UTF8 .\install.ps1))) ...
 $ZipPath = ""; $GamePath = ""; $Uninstall = $false
 for ($i = 0; $i -lt $args.Count; $i++) {
     switch ($args[$i]) {
