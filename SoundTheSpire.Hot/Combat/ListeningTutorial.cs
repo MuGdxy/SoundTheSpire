@@ -29,8 +29,8 @@ namespace SoundTheSpire.Hot.Combat;
 /// a small slime's tackle, the rock Bowlbug's headbutt, the Entomancer's bees (multi-hit), and the Giant in his last,
 /// unkillable phase about to erupt. Each player's hand: Turbo for energy, Bash for Vulnerable, four free Midnights (one
 /// each for the slime and the Bowlbug, two for the Vulnerable Entomancer) and Impervious to cover the Giant. The player's
-/// speech bubble explains only what the sounds mean, never what to play: the line-up, then how the defense chord follows
-/// every change, then the resolution once nothing gets through.
+/// speech bubble never explains: it only asks what the pitch, then the defense chord, then its resolution seem to mean,
+/// so the player works it out by listening.
 /// </summary>
 public static class ListeningTutorial
 {
@@ -46,16 +46,14 @@ public static class ListeningTutorial
     private const int GiantAttack = 30;
 
     private const string ListenText =
-        "声音教学。四只怪从左到右依次出声，一只一段：\n" +
-        "攻击越重，声音越低沉有力；多段攻击是连续扫弦，段数越多越密。\n" +
-        "最后一小节是这回合你会挨多少打：越刺耳，伤得越重。\n" +
-        "鼠标移到怪身上单独听它，按 R 重听全部。";
+        "四只怪，每只都有自己的声音。\n" +
+        "音高好像代表了什么？";
     private const string ChangeText =
-        "只要这回合你会挨的打变了，最后那段和弦就会重新响起。\n" +
-        "变好时从旧和弦连音滑到新和弦，连续变好会连成一条线；\n" +
-        "从刺耳到悬着，离不受伤越近越和谐。";
+        "最后那段和弦又响了。\n" +
+        "和弦好像代表了什么？";
     private const string ResolvedText =
-        "悬着的和弦落回明亮的大三和弦：完美解决，这回合你不会受伤。";
+        "和弦落下来了。\n" +
+        "这好像代表了什么？";
 
     private enum Step { Off, Listen, Change, Resolved }
 
