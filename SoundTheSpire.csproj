@@ -89,7 +89,7 @@
 
     <!-- The hot module compiles against the loader just deployed above, so it is built afterwards. -->
     <Target Name="BuildHotModule" AfterTargets="CopyToModsFolderOnBuild">
-        <Exec Command="&quot;$(DOTNET_HOST_PATH)&quot; build &quot;$(MSBuildProjectDirectory)/SoundTheSpire.Hot/SoundTheSpire.Hot.csproj&quot; -c $(Configuration) --nologo -v q" />
+        <Exec Command="&quot;$(DOTNET_HOST_PATH)&quot; build &quot;$(MSBuildProjectDirectory)/SoundTheSpire.Hot/SoundTheSpire.Hot.csproj&quot; -c $(Configuration) -p:ModsPath=&quot;$(ModsPath)&quot; --nologo -v q" />
     </Target>
 
     <Target Name="CopyQuickPck" AfterTargets="PackPck" Condition="Exists('$(PckPackerOutputPath)') And '$(PckPackerSkipped)' != 'true'">

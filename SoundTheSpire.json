@@ -2,7 +2,7 @@
   "id": "SoundTheSpire",
   "name": "Sound the Spire",
   "author": "MuGdxy",
-  "description": "Audio-first accessibility: hear the game through speech and sound cues, play with keyboard or controller.",
+  "description": "Audio-first accessibility: hear enemy intents and your defense as music. F9 toggles the training veil, F10 starts the listening tutorial.",
   "version": "v0.0.1",
   "min_game_version": "0.107.0",
   "has_pck": false,

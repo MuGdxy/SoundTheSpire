@@ -16,8 +16,11 @@ public sealed class HotEntry : IHotModule
         context.OnFrame(DefenseMonitor.Poll);
         context.OnFrame(IntentVeil.Poll);
         context.OnFrame(NumberVeil.Poll);
+        context.OnFrame(ListeningTutorial.Poll);
+        context.OnFrame(ListeningTutorial.PollStartKey);
         NumberVeil.Refresh();
         CombatManager.Instance.TurnStarted += IntentAnnouncer.OnTurnStarted;
+        CombatManager.Instance.TurnStarted += ListeningTutorial.OnTurnStarted;
         if (CombatReader.CurrentCombat is { CurrentSide: CombatSide.Player } combat)
             DefenseMonitor.StartWatching(combat);
     }
@@ -25,7 +28,9 @@ public sealed class HotEntry : IHotModule
     public void Unload()
     {
         CombatManager.Instance.TurnStarted -= IntentAnnouncer.OnTurnStarted;
+        CombatManager.Instance.TurnStarted -= ListeningTutorial.OnTurnStarted;
         IntentVeil.Set(false);
+        ListeningTutorial.Stop();
     }
 
     private void PollTestHotkey()

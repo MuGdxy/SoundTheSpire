@@ -77,6 +77,7 @@ public static class IntentAnnouncer
                 return;
             if (__instance.Entity.CombatState is not { } combat)
                 return;
+            ListeningTutorial.OnEnemySelected(__instance.Entity);
             var enemies = CombatReader.ReadEnemies(combat);
             if (enemies.FirstOrDefault(e => e.Creature == __instance.Entity) is { } enemy)
             {
