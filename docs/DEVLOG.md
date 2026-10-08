@@ -1,0 +1,125 @@
+# SoundTheSpire 开发记录
+
+## 理念
+
+SoundTheSpire 不是"把屏幕读出来"。目标是用多维度的听觉信息构建对局势的理解，像听一首歌：
+
+- **音高**、**响度**、**音色**（电吉他、钢琴、铜管……）、**声像**（左右位置）、**节奏**都是信息通道。
+- 面向盲人玩家，以及不想盯着屏幕的玩家；操作以键盘、手柄为主。
+- 只表达明眼玩家在屏幕上能看到的信息，不多透露（例如隐藏意图保持模糊）。
+
+参考：[Say the Spire 2](https://github.com/bradjrenshaw/say-the-spire2)（以朗读为主的无障碍 mod，可借鉴其补丁点和导航思路）。
+
+## 声音设计规则（已确定）
+
+### 敌人意图乐句
+
+- **何时播放**：战斗开场（第 1 回合玩家回合开始）按从左到右顺序播放全部敌人的意图；之后只在**选中**某个敌人时播放它的意图（键盘/手柄焦点、鼠标悬停、出牌瞄准都算）。`R` 重听全体。
+- **乐器 = 哪个敌人**：按敌人在本场战斗中的固定槽位分配，其他敌人死亡不会改变。顺序：失真吉他、铜管、弦乐、方波主音、管风琴。
+- **声像 = 屏幕位置**。
+- **攻击**：伤害越高越**低沉有力**，越低越**轻柔**。按游戏攻击图标的 5 档总伤害（<5, <10, <20, <40, 40+）：
+
+  | 档 | 音区 | 力度 | 声部 |
+  |---|---|---|---|
+  | 1 | C5 | 45 | 单音 |
+  | 2 | E4 | 62 | 五度 |
+  | 3 | G3 | 82 | 强力和弦（根、五、八） |
+  | 4 | C3 + 低八度 | 104 | 三音 |
+  | 5 | E2 + 低八度 | 124 | 四音 |
+
+  单段攻击越重时值越长。
+- **攻击不用鼓**：打击乐没有明确音高，会让伤害档位难以分辨。
+- **多段攻击**：强力和弦扫弦（低到高下扫），120 BPM 八分音符网格，每段一下、每下满一格。
+  - 按 `1xx1xx1x` 从头取段数格：`1` = 开放扫，`x` = 闷音扫（力度 -20）。3 段 = `1xx`，4 段 = `1xx1`，8 段 = 一小节，超过 8 段循环。
+  - 双击特殊处理：两下开放扫，便于和其他段数区分。
+- **防御**：低长音；**增益**：上行琶音；**减益**：下行琶音；**隐藏/未知/其他**：一个闷音。
+
+### 待定
+
+- 防御音色与"低沉 = 重攻击"冲突，待定（候选：柔和中音区长音 / 高音区护盾光泽 / 不变）。
+- 多段段数很多时整段偏长（8 段 2 秒），后期细调。
+- "头音开放"目前只对整次攻击的第一下；是否每循环开头都开放，未定。
+- 非吉他乐器的闷音只是断奏/弱奏，是否多段统一用吉他，未定。
+
+## 架构
+
+```
+SoundTheSpire.dll（常驻加载器，SoundTheSpireCode/）     SoundTheSpire.Hot.dll（可热重载，SoundTheSpire.Hot/）
+├─ MainFile          mod 入口、依赖解析                    ├─ HotEntry          IHotModule 实现，F8/R 按键
+├─ Core/MainThread   每帧主线程调度                        ├─ Combat/CombatReader   读取敌人、意图、屏幕位置
+├─ Core/HotModuleHost  加载/替换热模块                     ├─ Combat/IntentAnnouncer 开场/选中触发（Harmony 补丁）
+├─ Core/ConsoleRegistry 把热模块命令注入控制台             ├─ Audio/IntentMotif   意图 → 音符
+├─ Core/DebugBridge  127.0.0.1:47800 外部命令（DEBUG）     ├─ Audio/Midi, SoundTest
+├─ Audio/SynthEngine MeltySynth → Godot 音频流（独立线程） └─ Commands/           场景与试听命令
+└─ Commands/HostCommands  sts_status, sts_reload
+```
+
+- **合成**：MeltySynth + GeneralUser GS SoundFont（`scripts/fetch-assets.ps1` 下载，不入库）。游戏自身音效走 FMOD，本 mod 走 Godot 的 `AudioStreamGenerator`，两者并行。渲染在独立线程上，加载卡顿不再欠载。事件按采样时间排程。
+- **热重载**：热模块按字节读入新的 `AssemblyLoadContext`（不锁文件）。重载时先检查新程序集，再撤销旧代的 Harmony 补丁、控制台命令、帧回调，重置合成器，然后装入新代。旧程序集不卸载（每次几百 KB，开发期可忽略）。热模块编译时引用 mods 目录里**已部署**的加载器，加载器接口变更会在编译期报错。
+- **数据与声音分离**：`CombatReader` 是唯一接触游戏模型的地方，输出 `EnemyInfo` / `IntentInfo`；声音代码只看这些结构，游戏更新时影响范围可控。
+
+### 关键游戏 API（v0.107.1）
+
+- 意图在 `CombatManager.StartTurn` 中 `enemy.PrepareForNextTurn` 掷出，之后才调用 `Hook.AfterPlayerTurnStart`，所以在该钩子上打补丁能拿到已掷好的意图。`ICombatState.RoundNumber` 第一回合为 1。
+- 选中：`NCreature.OnFocus`（私有）同时处理 Hitbox 的焦点和鼠标进入，出牌瞄准也经过这里。
+- 攻击伤害：`AttackIntent.GetSingleDamage(targets, owner)` 已含力量/虚弱等修正，`Repeats` 为段数。
+- 控制台：`DevConsole` 构造时扫描 mod 程序集中的 `AbstractConsoleCmd`，存入私有 `_commands`。
+- 游戏只加载 `mods/<id>/<id>.dll`（`LoadFromAssemblyPath`，会锁文件）。
+
+## 开发流程
+
+环境：.NET SDK（`winget install Microsoft.DotNet.SDK.10`），PowerShell 中需 `$env:PATH = "C:\Program Files\dotnet;" + $env:PATH`。反编译参考：`ilspycmd -p -o .\decompiled\sts2 sts2.dll`（`decompiled/` 不入库）。
+
+| 场景 | 命令 |
+|---|---|
+| 改了加载器（`SoundTheSpireCode/`） | `.\scripts\dev-restart.ps1`（关游戏、构建、启动、等待调试桥） |
+| 改了热模块（`SoundTheSpire.Hot/`） | `.\scripts\hot.ps1 [-Then cmd, ...]`（约 3.5 秒，不离开当前战斗） |
+| 发送单条控制台命令 | `.\scripts\sts.ps1 <命令>` |
+| 跑场景脚本 | `.\scripts\scenario.ps1 scripts\scenarios\<文件>.txt` |
+
+场景脚本语法：每行一条控制台命令；`#` 注释；`sleep <秒>`；`wait menu|run|combat`。
+
+| 场景 | 内容 |
+|---|---|
+| `attack-tiers.txt` | 新开局进三史莱姆战斗，设 4 / 15 / 8×3 攻击，播放全体再逐个 |
+| `intent-kinds.txt` | 新开局，同一敌人依次 5 档攻击、防御、增益、减益、多段 |
+| `attack-ladder.txt` | 需已在战斗中：5 档单段 + 两种 4 段 |
+| `multi-hit.txt` | 需已在战斗中：2/3/4/6/8 段，以及轻重 4 段对比 |
+
+mod 控制台命令：
+
+| 命令 | 所在 | 作用 |
+|---|---|---|
+| `sts_status` | 加载器 | 合成器状态、主总线峰值（无法监听时用来确认有声音）、热模块代数 |
+| `sts_reload` | 加载器 | 重载热模块 |
+| `sts_run [角色] [种子]` | 热模块 | 开新局（不存档） |
+| `sts_menu` | 热模块 | 回主菜单 |
+| `sts_intent <idx\|all> attack 伤害 [段数] \| defend 量 \| buff 量 \| debuff 量` | 热模块 | 设定敌人意图 |
+| `sts_state` | 热模块 | 打印局面 |
+| `sts_intents [idx]` | 热模块 | 播放意图乐句（全部或单个） |
+| `sts_test` | 热模块 | 合成器测试：钢琴左、吉他中、鼓右 |
+
+调试路径：日志 `%APPDATA%\SlayTheSpire2\logs\godot.log`；mod 目录 `Steam\steamapps\common\Slay the Spire 2\mods\SoundTheSpire\`。
+
+## 路线图
+
+v1（战斗中的"敌人要做什么、我挡不挡得住"）：
+
+1. ✅ 敌人意图乐句
+2. ⬜ 格挡和弦：获得格挡时播放钢琴和弦，格挡 < 来袭伤害时不协和，≥ 时解决为协和
+3. ⬜ 敌人回合的结果音：完全格挡 / 格挡被打破 / 未格挡
+4. ⬜ 试玩调音
+
+v1 不做：朗读、手牌信息、导航、地图、商店、事件、多人、设置界面。
+
+## 变更记录
+
+### 2026-10-08
+
+- 搭建 mod 骨架（Alchyr 模板，去掉 BaseLib），MeltySynth 合成器接入，验证钢琴/吉他/鼓与声像。
+- 控制台场景工具：调试桥、`sts.ps1`、`scenario.ps1`、`dev-restart.ps1`。
+- 敌人意图乐句；逻辑改为"开场播全体，之后选中才播单个"。
+- 合成器渲染移到独立线程，加载期欠载从数千次降为 0。
+- 热重载：拆分常驻加载器与 `SoundTheSpire.Hot`。
+- 攻击音高反转为"越重越低沉有力，越轻越轻柔"；攻击不用鼓。
+- 多段攻击：强力和弦扫弦，`1xx1xx1x`，双击为两下开放扫，120 BPM 八分音符，每下满一格。
