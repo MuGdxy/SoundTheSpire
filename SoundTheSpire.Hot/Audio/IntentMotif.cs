@@ -26,9 +26,10 @@ public static class IntentMotif
     private const double GapBetweenEnemies = 0.3;
 
     private const string RiffPattern = "1xx1xx1x";
-    private const double RiffStepSeconds = 0.12;
-    private const double DoubleHitGap = 0.2;
-    private const double PalmMuteSeconds = 0.07;
+    private const double RiffBpm = 120;
+    private const double RiffStepSeconds = 60.0 / RiffBpm / 4;
+    private const double DoubleHitGap = RiffStepSeconds * 2;
+    private const int PalmMuteVelocityDrop = 20;
     private const double StrumSpread = 0.008;
 
     public static void Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies)
@@ -125,17 +126,15 @@ public static class IntentMotif
         if (hits == 2)
         {
             engine.Strum(t, DoubleHitGap, channel, velocity, StrumSpread, keys);
-            engine.Strum(t + DoubleHitGap, RiffStepSeconds * 2, channel, velocity, StrumSpread, keys);
-            return t + DoubleHitGap + RiffStepSeconds * 2 + 0.15;
+            engine.Strum(t + DoubleHitGap, DoubleHitGap, channel, velocity, StrumSpread, keys);
+            return t + DoubleHitGap * 2 + 0.15;
         }
 
         for (var h = 0; h < hits; h++)
         {
-            var at = t + h * RiffStepSeconds;
-            if (RiffPattern[h % RiffPattern.Length] == '1')
-                engine.Strum(at, RiffStepSeconds, channel, velocity, StrumSpread, keys);
-            else
-                engine.Strum(at, PalmMuteSeconds, channel, Math.Max(1, velocity - 8), StrumSpread, keys);
+            var open = RiffPattern[h % RiffPattern.Length] == '1';
+            var strikeVelocity = open ? velocity : Math.Max(1, velocity - PalmMuteVelocityDrop);
+            engine.Strum(t + h * RiffStepSeconds, RiffStepSeconds, channel, strikeVelocity, StrumSpread, keys);
         }
         return t + hits * RiffStepSeconds + 0.15;
     }
