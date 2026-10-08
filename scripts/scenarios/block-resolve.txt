@@ -1,0 +1,17 @@
+# "Pressure resolved" cadence. Needs SLIMES_WEAK open. Incoming = 4 + 8 + 5x2 = 22.
+wait combat
+sts_intent 0 attack 4
+sts_intent 1 attack 8
+sts_intent 2 attack 5 2
+sts_state
+# Below incoming: silent (only the game's own block sound).
+block 10
+sleep 1.5
+# 10 -> 20, still below: silent.
+block 10
+sleep 1.5
+# 20 -> 25, crosses 22: sus4 -> C major.
+block 5
+sleep 2.5
+# Already covered: silent.
+block 5

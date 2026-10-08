@@ -46,6 +46,10 @@ public static class CombatReader
             .ToList();
     }
 
+    /// <summary>Total attack damage the living enemies intend, as shown on their intent icons.</summary>
+    public static int IncomingDamage(ICombatState combat) =>
+        ReadEnemies(combat).Sum(e => e.Intents.Where(i => i.Kind == IntentKind.Attack).Sum(i => i.TotalDamage));
+
     private static List<IntentInfo> ReadIntents(Creature enemy, IReadOnlyList<Creature> players) =>
         enemy.Monster!.NextMove.Intents.Select(intent => Describe(intent, players, enemy)).ToList();
 
