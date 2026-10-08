@@ -1,0 +1,11 @@
+# Every enemy gets the same number of bars, short phrases padded with rests. Needs SLIMES_WEAK (3 enemies) open.
+wait combat
+# Short, single, full bar: one bar each, 6 s total.
+sts_intent 0 attack 5 3
+sts_intent 1 attack 15
+sts_intent 2 attack 5 8
+sts_intents
+sleep 6.5
+# One enemy needs more than a bar (10 hits): everyone gets two bars, 12 s total.
+sts_intent 2 attack 5 10
+sts_intents

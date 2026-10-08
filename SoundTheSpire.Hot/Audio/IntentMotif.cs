@@ -3,8 +3,9 @@ using SoundTheSpire.Hot.Combat;
 namespace SoundTheSpire.Hot.Audio;
 
 /// <summary>
-/// One phrase per enemy, left to right. Instrument = which enemy, pan = where it stands,
-/// articulation = intent kind, number of strikes = attack hits.
+/// One phrase per enemy, left to right, in 4/4 at 120 BPM. Every enemy gets the same number of whole bars
+/// (one by default, more only if some enemy needs it); a phrase shorter than that is padded with rests.
+/// Instrument = which enemy, pan = where it stands, articulation = intent kind, number of strikes = attack hits.
 /// Attacks: the harder they hit, the lower, louder, thicker and longer; light attacks are high, soft and thin.
 /// No percussion in attacks: drums carry no clear pitch, so the damage tier would be lost.
 /// </summary>
@@ -23,10 +24,8 @@ public static class IntentMotif
     private static readonly int[] AttackRoots = { 72, 64, 55, 48, 40 };
     private static readonly int[] AttackVelocities = { 45, 62, 82, 104, 124 };
 
-    private const double GapBetweenEnemies = 0.3;
-
-    // 4/4 at 120 BPM; a multi-hit attack should take about one bar.
     private const double BeatSeconds = 60.0 / 120;
+    private const double BarSeconds = BeatSeconds * 4;
     private const int Eighths = 2;
     private const int Triplets = 3;
     private const int FullBarHits = 8;
@@ -55,32 +54,16 @@ public static class IntentMotif
     public static void Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies)
     {
         engine.Stop();
-        var t = 0.0;
-        foreach (var enemy in enemies)
-            t = PlayEnemy(engine, t, enemy) + GapBetweenEnemies;
+        var phrases = enemies.Select(e => (Enemy: e, Phrase: Compose(e))).ToList();
+        var slot = BarsFor(phrases.Select(p => p.Phrase.Length).DefaultIfEmpty(0).Max()) * BarSeconds;
+        for (var i = 0; i < phrases.Count; i++)
+            Schedule(engine, i * slot, phrases[i].Enemy, phrases[i].Phrase);
     }
 
     public static void Play(SynthEngine engine, EnemyInfo enemy)
     {
         engine.Stop();
-        PlayEnemy(engine, 0, enemy);
-    }
-
-    private static double PlayEnemy(SynthEngine engine, double t, EnemyInfo enemy)
-    {
-        // Channels 0-7 stay clear of the percussion channel.
-        var channel = enemy.Slot % 8;
-        var program = EnemyInstruments[enemy.Slot % EnemyInstruments.Length];
-        var pan = (int)Math.Round(16 + enemy.ScreenX * 95);
-        engine.Schedule(t, s =>
-        {
-            s.SetProgram(channel, program);
-            s.SetPan(channel, pan);
-        });
-
-        foreach (var intent in enemy.Intents)
-            t = PlayIntent(engine, t, channel, intent);
-        return t;
+        Schedule(engine, 0, enemy, Compose(enemy));
     }
 
     /// <summary>Game's attack icon tiers: &lt;5, &lt;10, &lt;20, &lt;40, 40+. Returns 1..5.</summary>
@@ -93,26 +76,51 @@ public static class IntentMotif
         _ => 5,
     };
 
-    private static double PlayIntent(SynthEngine engine, double t, int channel, IntentInfo intent)
+    private static int BarsFor(double seconds) => Math.Max(1, (int)Math.Ceiling(seconds / BarSeconds - 1e-6));
+
+    private static void Schedule(SynthEngine engine, double start, EnemyInfo enemy, Phrase phrase)
+    {
+        // Channels 0-7 stay clear of the percussion channel.
+        var channel = enemy.Slot % 8;
+        var program = EnemyInstruments[enemy.Slot % EnemyInstruments.Length];
+        var pan = (int)Math.Round(16 + enemy.ScreenX * 95);
+        engine.Schedule(start, s =>
+        {
+            s.SetProgram(channel, program);
+            s.SetPan(channel, pan);
+        });
+        phrase.ScheduleOn(engine, start, channel);
+    }
+
+    private static Phrase Compose(EnemyInfo enemy)
+    {
+        var phrase = new Phrase();
+        var t = 0.0;
+        foreach (var intent in enemy.Intents)
+            t = ComposeIntent(phrase, t, intent);
+        return phrase;
+    }
+
+    private static double ComposeIntent(Phrase phrase, double t, IntentInfo intent)
     {
         switch (intent.Kind)
         {
             case IntentKind.Attack:
-                return PlayAttack(engine, t, channel, intent);
+                return ComposeAttack(phrase, t, intent);
             case IntentKind.Defend:
-                engine.Chord(t, 0.5, channel, 70, 36, 43);
+                phrase.Note(t, 0.5, 70, 36, 43);
                 return t + 0.6;
             case IntentKind.Buff:
-                return Arpeggio(engine, t, channel, 85, 60, 64, 67, 72);
+                return Arpeggio(phrase, t, 85, 60, 64, 67, 72);
             case IntentKind.Debuff:
-                return Arpeggio(engine, t, channel, 85, 72, 68, 65, 60);
+                return Arpeggio(phrase, t, 85, 72, 68, 65, 60);
             default:
-                engine.Chord(t, 0.12, channel, 45, 52);
+                phrase.Note(t, 0.12, 45, 52);
                 return t + 0.3;
         }
     }
 
-    private static double PlayAttack(SynthEngine engine, double t, int channel, IntentInfo intent)
+    private static double ComposeAttack(Phrase phrase, double t, IntentInfo intent)
     {
         var tier = DamageTier(intent.TotalDamage);
         var root = AttackRoots[tier - 1];
@@ -130,44 +138,43 @@ public static class IntentMotif
         if (hits == 1)
         {
             var duration = 0.2 + tier * 0.1;
-            engine.Chord(t, duration, channel, velocity, keys);
+            phrase.Note(t, duration, velocity, keys);
             return t + duration + 0.1;
         }
-        return PlayRiff(engine, t, channel, velocity, hits, keys.Length >= 2 ? keys : new[] { root, root + 7 });
+        return ComposeRiff(phrase, t, velocity, hits, keys.Length >= 2 ? keys : new[] { root, root + 7 });
     }
 
     /// <summary>
     /// Multi-hit attacks as a power-chord riff from <see cref="Riffs"/>, one strike per hit, each lasting a full step.
     /// Above the table, full 8-hit bars are played first and the remainder uses its own riff.
     /// </summary>
-    private static double PlayRiff(SynthEngine engine, double t, int channel, int velocity, int hits, int[] keys)
+    private static double ComposeRiff(Phrase phrase, double t, int velocity, int hits, int[] keys)
     {
         var maxInTable = Riffs.Keys.Max();
         while (hits > maxInTable)
         {
-            t = PlayPattern(engine, t, channel, velocity, keys, Riffs[FullBarHits]);
+            t = ComposePattern(phrase, t, velocity, keys, Riffs[FullBarHits]);
             hits -= FullBarHits;
         }
-        return PlayPattern(engine, t, channel, velocity, keys, Riffs[hits]) + 0.15;
+        return ComposePattern(phrase, t, velocity, keys, Riffs[hits]);
     }
 
-    private static double PlayPattern(SynthEngine engine, double t, int channel, int velocity, int[] keys,
-        (string Pattern, int StepsPerBeat) riff)
+    private static double ComposePattern(Phrase phrase, double t, int velocity, int[] keys, (string Pattern, int StepsPerBeat) riff)
     {
         var step = BeatSeconds / riff.StepsPerBeat;
         foreach (var strike in riff.Pattern.Where(c => c != ' '))
         {
             var strikeVelocity = strike == '1' ? velocity : Math.Max(1, velocity - PalmMuteVelocityDrop);
-            engine.Strum(t, step, channel, strikeVelocity, StrumSpread, keys);
+            phrase.Strum(t, step, strikeVelocity, StrumSpread, keys);
             t += step;
         }
         return t;
     }
 
-    private static double Arpeggio(SynthEngine engine, double t, int channel, int velocity, params int[] keys)
+    private static double Arpeggio(Phrase phrase, double t, int velocity, params int[] keys)
     {
         for (var k = 0; k < keys.Length; k++)
-            engine.Chord(t + k * 0.08, 0.15, channel, velocity, keys[k]);
+            phrase.Note(t + k * 0.08, 0.15, velocity, keys[k]);
         return t + keys.Length * 0.08 + 0.2;
     }
 }
