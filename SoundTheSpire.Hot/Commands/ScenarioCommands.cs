@@ -169,26 +169,15 @@ public class StsPlayConsoleCmd : AbstractConsoleCmd
 
 public class StsTutorialConsoleCmd : AbstractConsoleCmd
 {
-    public override string CmdName => "sts_tutorial";
+    public const string Name = "sts_tutorial";
+
+    public override string CmdName => Name;
     public override string Args => "";
     public override string Description => "Listening tutorial: jumps to the Waterfall Giant fight, then sets up four rising attacks and the hand to answer them.";
-    public override bool IsNetworked => false;
+    public override bool IsNetworked => true;
     public override bool DebugOnly => false;
 
-    public override CmdResult Process(Player? issuingPlayer, string[] args)
-    {
-        if (!RunManager.Instance.IsInProgress)
-            return new CmdResult(false, "Start a run first.");
-        if (!RunManager.Instance.IsSingleplayerOrFakeMultiplayer)
-            return new CmdResult(false, "The tutorial is singleplayer only.");
-        if (CombatManager.Instance.DebugOnlyGetState() is { } combat && CombatManager.Instance.IsInProgress && ListeningTutorial.IsGiantFight(combat))
-        {
-            if (combat.CurrentSide != CombatSide.Player || LocalContext.GetMe(combat) is not { } me)
-                return new CmdResult(false, "Wait for your turn.");
-            return new CmdResult(ListeningTutorial.Start(combat, me), true, "Tutorial set up.");
-        }
-        return new CmdResult(ListeningTutorial.EnterFight(), true, "Entering the Waterfall Giant fight; the tutorial starts on your first turn.");
-    }
+    public override CmdResult Process(Player? issuingPlayer, string[] args) => ListeningTutorial.Run(issuingPlayer);
 }
 
 public class StsEndTurnConsoleCmd : AbstractConsoleCmd

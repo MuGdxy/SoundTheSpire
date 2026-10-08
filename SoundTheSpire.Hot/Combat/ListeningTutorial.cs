@@ -3,6 +3,8 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.DevConsole;
+using MegaCrit.Sts2.Core.DevConsole.ConsoleCommands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -24,29 +26,31 @@ namespace SoundTheSpire.Hot.Combat;
 
 /// <summary>
 /// One-turn lesson in hearing numbers, set up inside the Waterfall Giant fight: three slimes and the Giant attack in
-/// four rising tiers (left to right), the hand holds one attack that kills each slime and one big block that covers the
-/// Giant, who is already in his last, unkillable phase. The player speaks each step in a speech bubble; the next step
+/// four rising tiers (left to right). Each player's hand: Turbo for energy, three free Midnights (one kills a slime) and
+/// Impervious to cover the Giant, who is already in his last, unkillable phase. The player speaks each step in a speech bubble; the next step
 /// starts when the previous one has been done.
 /// </summary>
 public static class ListeningTutorial
 {
     public const string Encounter = "WATERFALL_GIANT_BOSS";
 
-    private static readonly (Func<MonsterModel> Model, int Hp, int Attack)[] Slimes =
+    private static readonly (Func<MonsterModel> Model, int Attack)[] Slimes =
     {
-        (() => ModelDb.Monster<TwigSlimeS>(), 7, 3),
-        (() => ModelDb.Monster<LeafSlimeS>(), 11, 8),
-        (() => ModelDb.Monster<LeafSlimeM>(), 32, 15),
+        (() => ModelDb.Monster<TwigSlimeS>(), 3),
+        (() => ModelDb.Monster<LeafSlimeS>(), 8),
+        (() => ModelDb.Monster<LeafSlimeM>(), 15),
     };
     private const int GiantAttack = 30;
-    private const int Energy = 7;
 
     private const string ListenText =
         "声音教学。四只怪从左到右依次亮出攻击，一个比一个重。\n" +
         "最后一小节是这回合你会挨的打：越刺耳，伤得越重。\n" +
         "把鼠标依次移到每只怪身上，单独听它；按 R 重听全部。";
     private const string KillText =
-        "现在动手：双重打击打最左边的，御血术打第二只，重锤打第三只。\n" +
+        "现在动手：先打内核加速补足费用，再用午夜把三只史莱姆一只只杀掉。\n" +
+        "每杀一只，它的攻击就不会落到你身上，听防御的和弦一步步缓和。";
+    private const string KillTextTogether =
+        "现在动手：先打内核加速补足费用，再和队友一起用午夜把三只史莱姆杀掉。\n" +
         "每杀一只，它的攻击就不会落到你身上，听防御的和弦一步步缓和。";
     private const string BlockText =
         "瀑布巨兽已进入最后阶段，锁血无敌，杀不死。\n" +
@@ -71,41 +75,76 @@ public static class ListeningTutorial
     public static bool IsGiantFight(ICombatState combat) =>
         combat.Enemies.Any(e => e.IsAlive && e.Monster is WaterfallGiant);
 
-    /// <summary>Jumps the run to the Giant's fight; the lesson is set up when the first turn begins.</summary>
-    public static Task EnterFight()
+    private static bool Multiplayer => !RunManager.Instance.IsSingleplayerOrFakeMultiplayer;
+
+    /// <summary>
+    /// Runs sts_tutorial for everyone: in multiplayer it goes through the synchronized action queue like the game's own
+    /// networked console commands, so every peer (all need the mod) enters the fight and sets it up identically.
+    /// </summary>
+    public static void Request()
     {
+        if (LocalContext.GetMe(RunManager.Instance.DebugOnlyGetState()) is not { } me)
+            return;
+        if (Multiplayer)
+        {
+            RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(new ConsoleCmdGameAction(me, StsTutorialConsoleCmd.Name, CombatManager.Instance.IsInProgress));
+            return;
+        }
+        var result = Run(me);
+        if (result.task != null)
+            TaskHelper.RunSafely(result.task);
+        if (!result.success)
+            MainFile.Logger.Warn($"Tutorial: {result.msg}");
+    }
+
+    /// <summary>
+    /// sts_tutorial on one peer. Outside combat: enter the Giant's fight; the issuer asks again once the first turn
+    /// begins. In that fight: set up the lesson.
+    /// </summary>
+    public static CmdResult Run(Player? issuer)
+    {
+        if (!RunManager.Instance.IsInProgress)
+            return new CmdResult(false, "Start a run first.");
+        if (CombatManager.Instance.IsInProgress)
+        {
+            if (CombatManager.Instance.DebugOnlyGetState() is not { } combat || !IsGiantFight(combat))
+                return new CmdResult(false, "Run it outside combat, or in the tutorial's Waterfall Giant fight.");
+            if (combat.CurrentSide != CombatSide.Player)
+                return new CmdResult(false, "Wait for the player turn.");
+            return new CmdResult(Start(combat), true, "Tutorial set up.");
+        }
         Stop();
+        _pending = issuer == null || LocalContext.IsMe(issuer);
         var encounter = ModelDb.GetById<EncounterModel>(new ModelId(ModelId.SlugifyCategory<EncounterModel>(), Encounter)).ToMutable();
-        encounter.DebugRandomizeRng();
-        _pending = true;
-        return RunManager.Instance.EnterRoomDebug(RoomType.Monster, MapPointType.Unassigned, encounter);
+        return new CmdResult(RunManager.Instance.EnterRoomDebug(RoomType.Monster, MapPointType.Unassigned, encounter), true,
+            "Entering the Waterfall Giant fight; the tutorial starts on the first turn.");
     }
 
     public static void OnTurnStarted(CombatState combat)
     {
-        if (!_pending || combat.CurrentSide != CombatSide.Player || !IsGiantFight(combat) || LocalContext.GetMe(combat) is not { } me)
+        if (!_pending || combat.CurrentSide != CombatSide.Player || !IsGiantFight(combat))
             return;
         _pending = false;
-        Start(combat, me).ContinueWith(t => MainFile.Logger.Error($"Tutorial setup failed: {t.Exception}"), TaskContinuationOptions.OnlyOnFaulted);
+        Request();
     }
 
     public static void PollStartKey()
     {
         var down = Input.IsKeyPressed(StartKey);
-        if (down && !_startKeyWasDown && RunManager.Instance.IsInProgress && RunManager.Instance.IsSingleplayerOrFakeMultiplayer && !CombatManager.Instance.IsInProgress)
-            EnterFight();
+        if (down && !_startKeyWasDown && RunManager.Instance.IsInProgress && !CombatManager.Instance.IsInProgress)
+            Request();
         _startKeyWasDown = down;
     }
 
-    public static async Task Start(CombatState combat, Player me)
+    /// <summary>Changes only the setup, for every player alike; HP scaling, targeting and energy are the standard game.</summary>
+    private static async Task Start(CombatState combat)
     {
         Stop();
         var giant = combat.Enemies.First(e => e.IsAlive && e.Monster is WaterfallGiant);
 
-        foreach (var (model, hp, attack) in Slimes)
+        foreach (var (model, attack) in Slimes)
         {
             var slime = await CreatureCmd.Add(model().ToMutable(), combat);
-            await CreatureCmd.SetMaxAndCurrentHp(slime, hp);
             SetAttack(slime, attack);
             SlimeCreatures.Add(slime);
         }
@@ -117,11 +156,19 @@ public static class ListeningTutorial
 
         await EnterLastPhase((WaterfallGiant)giant.Monster!);
 
-        foreach (var card in PileType.Hand.GetPile(me).Cards.ToList())
-            await CardPileCmd.Add(card, PileType.Draw);
-        foreach (var canonical in new CardModel[] { ModelDb.Card<TwinStrike>(), ModelDb.Card<Hemokinesis>(), ModelDb.Card<Bludgeon>(), ModelDb.Card<Impervious>() })
-            await CardPileCmd.Add(combat.CreateCard(canonical, me), PileType.Hand);
-        await PlayerCmd.SetEnergy(Energy, me);
+        foreach (var player in combat.Players)
+        {
+            foreach (var card in PileType.Hand.GetPile(player).Cards.ToList())
+                await CardPileCmd.Add(card, PileType.Draw);
+            await CardPileCmd.Add(combat.CreateCard(ModelDb.Card<Turbo>(), player), PileType.Hand);
+            for (var i = 0; i < Slimes.Length; i++)
+            {
+                var midnight = combat.CreateCard(ModelDb.Card<Midnight>(), player);
+                midnight.SetToFreeThisCombat();
+                await CardPileCmd.Add(midnight, PileType.Hand);
+            }
+            await CardPileCmd.Add(combat.CreateCard(ModelDb.Card<Impervious>(), player), PileType.Hand);
+        }
 
         _combat = combat;
         _step = Step.Listen;
@@ -164,7 +211,7 @@ public static class ListeningTutorial
         switch (_step)
         {
             case Step.Listen when Heard.Count(c => c.IsAlive) >= combat.Enemies.Count(e => e.IsAlive) || slimesLeft < SlimeCreatures.Count:
-                Advance(Step.Kill, KillText);
+                Advance(Step.Kill, Multiplayer ? KillTextTogether : KillText);
                 break;
             case Step.Kill when slimesLeft == 0:
                 Advance(Step.Block, BlockText);

@@ -1,5 +1,5 @@
 # Listening tutorial, played through: hear the line-up, kill the three slimes, block the Giant, end the turn.
-# Starts a fresh Ironclad run. Hand after setup: TwinStrike, Hemokinesis, Bludgeon, Impervious. Enemy 0 is the Giant
+# Starts a fresh Ironclad run. Hand after setup: Turbo, Midnight x3 (free this combat), Impervious. Enemy 0 is the Giant
 # in his last phase (eruption 30), 1-3 the slimes (attacks 3, 8, 15); a dead slime leaves the list, so the next is 1.
 sts_menu
 wait menu
@@ -17,6 +17,8 @@ sts_intents 2
 sleep 1.5
 sts_intents 3
 sleep 2
+sts_play 0
+sleep 1
 sts_play 0 1
 sleep 3
 sts_play 0 1

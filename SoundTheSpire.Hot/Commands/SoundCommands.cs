@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.DevConsole.ConsoleCommands;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using SoundTheSpire.Hot.Audio;
@@ -115,6 +116,26 @@ public class StsCardsConsoleCmd : AbstractConsoleCmd
         var hand = turn.Hand.Cards.Select((c, i) => $"hand {i} {c.Id}: {c.GetDescriptionForPile(PileType.Hand)}");
         var deck = me.Deck.Cards.Take(1).Select(c => $"deck {c.Id}: {c.GetDescriptionForPile(PileType.Deck)}");
         return new CmdResult(true, string.Join("\n", hand.Concat(deck)));
+    }
+}
+
+public class StsFindCardConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_findcard";
+    public override string Args => "<text>";
+    public override string Description => "List cards whose shown title contains the text, with id, pool, cost and text.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (args.Length == 0)
+            return new CmdResult(false, "Usage: sts_findcard " + Args);
+        var text = string.Join(" ", args);
+        var found = ModelDb.AllCards
+            .Where(c => c.Title.Contains(text, StringComparison.OrdinalIgnoreCase) || c.Id.Entry.Contains(text, StringComparison.OrdinalIgnoreCase))
+            .Select(c => $"{c.Id.Entry} {c.Title} [{c.Pool.Title}] cost {c.EnergyCost.Canonical}: {c.GetDescriptionForPile(PileType.None)}");
+        return new CmdResult(true, string.Join("\n", found));
     }
 }
 
