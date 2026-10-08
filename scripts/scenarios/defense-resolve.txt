@@ -1,0 +1,26 @@
+# "Pressure resolved" regardless of cause. Starts a fresh SLIMES_WEAK fight in the current run.
+fight SLIMES_WEAK
+wait combat
+sleep 6
+sts_intent 0 attack 4
+sts_intent 1 attack 8
+sts_intent 2 attack 10
+# Incoming 22, block 20: still under pressure, silent.
+block 20
+sleep 1.5
+# Cause 1: killing the 10-damage attacker drops incoming to 12 -> resolved.
+kill 2
+sleep 3
+# Pressure again: incoming 4 + 22 = 26 > 20.
+sts_intent 1 attack 22
+sleep 1
+# Cause 2: Weak on enemy 1 (creature index 2; 0 is the player) -> 4 + 16 = 20 -> resolved.
+power WEAK_POWER 1 2
+sleep 3
+# Pressure again: incoming 30 + 16 > 20.
+sts_intent 0 attack 30
+sleep 1
+# Cause 3: the intent changes to a light attack -> 2 + 16 = 18 -> resolved.
+sts_intent 0 attack 2
+sleep 3
+sts_state

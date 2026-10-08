@@ -12,6 +12,9 @@ public sealed class HotEntry : IHotModule
     {
         context.OnFrame(PollTestHotkey);
         context.OnFrame(IntentAnnouncer.PollReplayKey);
+        context.OnFrame(DefenseMonitor.Poll);
+        if (CombatReader.CurrentCombat is { CurrentSide: MegaCrit.Sts2.Core.Combat.CombatSide.Player } combat)
+            DefenseMonitor.StartWatching(combat);
     }
 
     private void PollTestHotkey()

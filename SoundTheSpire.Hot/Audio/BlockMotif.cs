@@ -1,9 +1,8 @@
 namespace SoundTheSpire.Hot.Audio;
 
 /// <summary>
-/// "Defensive pressure resolved": plays once when the player's block first covers all incoming attack damage.
-/// Block gains themselves already have the game's own sound, so nothing else is added. Sus4 → major cadence in C,
-/// like the intent intro.
+/// "Defensive pressure resolved" (see <see cref="Combat.DefenseMonitor"/>). Block gains themselves already have the
+/// game's own sound, so nothing else is added. Sus4 → major cadence in C, like the intent intro.
 /// </summary>
 public static class BlockMotif
 {
@@ -12,9 +11,6 @@ public static class BlockMotif
 
     private static readonly int[] Suspended = { 60, 65, 67 };    // C F G
     private static readonly int[] Resolved = { 60, 64, 67, 72 }; // C E G C
-
-    public static bool Resolves(int previousBlock, int block, int incoming) =>
-        incoming > 0 && previousBlock < incoming && block >= incoming;
 
     public static void PlayResolved(SynthEngine engine)
     {
