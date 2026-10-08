@@ -2,6 +2,8 @@ using Godot;
 using MegaCrit.Sts2.Core.DevConsole;
 using MegaCrit.Sts2.Core.DevConsole.ConsoleCommands;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
 using SoundTheSpire.Hot.Audio;
 using SoundTheSpire.Hot.Combat;
 
@@ -65,6 +67,34 @@ public class StsScreenshotConsoleCmd : AbstractConsoleCmd
         var error = tree.Root.GetTexture().GetImage().SavePng(path);
         var window = $"window {DisplayServer.WindowGetMode()}, frames drawn {Engine.GetFramesDrawn()}";
         return error == Error.Ok ? new CmdResult(true, $"Saved {path} ({window}).") : new CmdResult(false, $"SavePng failed: {error}.");
+    }
+}
+
+public class StsTipsConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_tips";
+    public override string Args => "<enemy_index>";
+    public override string Description => "Print the hover tips an enemy shows (index as in sts_state).";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (CombatReader.CurrentCombat is not { } combat)
+            return new CmdResult(false, "Not in combat.");
+        if (args.Length == 0 || !int.TryParse(args[0], out var index) || index < 0 || index >= combat.Enemies.Count)
+            return new CmdResult(false, "Bad enemy index.");
+        var enemy = combat.Enemies[index];
+        if (NCombatRoom.Instance?.GetCreatureNode(enemy) is not { } node)
+            return new CmdResult(false, "Enemy has no node.");
+
+        IntentVeil.ClearLastShown();
+        node.ShowHoverTips(enemy.HoverTips);
+        node.HideHoverTips();
+        var shown = IntentVeil.LastShown ?? enemy.HoverTips.ToList();
+        var source = IntentVeil.LastShown != null ? "veiled" : "unchanged";
+        var tips = shown.Select(t => t is HoverTip tip ? $"[{tip.Title}] {tip.Description}" : t.GetType().Name);
+        return new CmdResult(true, $"{source}:\n{string.Join("\n", tips)}");
     }
 }
 
