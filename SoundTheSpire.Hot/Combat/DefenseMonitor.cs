@@ -54,7 +54,8 @@ public static class DefenseMonitor
             _last = before;
             if (now.Hurt < before.Hurt && engine != null)
             {
-                MainFile.Logger.Info($"Defense improved by play: hurt {before.Hurt} -> {now.Hurt}: {PassiveDefense.Describe(combat, me)}, incoming {now.Incoming}");
+                var link = LegatoLine.IsOpen ? "continues the line" : "starts a line";
+                MainFile.Logger.Info($"Defense improved by play ({link}): hurt {before.Hurt} -> {now.Hurt}: {PassiveDefense.Describe(combat, me)}, incoming {now.Incoming}");
                 BlockMotif.PlayTransition(engine, before.Block, before.Incoming, now.Block, now.Incoming);
                 _last = now;
                 return;

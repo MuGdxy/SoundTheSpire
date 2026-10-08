@@ -38,33 +38,31 @@ public static class BlockMotif
 
     public static void PlayStatus(SynthEngine engine, int block, int incoming)
     {
-        engine.Stop();
+        LegatoLine.Interrupt(engine);
         ScheduleStatus(engine, 0, block, incoming);
     }
 
     /// <summary>
     /// A card that improved the defense: one legato bar moving from the status chord before (a beat) into the status
     /// chord after (three beats), the rhythm of sus4 → major. Common tones are held through; the others overlap
-    /// slightly so the change sounds connected.
+    /// slightly so the change sounds connected. If the previous transition is still sounding, the line moves on from
+    /// it straight away, so cards played in a row lead step by step towards the resolution.
     /// </summary>
     public static void PlayTransition(SynthEngine engine, int fromBlock, int fromIncoming, int toBlock, int toIncoming)
     {
-        engine.Stop();
-        Setup(engine, 0);
-        var from = StatusChord(fromBlock, fromIncoming);
+        const double hold = BeatSeconds * 3 * 0.95;
         var to = StatusChord(toBlock, toIncoming);
-        const double change = BeatSeconds;
-        const double end = BeatSeconds * 4 * 0.95;
-        const double overlap = 0.08;
-        var common = from.Keys.Intersect(to.Keys).ToArray();
-        var leaving = from.Keys.Except(common).ToArray();
-        var arriving = to.Keys.Except(common).ToArray();
-        if (common.Length > 0)
-            engine.Chord(0, end, Channel, from.Velocity, common);
-        if (leaving.Length > 0)
-            engine.Chord(0, change + overlap, Channel, from.Velocity, leaving);
-        if (arriving.Length > 0)
-            engine.Chord(change, end - change, Channel, to.Velocity, arriving);
+        if (LegatoLine.IsOpen)
+        {
+            LegatoLine.MoveTo(engine, 0, to.Keys, to.Velocity, hold);
+            return;
+        }
+
+        var from = StatusChord(fromBlock, fromIncoming);
+        LegatoLine.Begin(engine, Channel);
+        Setup(engine, 0);
+        LegatoLine.MoveTo(engine, 0, from.Keys, from.Velocity, BeatSeconds + hold);
+        LegatoLine.MoveTo(engine, BeatSeconds, to.Keys, to.Velocity, BeatSeconds + hold);
     }
 
     /// <summary>The single chord that stands for a status in a transition.</summary>

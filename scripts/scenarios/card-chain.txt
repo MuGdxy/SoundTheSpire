@@ -1,0 +1,24 @@
+# Cards played in a row join their transitions into one legato line towards the resolution. Ironclad starter deck.
+# Starts a fresh SLIMES_WEAK fight in the current run.
+fight SLIMES_WEAK
+wait combat
+sleep 6
+sts_intent all attack 5
+sleep 2.5
+card DEFEND_IRONCLAD
+card DEFEND_IRONCLAD
+card DEFEND_IRONCLAD
+sts_state
+# Incoming 15: hurt 15 -> 10 -> 5 -> 0, each card continuing the line of the one before.
+sts_play 7
+sts_play 6
+sts_play 5
+sleep 6
+# A lone card after the line has died away starts a new one.
+sts_intent 0 attack 20
+sleep 3
+energy 1
+card DEFEND_IRONCLAD
+sts_play 5
+sleep 4
+sts_state

@@ -47,7 +47,7 @@ public static class IntentMotif
     /// <returns>When the line-up ends, on a bar line.</returns>
     public static double Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies)
     {
-        engine.Stop();
+        LegatoLine.Interrupt(engine);
         EnemyVoices.Assign(enemies);
         var start = PlayIntro(engine);
         var phrases = enemies.Select(e => (Enemy: e, Phrase: Compose(e))).ToList();
@@ -85,7 +85,7 @@ public static class IntentMotif
     /// <param name="enemies">All living enemies; instruments are ranked across them.</param>
     public static void Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies, EnemyInfo enemy)
     {
-        engine.Stop();
+        LegatoLine.Interrupt(engine);
         EnemyVoices.Assign(enemies);
         Schedule(engine, 0, enemy, Compose(enemy));
     }
