@@ -27,8 +27,8 @@ public static class IntentMotif
 
     private const string RiffPattern = "1xx1xx1x";
     private const double RiffBpm = 120;
-    private const double RiffStepSeconds = 60.0 / RiffBpm / 4;
-    private const double DoubleHitGap = RiffStepSeconds * 2;
+    private const double RiffStepSeconds = 60.0 / RiffBpm / 2;
+    private const double DoubleHitGap = RiffStepSeconds;
     private const int PalmMuteVelocityDrop = 20;
     private const double StrumSpread = 0.008;
 
