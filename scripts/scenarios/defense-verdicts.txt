@@ -1,33 +1,37 @@
-# Every change of the defense verdict plays the new status phrase. Starts a fresh SLIMES_WEAK fight in the current run.
+# Every change of the damage that gets through plays the status phrase of its tier (graded like attacks: <5, <10,
+# <20, <40, 40+), from fully dissonant to consonant. Starts a fresh SLIMES_WEAK fight in the current run.
 fight SLIMES_WEAK
 wait combat
 sleep 6
-sts_intent 0 attack 4
-sts_intent 1 attack 8
-sts_intent 2 attack 10
+sts_intent 0 attack 10
+sts_intent 1 attack 20
+sts_intent 2 attack 20
 sleep 2
-# Incoming 22. Undefended -> PartialLow (5/22): diminished.
-block 5
+# Incoming 50, hurt 50: tier 5, the clash phrase.
+sts_intents
+sleep 9
+# Hurt 35: tier 4.
+block 15
 sleep 2.5
-# PartialLow -> PartialMid (10/22): minor.
-block 5
+# Hurt 15: tier 3.
+block 20
 sleep 2.5
-# PartialMid -> PartialHigh (16/22): sus4 left hanging.
-block 6
-sleep 2.5
-# Same tier (18/22): silent.
-block 2
+# Hurt 12: same tier, still played.
+block 3
 sleep 1
-# PartialHigh -> Resolved (25/22): sus4 -> C major.
-block 7
+# Hurt 7: tier 2.
+block 5
 sleep 2.5
-# Resolved -> PartialMid (25/44): the intent got heavier.
-sts_intent 1 attack 30
+# Hurt 2: tier 1, sus4 left hanging.
+block 5
 sleep 2.5
-# PartialMid -> Resolved (25/14): attacker killed.
+# Hurt 0: resolved.
+block 2
+sleep 2.5
+# Hurt 30 (intent heavier): back to tier 4.
+sts_intent 1 attack 50
+sleep 2.5
+# Attacker killed, hurt 0: resolved.
 kill 1
 sleep 2.5
-# Still resolved: silent.
-block 5
-sleep 1
 sts_state

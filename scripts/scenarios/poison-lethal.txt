@@ -1,0 +1,18 @@
+# Poison that will kill an enemy at the start of its turn removes its attack from the defense verdict.
+# Starts a fresh SLIMES_WEAK fight in the current run. Creature index = enemy index + 1 (0 is the player).
+fight SLIMES_WEAK
+wait combat
+sleep 6
+sts_intent 0 attack 4
+sts_intent 1 attack 8
+sts_intent 2 attack 10
+sleep 2
+sts_state
+# Non-lethal poison on enemy 2: incoming stays 22.
+power POISON_POWER 2 3
+sleep 2
+sts_state
+# Lethal poison on enemy 2: its 10 drops out, hurt 22 -> 12.
+power POISON_POWER 30 3
+sleep 2.5
+sts_state

@@ -1,5 +1,6 @@
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 
 namespace SoundTheSpire.Hot.Combat;
@@ -46,9 +47,17 @@ public static class CombatReader
             .ToList();
     }
 
-    /// <summary>Total attack damage the living enemies intend, as shown on their intent icons.</summary>
+    /// <summary>
+    /// Total attack damage the living enemies intend, as shown on their intent icons, leaving out enemies that poison
+    /// will kill at the start of their turn, before they act (the game's own lethal-poison preview).
+    /// </summary>
     public static int IncomingDamage(ICombatState combat) =>
-        ReadEnemies(combat).Sum(e => e.Intents.Where(i => i.Kind == IntentKind.Attack).Sum(i => i.TotalDamage));
+        ReadEnemies(combat)
+            .Where(e => !DiesToPoisonBeforeActing(e.Creature))
+            .Sum(e => e.Intents.Where(i => i.Kind == IntentKind.Attack).Sum(i => i.TotalDamage));
+
+    public static bool DiesToPoisonBeforeActing(Creature enemy) =>
+        enemy.GetPower<PoisonPower>() is { } poison && poison.CalculateTotalDamageNextTurn() >= enemy.CurrentHp;
 
     private static List<IntentInfo> ReadIntents(Creature enemy, IReadOnlyList<Creature> players) =>
         enemy.Monster!.NextMove.Intents.Select(intent => Describe(intent, players, enemy)).ToList();
