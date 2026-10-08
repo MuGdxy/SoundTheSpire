@@ -12,6 +12,7 @@ public static class Midi
         public const int ChurchOrgan = 19;
         public const int DistortionGuitar = 30;
         public const int StringEnsemble = 48;
+        public const int Trumpet = 56;
         public const int BrassSection = 61;
         public const int SquareLead = 80;
     }

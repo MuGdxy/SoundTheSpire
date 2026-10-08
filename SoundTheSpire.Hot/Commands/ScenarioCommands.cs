@@ -1,6 +1,8 @@
 using System.Text;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.GameActions;
 using MegaCrit.Sts2.Core.DevConsole;
 using MegaCrit.Sts2.Core.DevConsole.ConsoleCommands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -132,6 +134,24 @@ public class StsIntentConsoleCmd : AbstractConsoleCmd
                 new DebuffIntent()),
             _ => null,
         };
+    }
+}
+
+/// <summary>Ends the local player's turn, as the End Turn button does.</summary>
+public class StsEndTurnConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_endturn";
+    public override string Args => "";
+    public override string Description => "End the local player's turn.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (CombatReader.CurrentCombat is not { } combat || LocalContext.GetMe(combat) is not { PlayerCombatState: { } turnState } me)
+            return new CmdResult(false, "Not in combat.");
+        RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(new EndPlayerTurnAction(me, turnState.TurnNumber));
+        return new CmdResult(true, $"Ending turn {turnState.TurnNumber}.");
     }
 }
 

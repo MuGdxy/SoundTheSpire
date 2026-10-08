@@ -11,8 +11,8 @@ using SoundTheSpire.Hot.Audio;
 namespace SoundTheSpire.Hot.Combat;
 
 /// <summary>
-/// The whole enemy line-up plays once when combat opens; after that an enemy's intent plays when it is selected
-/// (keyboard/controller focus, mouse hover, or card targeting). R replays the whole line-up.
+/// The whole enemy line-up plays at the start of every player turn; in between, an enemy's intent plays when it is
+/// selected (keyboard/controller focus, mouse hover, or card targeting). R replays the whole line-up.
 /// </summary>
 public static class IntentAnnouncer
 {
@@ -49,12 +49,15 @@ public static class IntentAnnouncer
     }
 
     [HarmonyPatch(typeof(Hook), nameof(Hook.AfterPlayerTurnStart))]
-    private static class CombatOpeningPatch
+    private static class TurnStartPatch
     {
         private static void Prefix(ICombatState combatState, PlayerChoiceContext choiceContext, Player player)
         {
-            if (combatState.RoundNumber == 1 && LocalContext.IsMe(player) && SynthEngine.Instance is { } engine)
-                IntentMotif.Play(engine, CombatReader.ReadEnemies(combatState));
+            if (!LocalContext.IsMe(player) || SynthEngine.Instance is not { } engine)
+                return;
+            var enemies = CombatReader.ReadEnemies(combatState);
+            MainFile.Logger.Info($"Turn {combatState.RoundNumber} start: playing intents of {enemies.Count} enemies");
+            IntentMotif.Play(engine, enemies);
         }
     }
 
@@ -71,7 +74,10 @@ public static class IntentAnnouncer
                 return;
             var enemies = CombatReader.ReadEnemies(combat);
             if (enemies.FirstOrDefault(e => e.Creature == __instance.Entity) is { } enemy)
+            {
+                MainFile.Logger.Info($"Enemy {enemy.Slot} selected: playing its intent");
                 IntentMotif.Play(engine, enemies, enemy);
+            }
         }
     }
 }

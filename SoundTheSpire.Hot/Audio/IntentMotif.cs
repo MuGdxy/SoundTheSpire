@@ -43,14 +43,33 @@ public static class IntentMotif
     private const int PalmMuteVelocityDrop = 20;
     private const double StrumSpread = 0.008;
 
+    /// <summary>The whole line-up, announced by a one-bar trumpet intro so it reads as "enemy intents".</summary>
     public static void Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies)
     {
         engine.Stop();
         EnemyVoices.Assign(enemies);
+        var start = PlayIntro(engine);
         var phrases = enemies.Select(e => (Enemy: e, Phrase: Compose(e))).ToList();
         var slot = BarsFor(phrases.Select(p => p.Phrase.Length).DefaultIfEmpty(0).Max()) * BarSeconds;
         for (var i = 0; i < phrases.Count; i++)
-            Schedule(engine, i * slot, phrases[i].Enemy, phrases[i].Phrase);
+            Schedule(engine, start + i * slot, phrases[i].Enemy, phrases[i].Phrase);
+    }
+
+    // Do-sol (C5, G5) on trumpet, a half note each; on its own channel, centered.
+    private const int IntroChannel = 8;
+    private static readonly int[] IntroKeys = { 72, 79 };
+
+    private static double PlayIntro(SynthEngine engine)
+    {
+        engine.Schedule(0, s =>
+        {
+            s.SetProgram(IntroChannel, Midi.Program.Trumpet);
+            s.SetPan(IntroChannel, 64);
+        });
+        var half = BarSeconds / IntroKeys.Length;
+        for (var i = 0; i < IntroKeys.Length; i++)
+            engine.Chord(i * half, half * 0.9, IntroChannel, 100, IntroKeys[i]);
+        return BarSeconds;
     }
 
     /// <param name="enemies">All living enemies; instruments are ranked across them.</param>
