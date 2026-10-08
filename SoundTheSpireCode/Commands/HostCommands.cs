@@ -25,6 +25,7 @@ public class StsStatusConsoleCmd : AbstractConsoleCmd
         var peakRight = AudioServer.GetBusPeakVolumeRightDb(0, 0);
         return new CmdResult(true,
             $"streaming {engine.IsStreaming} rate {engine.SampleRate} voices {engine.ActiveVoices} skips {engine.Skips} " +
+            $"volume master {engine.MasterVolume:F2} instrument {engine.InstrumentVolumeLevel:F2} effective {engine.EffectiveVolume:F3} " +
             $"master_peak_db L {peakLeft:F1} R {peakRight:F1} device {AudioServer.OutputDevice} latency {AudioServer.GetOutputLatency():F3}s " +
             $"hot_generation {HotModuleHost.Generation}");
     }

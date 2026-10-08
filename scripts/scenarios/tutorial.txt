@@ -1,11 +1,10 @@
 # Listening tutorial, played through: hear the line-up, kill the three minions, block the Giant, end the turn.
-# Starts a fresh Ironclad run. Hand after setup: Turbo, Bash, Midnight x4 (free this combat), Impervious. Enemy 0 is the
+# Starts its dedicated unsaved Ironclad run from the main menu. Hand after setup: Turbo, Bash, Midnight x4 (free this
+# combat), Impervious. Enemy 0 is the
 # Giant in his last phase (eruption 30), 1 the small slime (tackle), 2 the rock Bowlbug (headbutt), 3 the Entomancer
 # (bees, multi-hit). A dead enemy leaves the list.
 sts_menu
 wait menu
-sts_run ironclad
-wait run
 sts_tutorial
 wait combat
 sleep 8

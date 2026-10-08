@@ -10,10 +10,18 @@ public static class Midi
     {
         public const int AcousticGrandPiano = 0;
         public const int ChurchOrgan = 19;
+        public const int JazzGuitar = 26;
+        public const int CleanGuitar = 27;
+        public const int MutedGuitar = 28;
+        public const int OverdrivenGuitar = 29;
         public const int DistortionGuitar = 30;
+        public const int Cello = 42;
+        public const int PizzicatoStrings = 45;
         public const int StringEnsemble = 48;
         public const int Trumpet = 56;
+        public const int FrenchHorn = 60;
         public const int BrassSection = 61;
+        public const int Oboe = 68;
         public const int SquareLead = 80;
     }
 
@@ -21,6 +29,8 @@ public static class Midi
     {
         public const int BassDrum = 36;
         public const int CrashCymbal = 49;
+        public const int MutedTriangle = 80;
+        public const int OpenTriangle = 81;
     }
 
     public static void SetProgram(this Synthesizer synth, int channel, int program) =>

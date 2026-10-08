@@ -1,0 +1,700 @@
+{
+  "id": "hive-a1",
+  "eventPath": "event:/music/act2_a1_v2",
+  "key": "G major / G minor",
+  "intentHarmonyMode": "root",
+  "outputGainDb": 18.0,
+  "tonicPitchClass": 7,
+  "bpm": 120.0,
+  "beatsPerBar": 4,
+  "beatUnit": 4,
+  "leadBeats": 1.0,
+  "resolveBeats": 3.0,
+  "holdBeats": 3.0,
+  "gateRatio": 0.95,
+  "rapidInputQuarterNotes": 1.0,
+  "rapidSubdivisionsPerBeat": 2,
+  "selectionSubdivisionsPerBeat": 4,
+  "attackThresholds": [
+    5,
+    10,
+    20,
+    40
+  ],
+  "attackRoots": [
+    43,
+    49,
+    55,
+    61,
+    67
+  ],
+  "attackVelocities": [
+    82,
+    100,
+    98,
+    103,
+    121
+  ],
+  "attackBackingVelocities": [
+    0,
+    0,
+    54,
+    70,
+    98
+  ],
+  "palmMuteVelocityDrop": 20,
+  "strumSpreadSeconds": 0.008,
+  "multiHitPercussionTiers": [
+    {
+      "name": "triangle",
+      "openNotes": [
+        81
+      ],
+      "mutedNotes": [
+        80
+      ],
+      "openVelocity": 84,
+      "mutedVelocity": 68,
+      "gateRatio": 0.75
+    },
+    {
+      "name": "hi-hat",
+      "openNotes": [
+        46
+      ],
+      "mutedNotes": [
+        42
+      ],
+      "openVelocity": 90,
+      "mutedVelocity": 74,
+      "gateRatio": 0.75
+    },
+    {
+      "name": "snare",
+      "openNotes": [
+        38
+      ],
+      "mutedNotes": [
+        37
+      ],
+      "openVelocity": 60,
+      "mutedVelocity": 46,
+      "gateRatio": 0.65
+    },
+    {
+      "name": "tom",
+      "openNotes": [
+        45,
+        50
+      ],
+      "mutedNotes": [
+        41,
+        45
+      ],
+      "openVelocity": 62,
+      "mutedVelocity": 50,
+      "gateRatio": 0.8
+    },
+    {
+      "name": "kick-crash",
+      "openNotes": [
+        36,
+        49
+      ],
+      "mutedNotes": [
+        36
+      ],
+      "openVelocity": 68,
+      "mutedVelocity": 56,
+      "gateRatio": 0.9
+    }
+  ],
+  "minorThirdTiers": [
+    3,
+    4
+  ],
+  "defendNotes": [
+    31,
+    38
+  ],
+  "buffNotes": [
+    55,
+    58,
+    62,
+    67
+  ],
+  "debuffNotes": [
+    67,
+    62,
+    58,
+    55
+  ],
+  "unknownNote": 50,
+  "suspended": [
+    55,
+    60,
+    62
+  ],
+  "resolved": [
+    55,
+    58,
+    62,
+    67
+  ],
+  "hurtChords": [
+    [
+      55,
+      60,
+      62
+    ],
+    [
+      55,
+      58,
+      61
+    ],
+    [
+      55,
+      61,
+      66
+    ],
+    [
+      55,
+      56,
+      61
+    ]
+  ],
+  "clash": [
+    43,
+    55,
+    56,
+    61
+  ],
+  "clashAfter": [
+    42,
+    54,
+    55,
+    60
+  ],
+  "hurtVelocities": [
+    72,
+    80,
+    88,
+    96,
+    110
+  ],
+  "noIncomingVelocity": 70,
+  "suspendedVelocity": 80,
+  "resolvedVelocity": 95,
+  "harmony": {
+    "marker": "Enemy Loop",
+    "pickupBeats": 0.5,
+    "loopBars": 116,
+    "referenceLoudnessLufs": -12.71,
+    "maxLoudnessAttenuationDb": 10.0,
+    "barLoudnessLufs": [
+      -19.54,
+      -21.96,
+      -20.65,
+      -19.58,
+      -19.08,
+      -21.36,
+      -16.63,
+      -16.61,
+      -15.08,
+      -16.06,
+      -15.87,
+      -15.91,
+      -18.23,
+      -24.1,
+      -26.99,
+      -28.43,
+      -23.46,
+      -21.96,
+      -20.98,
+      -24.21,
+      -22.69,
+      -21.03,
+      -20.13,
+      -20.93,
+      -21.11,
+      -21.34,
+      -21.2,
+      -20.23,
+      -19.86,
+      -19.93,
+      -18.9,
+      -16.12,
+      -15.04,
+      -17.34,
+      -16.22,
+      -16.39,
+      -16.32,
+      -17.38,
+      -15.29,
+      -15.06,
+      -14.63,
+      -19.51,
+      -16.21,
+      -15.82,
+      -17.71,
+      -15.86,
+      -17.38,
+      -14.87,
+      -17.59,
+      -15.97,
+      -14.7,
+      -18.25,
+      -15.04,
+      -16.96,
+      -26.83,
+      -26.91,
+      -28.68,
+      -27.45,
+      -23.25,
+      -23.47,
+      -23.29,
+      -24.62,
+      -22.88,
+      -22.52,
+      -20.6,
+      -20.53,
+      -20.89,
+      -20.97,
+      -19.74,
+      -19.69,
+      -18.52,
+      -23.2,
+      -22.86,
+      -24.26,
+      -23.36,
+      -23.71,
+      -23.92,
+      -22.92,
+      -25.06,
+      -19.37,
+      -19.58,
+      -16.82,
+      -20.72,
+      -19.35,
+      -20.12,
+      -17.13,
+      -14.39,
+      -15.34,
+      -14.51,
+      -14.17,
+      -12.97,
+      -12.71,
+      -14.28,
+      -13.8,
+      -14.18,
+      -13.15,
+      -15.66,
+      -19.45,
+      -23.78,
+      -24.83,
+      -28.36,
+      -27.67,
+      -20.6,
+      -23.03,
+      -23.17,
+      -21.43,
+      -24.16,
+      -28.49,
+      -29.56,
+      -24.87,
+      -27.44,
+      -27.92,
+      -28.53,
+      -21.39,
+      -23.57,
+      -50.32
+    ],
+    "changes": [
+      {
+        "bar": 0,
+        "name": "G fifth",
+        "root": 7,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 6,
+        "name": "C# fifth",
+        "root": 1,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 8,
+        "name": "G fifth",
+        "root": 7,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 24,
+        "name": "Ab fifth",
+        "root": 8,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 26,
+        "name": "C fifth",
+        "root": 0,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 28,
+        "name": "C# diminished",
+        "root": 1,
+        "intervals": [
+          0,
+          3,
+          6
+        ]
+      },
+      {
+        "bar": 30,
+        "name": "D fifth",
+        "root": 2,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 32,
+        "name": "G fifth",
+        "root": 7,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 35,
+        "name": "E major",
+        "root": 4,
+        "intervals": [
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "bar": 36,
+        "name": "G fifth",
+        "root": 7,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 38,
+        "name": "C# minor",
+        "root": 1,
+        "intervals": [
+          0,
+          3,
+          7
+        ]
+      },
+      {
+        "bar": 40,
+        "name": "D fifth",
+        "root": 2,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 42,
+        "name": "Bb fifth",
+        "root": 10,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 43,
+        "name": "E fifth",
+        "root": 4,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 44,
+        "name": "D fifth",
+        "root": 2,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 47,
+        "name": "Bb major",
+        "root": 10,
+        "intervals": [
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "bar": 48,
+        "name": "C# fifth",
+        "root": 1,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 50,
+        "name": "F major",
+        "root": 5,
+        "intervals": [
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "bar": 54,
+        "name": "E fifth",
+        "root": 4,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 64,
+        "name": "D fifth",
+        "root": 2,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 66,
+        "name": "C major",
+        "root": 0,
+        "intervals": [
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "bar": 68,
+        "name": "C sus4",
+        "root": 0,
+        "intervals": [
+          0,
+          5,
+          7
+        ]
+      },
+      {
+        "bar": 70,
+        "name": "D sus4",
+        "root": 2,
+        "intervals": [
+          0,
+          5,
+          7
+        ]
+      },
+      {
+        "bar": 72,
+        "name": "D minor",
+        "root": 2,
+        "intervals": [
+          0,
+          3,
+          7
+        ]
+      },
+      {
+        "bar": 74,
+        "name": "E fifth",
+        "root": 4,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 77,
+        "name": "B fifth",
+        "root": 11,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 78,
+        "name": "E fifth",
+        "root": 4,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 82,
+        "name": "C# fifth",
+        "root": 1,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 85,
+        "name": "Bb fifth",
+        "root": 10,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 86,
+        "name": "Eb fifth",
+        "root": 3,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 87,
+        "name": "F# major",
+        "root": 6,
+        "intervals": [
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "bar": 89,
+        "name": "F# minor",
+        "root": 6,
+        "intervals": [
+          0,
+          3,
+          7
+        ]
+      },
+      {
+        "bar": 90,
+        "name": "Ab fifth",
+        "root": 8,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 91,
+        "name": "B fifth",
+        "root": 11,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 96,
+        "name": "Eb fifth",
+        "root": 3,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 102,
+        "name": "D fifth",
+        "root": 2,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 106,
+        "name": "G fifth",
+        "root": 7,
+        "intervals": [
+          0,
+          7
+        ]
+      }
+    ]
+  },
+  "statusChange": {
+    "buffProgram": 46,
+    "debuffProgram": 70,
+    "applyVelocity": 88,
+    "removeVelocity": 70,
+    "stepBeats": 0.25,
+    "noteDurationBeats": 0.55,
+    "subdivisionsPerBeat": 4
+  },
+  "voices": [
+    {
+      "program": 30,
+      "name": "distortion guitar",
+      "minimumVelocity": 0,
+      "gainDb": 0.0
+    },
+    {
+      "program": 29,
+      "name": "overdriven guitar",
+      "minimumVelocity": 0,
+      "gainDb": -1.5
+    },
+    {
+      "program": 27,
+      "name": "clean guitar",
+      "minimumVelocity": 0,
+      "gainDb": 0.7
+    },
+    {
+      "program": 26,
+      "name": "jazz guitar",
+      "minimumVelocity": 0,
+      "gainDb": -1.5
+    },
+    {
+      "program": 28,
+      "name": "muted guitar",
+      "minimumVelocity": 0,
+      "gainDb": 4.5
+    }
+  ]
+}

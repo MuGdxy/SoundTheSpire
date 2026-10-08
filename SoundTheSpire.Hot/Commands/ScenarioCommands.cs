@@ -5,15 +5,20 @@ using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.GameActions;
 using MegaCrit.Sts2.Core.DevConsole;
 using MegaCrit.Sts2.Core.DevConsole.ConsoleCommands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Acts;
+using MegaCrit.Sts2.Core.Models.Cards;
+using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 using MegaCrit.Sts2.Core.Nodes;
+using MegaCrit.Sts2.Core.Nodes.Audio;
 using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
@@ -41,7 +46,7 @@ public class StsRunConsoleCmd : AbstractConsoleCmd
     public override CmdResult Process(Player? issuingPlayer, string[] args) =>
         Start(args.Length > 0 ? args[0] : "ironclad", args.Length > 1 ? args[1] : "SOUNDTEST");
 
-    public static CmdResult Start(string characterName, string seed)
+    public static CmdResult Start(string characterName, string seed, ActModel? firstAct = null)
     {
         if (RunManager.Instance.IsInProgress)
             return new CmdResult(false, "A run is already in progress.");
@@ -52,8 +57,16 @@ public class StsRunConsoleCmd : AbstractConsoleCmd
         if (character == null)
             return new CmdResult(false, $"Unknown character '{characterName}'. Options: {string.Join(", ", ModelDb.AllCharacters.Select(c => c.Id.Entry))}");
 
+        NAudioManager.Instance?.StopMusic();
         var rng = new Rng((uint)StringHelper.GetDeterministicHashCode(seed), "act_selection");
         var acts = ActModel.GetRandomList(rng, SaveManager.Instance.GenerateUnlockStateFromProgress(), isMultiplayer: false).ToList();
+        if (firstAct != null)
+        {
+            if (acts.Count == 0)
+                acts.Add(firstAct);
+            else
+                acts[0] = firstAct;
+        }
 
         var task = game.StartNewSingleplayerRun(character, shouldSave: false, acts, Array.Empty<ModifierModel>(), seed, GameMode.Standard);
         _starting = task;
@@ -76,6 +89,44 @@ public class StsMenuConsoleCmd : AbstractConsoleCmd
         if (NGame.Instance is not { } game)
             return new CmdResult(false, "NGame is not ready.");
         return new CmdResult(game.ReturnToMainMenu(), true, "Returning to main menu.");
+    }
+}
+
+/// <summary>Starts a run whose deterministic music roll selects one requested regular-music event.</summary>
+public class StsRegularTestConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_regular_test";
+    public override string Args => "[overgrowth-a1|overgrowth-a2|underdocks|hive-a1|hive-a2|glory-a1|glory-a2]";
+    public override string Description => "Start an unsaved regular-music test run with a deterministic track.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (RunManager.Instance.IsInProgress)
+            return new CmdResult(false, "Return to the main menu first.");
+        var requested = args.FirstOrDefault()?.ToLowerInvariant() ?? "overgrowth-a1";
+        var (act, desired, optionCount, label) = requested switch
+        {
+            "a1" or "overgrowth-a1" => (ModelDb.Act<Overgrowth>() as ActModel, 0, 2, "OVERGROWTH_A1"),
+            "a2" or "overgrowth-a2" => (ModelDb.Act<Overgrowth>(), 1, 2, "OVERGROWTH_A2"),
+            "underdocks" => (ModelDb.Act<Underdocks>(), 0, 1, "UNDERDOCKS"),
+            "hive-a1" => (ModelDb.Act<Hive>(), 0, 2, "HIVE_A1"),
+            "hive-a2" => (ModelDb.Act<Hive>(), 1, 2, "HIVE_A2"),
+            "glory-a1" => (ModelDb.Act<Glory>(), 0, 2, "GLORY_A1"),
+            "glory-a2" => (ModelDb.Act<Glory>(), 1, 2, "GLORY_A2"),
+            _ => (null, -1, 0, ""),
+        };
+        if (act == null)
+            return new CmdResult(false, "Usage: sts_regular_test " + Args);
+        for (var i = 0; i < 100; i++)
+        {
+            var seed = $"{label}_{i}";
+            var runSeed = new RunRngSet(seed).Seed;
+            if (new Rng(runSeed, "bg_music").NextInt(0, optionCount) == desired)
+                return StsRunConsoleCmd.Start("ironclad", seed, act);
+        }
+        return new CmdResult(false, "Could not find a deterministic music seed.");
     }
 }
 
@@ -174,11 +225,55 @@ public class StsTutorialConsoleCmd : AbstractConsoleCmd
 
     public override string CmdName => Name;
     public override string Args => "";
-    public override string Description => "Listening tutorial: jumps to the Waterfall Giant fight, then sets up four rising attacks and the hand to answer them.";
-    public override bool IsNetworked => true;
+    public override string Description => "Start the dedicated listening-tutorial run from the main menu.";
+    public override bool IsNetworked => false;
     public override bool DebugOnly => false;
 
-    public override CmdResult Process(Player? issuingPlayer, string[] args) => ListeningTutorial.Run(issuingPlayer);
+    public override CmdResult Process(Player? issuingPlayer, string[] args) =>
+        RunManager.Instance.IsInProgress
+            ? new CmdResult(false, "The tutorial can only be started from the main menu.")
+            : TutorialButton.StartFromMainMenu();
+}
+
+/// <summary>Waterfall music test: one 15-damage attack against three consecutive Defends.</summary>
+public class StsDefenseChainConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_defense_chain";
+    public override string Args => "";
+    public override string Description => "In the tutorial fight, keep one 15-damage enemy and deal three Defends.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (CombatManager.Instance.DebugOnlyGetState() is not { CurrentSide: CombatSide.Player } combat ||
+            combat.Enemies.FirstOrDefault(e => e.IsAlive && e.Monster is WaterfallGiant) is not { } giant)
+            return new CmdResult(false, "Run this inside the Waterfall tutorial fight.");
+        return new CmdResult(SetUp(combat, giant), true, "Setting up 15 damage against three Defends.");
+    }
+
+    private static async Task SetUp(CombatState combat, Creature giant)
+    {
+        ListeningTutorial.Stop();
+        var others = combat.Enemies.Where(e => e.IsAlive && !ReferenceEquals(e, giant)).ToList();
+        await CreatureCmd.Kill(others, force: true);
+
+        var monster = giant.Monster!;
+        var attack = StsIntentConsoleCmd.BuildMove(monster, "attack", 15, 1)!;
+        attack.FollowUpState = monster.NextMove;
+        monster.SetMoveImmediate(attack, forceTransition: true);
+
+        foreach (var player in combat.Players)
+        {
+            foreach (var card in PileType.Hand.GetPile(player).Cards.ToList())
+                await CardPileCmd.Add(card, PileType.Draw);
+            for (var i = 0; i < 3; i++)
+                await CardPileCmd.Add(combat.CreateCard(ModelDb.Card<DefendIronclad>(), player), PileType.Hand);
+        }
+
+        IntentAnnouncer.PlayAll();
+        DefenseMonitor.StartWatching(combat);
+    }
 }
 
 public class StsEndTurnConsoleCmd : AbstractConsoleCmd
@@ -220,10 +315,22 @@ public class StsStateConsoleCmd : AbstractConsoleCmd
 
         foreach (var p in combat.PlayerCreatures)
             sb.AppendLine($"player {p.Name}: hp {p.CurrentHp}/{p.MaxHp} block {p.Block}");
-        if (LocalContext.GetMe(combat)?.Creature is { } me)
+        Player? localPlayer;
+        try
+        {
+            localPlayer = LocalContext.GetMe(combat);
+        }
+        catch (InvalidOperationException)
+        {
+            localPlayer = null;
+            sb.AppendLine("local player: transitioning");
+        }
+        if (localPlayer?.Creature is { } me)
             sb.AppendLine($"defense at end of turn: {PassiveDefense.Describe(combat, me)}, incoming {CombatReader.IncomingDamage(combat)}");
-        if (LocalContext.GetMe(combat)?.PlayerCombatState is { } turn)
+        if (localPlayer?.PlayerCombatState is { } turn)
             sb.AppendLine($"hand: {string.Join(", ", turn.Hand.Cards.Select((c, i) => $"{i} {c.Id}"))}");
+        if (localPlayer == null)
+            return new CmdResult(true, sb.ToString().TrimEnd());
 
         var players = combat.PlayerCreatures;
         EnemyVoices.Assign(CombatReader.ReadEnemies(combat));

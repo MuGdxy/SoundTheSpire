@@ -1,0 +1,43 @@
+# Probe FMOD clocks after Progress switches each act suite into its normal-combat section.
+sts_menu
+wait menu
+sts_regular_test underdocks
+wait run
+fight SLIMES_WEAK
+wait combat
+sleep 8
+sts_music
+sts_menu
+wait menu
+sts_regular_test hive-a1
+wait run
+fight SLIMES_WEAK
+wait combat
+sleep 8
+sts_music
+sts_menu
+wait menu
+sts_regular_test hive-a2
+wait run
+fight SLIMES_WEAK
+wait combat
+sleep 8
+sts_music
+sts_menu
+wait menu
+sts_regular_test glory-a1
+wait run
+fight SLIMES_WEAK
+wait combat
+sleep 8
+sts_music
+sts_menu
+wait menu
+sts_regular_test glory-a2
+wait run
+fight SLIMES_WEAK
+wait combat
+sleep 8
+sts_music
+sts_menu
+wait menu

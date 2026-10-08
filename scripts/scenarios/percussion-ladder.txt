@@ -1,0 +1,25 @@
+# Five multi-hit damage tiers over the active profile's orchestral voice:
+# triangle, hi-hat, snare, tom, then kick+crash.
+sts_menu
+wait menu
+sts_regular_test
+wait run
+fight SLIMES_WEAK
+wait combat
+sleep 5
+sts_intent 0 attack 1 2
+sts_intents 0
+sleep 2
+sts_intent 0 attack 3 2
+sts_intents 0
+sleep 2
+sts_intent 0 attack 5 2
+sts_intents 0
+sleep 2
+sts_intent 0 attack 10 2
+sts_intents 0
+sleep 2
+sts_intent 0 attack 20 2
+sts_intents 0
+sleep 3
+sts_music

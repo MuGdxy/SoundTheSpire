@@ -67,7 +67,10 @@ public partial class MainFile : Node
         }
 
         var started = DateTime.UtcNow;
+        InstrumentVolume.Load();
         var engine = SynthEngine.Create(soundFont, tree.Root);
+        MainThread.Frame += engine.SyncVolume;
+        engine.SyncVolume();
         Logger.Info($"Synth engine ready at {engine.SampleRate} Hz in {(DateTime.UtcNow - started).TotalMilliseconds:F0} ms");
     }
 }

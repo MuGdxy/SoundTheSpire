@@ -14,11 +14,26 @@ public static class EnemyVoices
     public static readonly (int Program, string Name)[] Instruments =
     {
         (Midi.Program.DistortionGuitar, "guitar"),
-        (Midi.Program.BrassSection, "brass"),
-        (Midi.Program.StringEnsemble, "strings"),
-        (Midi.Program.SquareLead, "square"),
-        (Midi.Program.ChurchOrgan, "organ"),
+        (Midi.Program.OverdrivenGuitar, "overdriven guitar"),
+        (Midi.Program.CleanGuitar, "clean guitar"),
+        (Midi.Program.JazzGuitar, "jazz guitar"),
+        (Midi.Program.MutedGuitar, "muted guitar"),
     };
+
+    private static readonly Dictionary<string, (int Program, string Name)[]> ProfileInstruments = new();
+
+    private static (int Program, string Name)[] CurrentInstruments
+    {
+        get
+        {
+            if (MusicClock.ActiveProfile is not { } profile)
+                return Instruments;
+            if (!ProfileInstruments.TryGetValue(profile.Id, out var instruments))
+                ProfileInstruments[profile.Id] = instruments =
+                    profile.Voices.Select(v => (v.Program, v.Name)).ToArray();
+            return instruments;
+        }
+    }
 
     private static readonly Dictionary<Creature, int> Assigned = new();
     private static ICombatState? _combat;
@@ -42,9 +57,10 @@ public static class EnemyVoices
             .ThenBy(e => e.Slot);
         foreach (var enemy in newcomers)
         {
-            var index = Enumerable.Range(0, Instruments.Length).Where(i => !taken.Contains(i)).DefaultIfEmpty(-1).First();
+            var instruments = CurrentInstruments;
+            var index = Enumerable.Range(0, instruments.Length).Where(i => !taken.Contains(i)).DefaultIfEmpty(-1).First();
             if (index < 0)
-                index = Assigned.Count % Instruments.Length;
+                index = Assigned.Count % instruments.Length;
             Assigned[enemy.Creature] = index;
             taken.Add(index);
         }
@@ -52,6 +68,20 @@ public static class EnemyVoices
 
     public static int ProgramOf(EnemyInfo enemy) => InstrumentOf(enemy.Creature).Program;
 
+    /// <summary>
+    /// SoundFont calibration for profiled voices. Per-program velocity floors come from the external music profile.
+    /// </summary>
+    public static int BalancedVelocity(EnemyInfo enemy, int velocity)
+    {
+        if (MusicClock.ActiveProfile is not { } profile)
+            return velocity;
+        var program = ProgramOf(enemy);
+        var voice = profile.Voices.FirstOrDefault(v => v.Program == program);
+        var minimum = voice?.MinimumVelocity ?? 0;
+        var gain = Math.Pow(10, (voice?.GainDb ?? 0) / 40.0);
+        return Math.Clamp((int)Math.Round(Math.Max(minimum, velocity) * gain), 1, 127);
+    }
+
     public static (int Program, string Name) InstrumentOf(Creature enemy) =>
-        Instruments[Assigned.TryGetValue(enemy, out var index) ? index : 0];
+        CurrentInstruments[Assigned.TryGetValue(enemy, out var index) ? index : 0];
 }

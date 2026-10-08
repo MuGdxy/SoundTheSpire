@@ -1,85 +1,88 @@
 using Godot;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.DevConsole;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Nodes;
+using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
+using MegaCrit.Sts2.Core.Nodes.Screens.MainMenu;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Acts;
 using MegaCrit.Sts2.Core.Runs;
 using SoundTheSpire.Hot.Commands;
 
 namespace SoundTheSpire.Hot.Combat;
 
 /// <summary>
-/// On-screen entry to the listening tutorial, shown on the bare main menu and in a run outside combat. From the menu it
-/// starts an unsaved Ironclad run and enters the tutorial once the run is ready; in a run it does what F10 does.
+/// Native main-menu entry for a dedicated unsaved tutorial run. Normal runs never expose or accept a tutorial entry.
 /// </summary>
 public static class TutorialButton
 {
-    private const string Text = "声音教学关 (F10)";
+    private const string Text = "声音教学关";
     private const string Seed = "LISTEN";
 
-    private static CanvasLayer? _layer;
-    private static Button? _button;
+    private static NMainMenuTextButton? _menuButton;
     private static bool _startAfterRun;
 
     public static void Poll()
     {
+        EnsureMainMenuButton();
+
         if (_startAfterRun && StsRunConsoleCmd.IsRunReady && !CombatManager.Instance.IsInProgress)
         {
             _startAfterRun = false;
+            ListeningTutorial.AllowDedicatedEntry();
             ListeningTutorial.Request();
         }
-
-        var visible = !_startAfterRun && (OnBareMainMenu || RunManager.Instance.IsInProgress && !CombatManager.Instance.IsInProgress);
-        if (visible && _button == null)
-            Create();
-        if (_button != null && GodotObject.IsInstanceValid(_button))
-            _button.Visible = visible;
     }
 
     public static void Remove()
     {
-        if (_layer != null && GodotObject.IsInstanceValid(_layer))
-            _layer.QueueFree();
-        _layer = null;
-        _button = null;
+        if (_menuButton != null && GodotObject.IsInstanceValid(_menuButton))
+            _menuButton.QueueFree();
+        _menuButton = null;
         _startAfterRun = false;
     }
 
-    private static bool OnBareMainMenu =>
-        !RunManager.Instance.IsInProgress && NGame.Instance?.MainMenu is { } menu && !menu.SubmenuStack.SubmenusOpen;
-
-    private static void Create()
+    private static void EnsureMainMenuButton()
     {
-        if (Engine.GetMainLoop() is not SceneTree tree)
+        if (_menuButton != null && GodotObject.IsInstanceValid(_menuButton))
             return;
-        _layer = new CanvasLayer { Layer = 50 };
-        _button = new Button
-        {
-            Text = Text,
-            FocusMode = Control.FocusModeEnum.None,
-            AnchorLeft = 0, AnchorRight = 0, AnchorTop = 1, AnchorBottom = 1,
-            OffsetLeft = 24, OffsetTop = -84, OffsetRight = 264, OffsetBottom = -32,
-        };
-        _button.AddThemeFontSizeOverride("font_size", 24);
-        _button.Pressed += OnPressed;
-        _layer.AddChild(_button);
-        tree.Root.AddChildSafely(_layer);
+        _menuButton = null;
+        if (RunManager.Instance.IsInProgress || NGame.Instance?.MainMenu is not { } menu)
+            return;
+        ListeningTutorial.OnMainMenuReached();
+
+        var settings = menu.GetNodeOrNull<NMainMenuTextButton>("MainMenuTextButtons/SettingsButton");
+        if (settings?.GetParent() is not { } parent)
+            return;
+        var flags = (int)(Node.DuplicateFlags.Groups | Node.DuplicateFlags.Scripts | Node.DuplicateFlags.UseInstantiation);
+        _menuButton = (NMainMenuTextButton)settings.Duplicate(flags);
+        _menuButton.Name = "SoundTheSpireTutorialButton";
+        parent.AddChild(_menuButton);
+        parent.MoveChild(_menuButton, settings.GetIndex());
+        if (_menuButton.label != null)
+            _menuButton.label.Text = Text;
+        _menuButton.Connect(NClickableControl.SignalName.Released, Callable.From<NButton>(_ => OnPressed()));
     }
 
     private static void OnPressed()
     {
-        if (RunManager.Instance.IsInProgress)
-        {
-            ListeningTutorial.Request();
-            return;
-        }
-        var result = StsRunConsoleCmd.Start("ironclad", Seed);
-        if (!result.success)
-        {
-            MainFile.Logger.Warn($"Tutorial button: {result.msg}");
-            return;
-        }
+        var result = StartFromMainMenu();
         if (result.task != null)
             TaskHelper.RunSafely(result.task);
+        if (!result.success)
+            MainFile.Logger.Warn($"Tutorial button: {result.msg}");
+    }
+
+    /// <summary>Starts the dedicated unsaved tutorial run. Rejected anywhere except the main menu.</summary>
+    public static CmdResult StartFromMainMenu()
+    {
+        if (RunManager.Instance.IsInProgress)
+            return new CmdResult(false, "The tutorial can only be started from the main menu.");
+        var result = StsRunConsoleCmd.Start("ironclad", Seed, ModelDb.Act<Underdocks>());
+        if (!result.success)
+            return result;
         _startAfterRun = true;
+        return result;
     }
 }

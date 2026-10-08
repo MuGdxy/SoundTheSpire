@@ -1,0 +1,15 @@
+# Overgrowth act1_a2_v2: D minor, 6/8 string-family profile.
+sts_menu
+wait menu
+sts_regular_test a2
+wait run
+fight SLIMES_WEAK
+wait combat
+sleep 5
+sts_music
+sts_intent 0 attack 4
+sts_intent 1 attack 15
+sts_intent 2 attack 8 3
+sts_intents
+sleep 8
+sts_state

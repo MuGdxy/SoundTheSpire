@@ -53,10 +53,12 @@
         <Compile Remove="shaders/**" />
         <Compile Remove="images/**" />
         <Compile Remove="decompiled/**" />
+        <Compile Remove="tools/**" />
         <Compile Remove="SoundTheSpire.Hot/**" />
         <EmbeddedResource Remove="SoundTheSpire/**" />
         <EmbeddedResource Remove="materials/**" />
         <EmbeddedResource Remove="shaders/**" />
+        <EmbeddedResource Remove="tools/**" />
         <EmbeddedResource Remove="images/**" />
     </ItemGroup>
 
@@ -82,9 +84,11 @@
         <Copy SourceFiles="$(TargetDir)MeltySynth.dll" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
         <ItemGroup>
             <SoundFontFiles Include="SoundTheSpire/soundfonts/*" />
+            <ProfileFiles Include="SoundTheSpire/profiles/*" />
         </ItemGroup>
         <Error Condition="'@(SoundFontFiles)' == ''" Text="SoundFont missing; run scripts/fetch-assets.ps1 first." />
         <Copy SourceFiles="@(SoundFontFiles)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/soundfonts/" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(ProfileFiles)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/profiles/" SkipUnchangedFiles="true" />
     </Target>
 
     <!-- The hot module compiles against the loader just deployed above, so it is built afterwards. -->

@@ -1,0 +1,79 @@
+# Resume the full listening tour from Hive A2.
+sts_menu
+sleep 4
+wait menu
+sleep 2
+sts_regular_test hive-a2
+wait run
+fight BOWLBUGS_WEAK
+wait combat
+sleep 4
+sts_music
+sts_intent all attack 7
+sts_intents
+sleep 5
+sts_intent all attack 15
+sts_intents
+sleep 5
+sts_intent all attack 8 3
+sts_intents
+sleep 7
+sts_intent all buff 2
+sts_intents
+sleep 4
+sts_intent all debuff 1
+sts_intents
+sleep 4
+
+sts_menu
+sleep 4
+wait menu
+sleep 2
+sts_regular_test glory-a1
+wait run
+fight DEVOTED_SCULPTOR_WEAK
+wait combat
+sleep 4
+sts_music
+sts_intent all attack 7
+sts_intents
+sleep 5
+sts_intent all attack 15
+sts_intents
+sleep 5
+sts_intent all attack 8 3
+sts_intents
+sleep 7
+sts_intent all buff 2
+sts_intents
+sleep 4
+sts_intent all debuff 1
+sts_intents
+sleep 4
+
+sts_menu
+sleep 4
+wait menu
+sleep 2
+sts_regular_test glory-a2
+wait run
+fight DEVOTED_SCULPTOR_WEAK
+wait combat
+sleep 4
+sts_music
+sts_intent all attack 7
+sts_intents
+sleep 5
+sts_intent all attack 15
+sts_intents
+sleep 5
+sts_intent all attack 8 3
+sts_intents
+sleep 7
+sts_intent all buff 2
+sts_intents
+sleep 4
+sts_intent all debuff 1
+sts_intents
+sleep 4
+sts_state

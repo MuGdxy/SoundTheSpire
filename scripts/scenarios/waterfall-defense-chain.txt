@@ -1,0 +1,19 @@
+# Waterfall 5/8 legato example: one enemy attacks for 15; three Defends move hurt 15 -> 10 -> 5 -> 0.
+# The first transition starts on the next FMOD beat; subsequent cards occupy successive eighth-note beats.
+sts_menu
+wait menu
+sts_tutorial
+wait combat
+sleep 5
+sts_defense_chain
+sleep 3
+sts_state
+sts_intents
+sleep 3
+sts_play 0
+sleep 0.35
+sts_play 0
+sleep 0.35
+sts_play 0
+sleep 5
+sts_state

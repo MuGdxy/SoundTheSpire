@@ -7,6 +7,8 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
+using MegaCrit.Sts2.Core.Random;
+using MegaCrit.Sts2.Core.Runs;
 using SoundTheSpire.Hot.Audio;
 using SoundTheSpire.Hot.Combat;
 
@@ -26,6 +28,28 @@ public class StsTestConsoleCmd : AbstractConsoleCmd
             return new CmdResult(false, "Synth engine is not running.");
         SoundTest.Play(engine);
         return new CmdResult(true, "Playing sound test.");
+    }
+}
+
+public class StsMusicConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_music";
+    public override string Args => "";
+    public override string Description => "Show the current FMOD track, matched profile and live meter.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        var profile = MusicClock.ActiveProfile?.Id ?? "none";
+        var state = RunManager.Instance.DebugOnlyGetState();
+        var roll = state?.Act.BgMusicOptions.Length > 0
+            ? new Rng(state.Rng.Seed, "bg_music").NextInt(0, state.Act.BgMusicOptions.Length)
+            : -1;
+        return new CmdResult(true,
+            $"track {MusicClock.CurrentTrack ?? "none"} profile {profile} key {MusicClock.ActiveProfile?.Key ?? "none"} " +
+            $"clock {MusicClock.Tempo:F2} BPM {MusicClock.BeatsPerBar}/{MusicClock.BeatUnit} callback {MusicClock.HasFmodBeat} " +
+            $"loaded_profiles {MusicProfileRegistry.All.Count} run_seed {state?.Rng.Seed} bg_roll {roll}");
     }
 }
 

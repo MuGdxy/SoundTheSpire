@@ -14,13 +14,13 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
+using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using SoundTheSpire.Hot.Audio;
-using SoundTheSpire.Hot.Commands;
 
 namespace SoundTheSpire.Hot.Combat;
 
@@ -64,29 +64,36 @@ public static class ListeningTutorial
     private static readonly HashSet<Creature> Heard = new();
     private static NSpeechBubbleVfx? _bubble;
 
-    public const Key StartKey = Key.F10;
-
     private static bool _pending;
-    private static bool _startKeyWasDown;
+    private static bool _dedicatedEntryAllowed;
+    private static bool _dedicatedFightPending;
+    private static bool _dedicatedRunActive;
+    private static bool _dedicatedCombatWon;
+    private static bool _returnToMainMenu;
 
     public static bool IsGiantFight(ICombatState combat) =>
         combat.Enemies.Any(e => e.IsAlive && e.Monster is WaterfallGiant);
 
-    private static bool Multiplayer => !RunManager.Instance.IsSingleplayerOrFakeMultiplayer;
+    /// <summary>One-shot permission granted only after the main-menu button has created its unsaved tutorial run.</summary>
+    public static void AllowDedicatedEntry() => _dedicatedEntryAllowed = true;
+
+    public static void OnMainMenuReached()
+    {
+        _dedicatedEntryAllowed = false;
+        _dedicatedFightPending = false;
+        _dedicatedRunActive = false;
+        _dedicatedCombatWon = false;
+        _returnToMainMenu = false;
+        Stop();
+    }
 
     /// <summary>
-    /// Runs sts_tutorial for everyone: in multiplayer it goes through the synchronized action queue like the game's own
-    /// networked console commands, so every peer (all need the mod) enters the fight and sets it up identically.
+    /// Continues the dedicated singleplayer tutorial flow. Normal runs are rejected by <see cref="Run"/>.
     /// </summary>
     public static void Request()
     {
         if (LocalContext.GetMe(RunManager.Instance.DebugOnlyGetState()) is not { } me)
             return;
-        if (Multiplayer)
-        {
-            RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(new ConsoleCmdGameAction(me, StsTutorialConsoleCmd.Name, CombatManager.Instance.IsInProgress));
-            return;
-        }
         var result = Run(me);
         if (result.task != null)
             TaskHelper.RunSafely(result.task);
@@ -104,13 +111,20 @@ public static class ListeningTutorial
             return new CmdResult(false, "Start a run first.");
         if (CombatManager.Instance.IsInProgress)
         {
-            if (CombatManager.Instance.DebugOnlyGetState() is not { } combat || !IsGiantFight(combat))
-                return new CmdResult(false, "Run it outside combat, or in the tutorial's Waterfall Giant fight.");
+            if (!_dedicatedFightPending || CombatManager.Instance.DebugOnlyGetState() is not { } combat || !IsGiantFight(combat))
+                return new CmdResult(false, "The tutorial can only be started from the main menu.");
             if (combat.CurrentSide != CombatSide.Player)
                 return new CmdResult(false, "Wait for the player turn.");
             return new CmdResult(Start(combat), true, "Tutorial set up.");
         }
+        if (!_dedicatedEntryAllowed)
+            return new CmdResult(false, "The tutorial can only be started from the main menu.");
+        _dedicatedEntryAllowed = false;
         Stop();
+        _dedicatedRunActive = true;
+        _dedicatedCombatWon = false;
+        _returnToMainMenu = false;
+        _dedicatedFightPending = true;
         _pending = issuer == null || LocalContext.IsMe(issuer);
         var encounter = ModelDb.GetById<EncounterModel>(new ModelId(ModelId.SlugifyCategory<EncounterModel>(), Encounter)).ToMutable();
         return new CmdResult(RunManager.Instance.EnterRoomDebug(RoomType.Monster, MapPointType.Unassigned, encounter), true,
@@ -125,12 +139,20 @@ public static class ListeningTutorial
         Request();
     }
 
-    public static void PollStartKey()
+    public static void OnCombatWon(CombatRoom room)
     {
-        var down = Input.IsKeyPressed(StartKey);
-        if (down && !_startKeyWasDown && RunManager.Instance.IsInProgress && !CombatManager.Instance.IsInProgress)
-            Request();
-        _startKeyWasDown = down;
+        if (_dedicatedRunActive)
+            _dedicatedCombatWon = true;
+    }
+
+    public static void OnCombatEnded(CombatRoom room)
+    {
+        if (!_dedicatedRunActive)
+            return;
+        _dedicatedRunActive = false;
+        if (_dedicatedCombatWon)
+            _returnToMainMenu = true;
+        _dedicatedCombatWon = false;
     }
 
     /// <summary>Changes only the setup, for every player alike; HP scaling, targeting and energy are the standard game.</summary>
@@ -184,6 +206,8 @@ public static class ListeningTutorial
     {
         _step = Step.Off;
         _combat = null;
+        _dedicatedEntryAllowed = false;
+        _dedicatedFightPending = false;
         MinionCreatures.Clear();
         Heard.Clear();
         if (_bubble != null && GodotObject.IsInstanceValid(_bubble))
@@ -199,6 +223,14 @@ public static class ListeningTutorial
 
     public static void Poll()
     {
+        if (_returnToMainMenu && !CombatManager.Instance.IsInProgress)
+        {
+            _returnToMainMenu = false;
+            Stop();
+            if (NGame.Instance is { } game)
+                TaskHelper.RunSafely(game.ReturnToMainMenu());
+            return;
+        }
         if (_step == Step.Off)
             return;
         if (_combat is not { } combat || !ReferenceEquals(combat, CombatReader.CurrentCombat) || !CombatManager.Instance.IsInProgress)

@@ -1,5 +1,6 @@
 using Godot;
 using MeltySynth;
+using MegaCrit.Sts2.Core.Saves;
 
 namespace SoundTheSpire.SoundTheSpireCode.Audio;
 
@@ -22,10 +23,17 @@ public sealed class SynthEngine
     private readonly float[] _right = new float[MaxChunk];
     private volatile AudioStreamGeneratorPlayback? _playback;
     private long _renderedFrames;
+    private float _lastMasterVolume = -1f;
+    private float _lastInstrumentVolume = -1f;
+    private float _profileGain = 1f;
 
     public static SynthEngine? Instance { get; private set; }
 
     public int SampleRate { get; }
+    public float MasterVolume { get; private set; }
+    public float InstrumentVolumeLevel { get; private set; }
+    public float ProfileGain => _profileGain;
+    public float EffectiveVolume { get; private set; } = 1f;
 
     public int ActiveVoices
     {
@@ -55,6 +63,33 @@ public sealed class SynthEngine
     {
         Instance = new SynthEngine(soundFontPath, root);
         return Instance;
+    }
+
+    /// <summary>
+    /// Keeps the separate Godot synth in step with the game's master volume and our instrument gain. Master volume uses
+    /// the game's squared curve; instrument gain is linear and can exceed 100% to match FMOD music loudness.
+    /// Called on the Godot main thread once per frame; the player is only touched when a slider actually changes.
+    /// </summary>
+    public void SyncVolume()
+    {
+        var settings = SaveManager.Instance.SettingsSave;
+        var master = Math.Clamp(settings.VolumeMaster, 0f, 1f);
+        var instrument = InstrumentVolume.Value;
+        if (Mathf.IsEqualApprox(master, _lastMasterVolume) &&
+            Mathf.IsEqualApprox(instrument, _lastInstrumentVolume))
+            return;
+
+        _lastMasterVolume = MasterVolume = master;
+        _lastInstrumentVolume = InstrumentVolumeLevel = instrument;
+        EffectiveVolume = master * master * instrument * _profileGain;
+        _player.VolumeLinear = EffectiveVolume;
+    }
+
+    public void SetProfileGain(float linearGain)
+    {
+        _profileGain = Math.Clamp(linearGain, 0f, 10f);
+        _lastMasterVolume = -1f;
+        SyncVolume();
     }
 
     /// <summary>Runs <paramref name="action"/> on the synthesizer after <paramref name="delaySeconds"/> of audio.</summary>

@@ -9,7 +9,7 @@ namespace SoundTheSpire.Hot.Combat;
 
 /// <summary>
 /// Turn summary when the player gets control (after start-of-turn relics, draw and auto-play have finished):
-/// trumpet intro, the enemy line-up, then one bar for the defense status. In between, an enemy's intent plays when
+/// enemy line-up, then one bar for the defense status. In between, an enemy's intent plays when
 /// it is selected (keyboard/controller focus, mouse hover, or card targeting). R replays the summary.
 /// </summary>
 public static class IntentAnnouncer
@@ -67,15 +67,26 @@ public static class IntentAnnouncer
     }
 
     [HarmonyPatch(typeof(NCreature), "OnFocus")]
-    private static class EnemySelectedPatch
+    private static class CreatureSelectedPatch
     {
         private static void Prefix(NCreature __instance, out bool __state) => __state = __instance.IsFocused;
 
         private static void Postfix(NCreature __instance, bool __state)
         {
-            if (__state || !__instance.IsFocused || !__instance.Entity.IsEnemy || SynthEngine.Instance is not { } engine)
+            if (__state || !__instance.IsFocused || SynthEngine.Instance is not { } engine)
                 return;
             if (__instance.Entity.CombatState is not { } combat)
+                return;
+            if (__instance.Entity.IsPlayer)
+            {
+                if (!ReferenceEquals(LocalContext.GetMe(combat)?.Creature, __instance.Entity))
+                    return;
+                var incoming = CombatReader.IncomingDamage(combat);
+                MainFile.Logger.Info("Player selected: playing current defense status");
+                BlockMotif.PlaySnapshot(engine, PassiveDefense.ProjectedBlock(combat, __instance.Entity), incoming);
+                return;
+            }
+            if (!__instance.Entity.IsEnemy)
                 return;
             ListeningTutorial.OnEnemySelected(__instance.Entity);
             var enemies = CombatReader.ReadEnemies(combat);

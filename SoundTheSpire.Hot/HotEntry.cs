@@ -11,17 +11,19 @@ public sealed class HotEntry : IHotModule
 
     public void Load(HotContext context)
     {
+        MusicClock.RefreshCurrentTrack();
         context.OnFrame(PollTestHotkey);
         context.OnFrame(IntentAnnouncer.PollReplayKey);
         context.OnFrame(DefenseMonitor.Poll);
         context.OnFrame(IntentVeil.Poll);
         context.OnFrame(NumberVeil.Poll);
         context.OnFrame(ListeningTutorial.Poll);
-        context.OnFrame(ListeningTutorial.PollStartKey);
         context.OnFrame(TutorialButton.Poll);
         NumberVeil.Refresh();
         CombatManager.Instance.TurnStarted += IntentAnnouncer.OnTurnStarted;
         CombatManager.Instance.TurnStarted += ListeningTutorial.OnTurnStarted;
+        CombatManager.Instance.CombatWon += ListeningTutorial.OnCombatWon;
+        CombatManager.Instance.CombatEnded += ListeningTutorial.OnCombatEnded;
         if (CombatReader.CurrentCombat is { CurrentSide: CombatSide.Player } combat)
             DefenseMonitor.StartWatching(combat);
     }
@@ -30,6 +32,8 @@ public sealed class HotEntry : IHotModule
     {
         CombatManager.Instance.TurnStarted -= IntentAnnouncer.OnTurnStarted;
         CombatManager.Instance.TurnStarted -= ListeningTutorial.OnTurnStarted;
+        CombatManager.Instance.CombatWon -= ListeningTutorial.OnCombatWon;
+        CombatManager.Instance.CombatEnded -= ListeningTutorial.OnCombatEnded;
         IntentVeil.Set(false);
         ListeningTutorial.Stop();
         TutorialButton.Remove();

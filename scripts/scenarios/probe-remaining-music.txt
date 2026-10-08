@@ -1,0 +1,33 @@
+# Probe FMOD-authored tempo and meter for regular tracks that do not yet have profiles.
+sts_menu
+wait menu
+sts_regular_test underdocks
+wait run
+sleep 4
+sts_music
+sts_menu
+wait menu
+sts_regular_test hive-a1
+wait run
+sleep 4
+sts_music
+sts_menu
+wait menu
+sts_regular_test hive-a2
+wait run
+sleep 4
+sts_music
+sts_menu
+wait menu
+sts_regular_test glory-a1
+wait run
+sleep 4
+sts_music
+sts_menu
+wait menu
+sts_regular_test glory-a2
+wait run
+sleep 4
+sts_music
+sts_menu
+wait menu
