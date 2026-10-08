@@ -42,12 +42,38 @@ public static class BlockMotif
         ScheduleStatus(engine, 0, block, incoming);
     }
 
-    /// <summary>The status before, then the status after, one bar each: a card that improved the defense.</summary>
+    /// <summary>
+    /// A card that improved the defense: one legato bar moving from the status chord before (a beat) into the status
+    /// chord after (three beats), the rhythm of sus4 → major. Common tones are held through; the others overlap
+    /// slightly so the change sounds connected.
+    /// </summary>
     public static void PlayTransition(SynthEngine engine, int fromBlock, int fromIncoming, int toBlock, int toIncoming)
     {
         engine.Stop();
-        ScheduleStatus(engine, 0, fromBlock, fromIncoming);
-        ScheduleStatus(engine, BarSeconds, toBlock, toIncoming);
+        Setup(engine, 0);
+        var from = StatusChord(fromBlock, fromIncoming);
+        var to = StatusChord(toBlock, toIncoming);
+        const double change = BeatSeconds;
+        const double end = BeatSeconds * 4 * 0.95;
+        const double overlap = 0.08;
+        var common = from.Keys.Intersect(to.Keys).ToArray();
+        var leaving = from.Keys.Except(common).ToArray();
+        var arriving = to.Keys.Except(common).ToArray();
+        if (common.Length > 0)
+            engine.Chord(0, end, Channel, from.Velocity, common);
+        if (leaving.Length > 0)
+            engine.Chord(0, change + overlap, Channel, from.Velocity, leaving);
+        if (arriving.Length > 0)
+            engine.Chord(change, end - change, Channel, to.Velocity, arriving);
+    }
+
+    /// <summary>The single chord that stands for a status in a transition.</summary>
+    private static (int[] Keys, int Velocity) StatusChord(int block, int incoming)
+    {
+        var tier = HurtTier(block, incoming);
+        if (tier == 0)
+            return (Resolved, incoming <= 0 ? 70 : 95);
+        return tier < 5 ? (HurtChords[tier - 1], HurtVelocities[tier - 1]) : (Clash, HurtVelocities[4]);
     }
 
     /// <summary>One bar starting at <paramref name="at"/> describing the defense against this turn's attacks.</summary>
