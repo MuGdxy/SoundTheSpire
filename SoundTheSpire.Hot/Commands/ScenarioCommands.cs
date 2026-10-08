@@ -38,19 +38,20 @@ public class StsRunConsoleCmd : AbstractConsoleCmd
     public override bool IsNetworked => false;
     public override bool DebugOnly => false;
 
-    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    public override CmdResult Process(Player? issuingPlayer, string[] args) =>
+        Start(args.Length > 0 ? args[0] : "ironclad", args.Length > 1 ? args[1] : "SOUNDTEST");
+
+    public static CmdResult Start(string characterName, string seed)
     {
         if (RunManager.Instance.IsInProgress)
             return new CmdResult(false, "A run is already in progress.");
         if (NGame.Instance is not { } game)
             return new CmdResult(false, "NGame is not ready.");
 
-        var characterName = args.Length > 0 ? args[0] : "ironclad";
         var character = ModelDb.AllCharacters.FirstOrDefault(c => c.Id.Entry.Equals(characterName, StringComparison.OrdinalIgnoreCase));
         if (character == null)
             return new CmdResult(false, $"Unknown character '{characterName}'. Options: {string.Join(", ", ModelDb.AllCharacters.Select(c => c.Id.Entry))}");
 
-        var seed = args.Length > 1 ? args[1] : "SOUNDTEST";
         var rng = new Rng((uint)StringHelper.GetDeterministicHashCode(seed), "act_selection");
         var acts = ActModel.GetRandomList(rng, SaveManager.Instance.GenerateUnlockStateFromProgress(), isMultiplayer: false).ToList();
 

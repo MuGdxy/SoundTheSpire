@@ -18,6 +18,7 @@ public sealed class HotEntry : IHotModule
         context.OnFrame(NumberVeil.Poll);
         context.OnFrame(ListeningTutorial.Poll);
         context.OnFrame(ListeningTutorial.PollStartKey);
+        context.OnFrame(TutorialButton.Poll);
         NumberVeil.Refresh();
         CombatManager.Instance.TurnStarted += IntentAnnouncer.OnTurnStarted;
         CombatManager.Instance.TurnStarted += ListeningTutorial.OnTurnStarted;
@@ -31,6 +32,7 @@ public sealed class HotEntry : IHotModule
         CombatManager.Instance.TurnStarted -= ListeningTutorial.OnTurnStarted;
         IntentVeil.Set(false);
         ListeningTutorial.Stop();
+        TutorialButton.Remove();
     }
 
     private void PollTestHotkey()

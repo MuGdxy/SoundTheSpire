@@ -36,7 +36,7 @@ irm https://raw.githubusercontent.com/MuGdxy/SoundTheSpire/main/scripts/install.
 | F10 | 声音教学关（在一局中、不在战斗时按；联机时所有人一起进入） |
 | F8 | 声音测试 |
 
-鼠标移到某只怪身上，单独听它的意图。第一次玩建议先按 F10 走一遍教学关。
+鼠标移到某只怪身上，单独听它的意图。第一次玩建议在主菜单点左下角的"声音教学关"按钮：它会开一局不存档的新局并直接进入教学关。
 
 ## 致谢 / Credits
 
