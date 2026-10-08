@@ -1,6 +1,12 @@
+using System.Text.RegularExpressions;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.addons.mega_text;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.sts2.Core.Nodes.TopBar;
@@ -37,13 +43,19 @@ public static class NumberVeil
     /// </summary>
     public static void Refresh()
     {
+        Cards.Clear();
         if (Engine.GetMainLoop() is SceneTree tree)
             Scan(tree.Root);
         Bars.RemoveWhere(bar => !GodotObject.IsInstanceValid(bar));
         foreach (var bar in Bars)
             bar.RefreshValues();
+        foreach (var card in Cards.Where(c => c.Model != null))
+            card.UpdateVisuals(card.DisplayingPile, CardPreviewMode.Normal);
+        Cards.Clear();
         Poll();
     }
+
+    private static readonly List<NCard> Cards = new();
 
     /// <returns>Which number labels are showing, for the console.</returns>
     public static string Report()
@@ -64,6 +76,9 @@ public static class NumberVeil
                 break;
             case NTopBarHp topBar:
                 _topBar = topBar;
+                break;
+            case NCard card:
+                Cards.Add(card);
                 break;
         }
         foreach (var child in node.GetChildren())
@@ -92,6 +107,31 @@ public static class NumberVeil
     {
         private static void Postfix(NTopBarHp __instance) => _topBar = __instance;
     }
+
+    /// <summary>
+    /// Card text in combat (cards in a combat pile while combat is in progress, the game's own "InCombat" test) has its
+    /// numbers replaced; the card library and out-of-combat views keep them, so the values can be learned there.
+    /// </summary>
+    [HarmonyPatch]
+    private static class CardTextPatch
+    {
+        // The overload taking the private DescriptionPreviewType enum, which every card text goes through.
+        private static System.Reflection.MethodBase TargetMethod() =>
+            AccessTools.GetDeclaredMethods(typeof(CardModel))
+                .Single(m => m.Name == "GetDescriptionForPile" && m.GetParameters().Length == 3);
+
+        private static void Postfix(CardModel __instance, PileType pileType, ref string __result)
+        {
+            if (IntentVeil.Enabled && CombatManager.Instance.IsInProgress && (__instance.Pile?.IsCombatPile ?? pileType.IsCombatPile()))
+                __result = HideNumbers(__result);
+        }
+    }
+
+    private static readonly Regex TagOrNumber = new(@"(\[[^\]]*\])|\d+", RegexOptions.Compiled);
+
+    /// <summary>Replaces every number outside BBCode tags with "?".</summary>
+    public static string HideNumbers(string text) =>
+        TagOrNumber.Replace(text, m => m.Groups[1].Success ? m.Value : "?");
 
     [HarmonyPatch(typeof(NDamageNumVfx), nameof(NDamageNumVfx._Ready))]
     private static class DamageNumberPatch

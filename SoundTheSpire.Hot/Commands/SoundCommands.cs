@@ -1,6 +1,8 @@
 using Godot;
 using MegaCrit.Sts2.Core.DevConsole;
 using MegaCrit.Sts2.Core.DevConsole.ConsoleCommands;
+using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
@@ -95,6 +97,24 @@ public class StsTipsConsoleCmd : AbstractConsoleCmd
         var source = IntentVeil.LastShown != null ? "veiled" : "unchanged";
         var tips = shown.Select(t => t is HoverTip tip ? $"[{tip.Title}] {tip.Description}" : t.GetType().Name);
         return new CmdResult(true, $"{source}:\n{string.Join("\n", tips)}");
+    }
+}
+
+public class StsCardsConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_cards";
+    public override string Args => "";
+    public override string Description => "Print the hand's card text as shown in combat, and the deck's text as shown outside it.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (CombatReader.CurrentCombat is not { } combat || LocalContext.GetMe(combat) is not { PlayerCombatState: { } turn } me)
+            return new CmdResult(false, "Not in combat.");
+        var hand = turn.Hand.Cards.Select((c, i) => $"hand {i} {c.Id}: {c.GetDescriptionForPile(PileType.Hand)}");
+        var deck = me.Deck.Cards.Take(1).Select(c => $"deck {c.Id}: {c.GetDescriptionForPile(PileType.Deck)}");
+        return new CmdResult(true, string.Join("\n", hand.Concat(deck)));
     }
 }
 
