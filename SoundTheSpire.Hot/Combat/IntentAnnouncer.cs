@@ -33,9 +33,10 @@ public static class IntentAnnouncer
     {
         if (CombatReader.CurrentCombat is not { } combat || SynthEngine.Instance is not { } engine)
             return false;
-        if (CombatReader.ReadEnemies(combat).FirstOrDefault(e => e.Slot == slot) is not { } enemy)
+        var enemies = CombatReader.ReadEnemies(combat);
+        if (enemies.FirstOrDefault(e => e.Slot == slot) is not { } enemy)
             return false;
-        IntentMotif.Play(engine, enemy);
+        IntentMotif.Play(engine, enemies, enemy);
         return true;
     }
 
@@ -66,8 +67,11 @@ public static class IntentAnnouncer
         {
             if (__state || !__instance.IsFocused || !__instance.Entity.IsEnemy || SynthEngine.Instance is not { } engine)
                 return;
-            if (CombatReader.ReadEnemy(__instance.Entity) is { } enemy)
-                IntentMotif.Play(engine, enemy);
+            if (__instance.Entity.CombatState is not { } combat)
+                return;
+            var enemies = CombatReader.ReadEnemies(combat);
+            if (enemies.FirstOrDefault(e => e.Creature == __instance.Entity) is { } enemy)
+                IntentMotif.Play(engine, enemies, enemy);
         }
     }
 }

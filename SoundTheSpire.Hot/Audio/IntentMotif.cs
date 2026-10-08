@@ -5,21 +5,13 @@ namespace SoundTheSpire.Hot.Audio;
 /// <summary>
 /// One phrase per enemy, left to right, in 4/4 at 120 BPM. Every enemy gets the same number of whole bars
 /// (one by default, more only if some enemy needs it); a phrase shorter than that is padded with rests.
-/// Instrument = which enemy, pan = where it stands, articulation = intent kind, number of strikes = attack hits.
+/// Instrument = which enemy (see <see cref="EnemyVoices"/>), pan = where it stands, articulation = intent kind,
+/// number of strikes = attack hits.
 /// Attacks: the harder they hit, the lower, louder, thicker and longer; light attacks are high, soft and thin.
 /// No percussion in attacks: drums carry no clear pitch, so the damage tier would be lost.
 /// </summary>
 public static class IntentMotif
 {
-    private static readonly int[] EnemyInstruments =
-    {
-        Midi.Program.DistortionGuitar,
-        Midi.Program.BrassSection,
-        Midi.Program.StringEnsemble,
-        Midi.Program.SquareLead,
-        Midi.Program.ChurchOrgan,
-    };
-
     // Per damage tier (the game's attack icon tiers), lightest first.
     private static readonly int[] AttackRoots = { 72, 64, 55, 48, 40 };
     private static readonly int[] AttackVelocities = { 45, 62, 82, 104, 124 };
@@ -54,15 +46,18 @@ public static class IntentMotif
     public static void Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies)
     {
         engine.Stop();
+        EnemyVoices.Assign(enemies);
         var phrases = enemies.Select(e => (Enemy: e, Phrase: Compose(e))).ToList();
         var slot = BarsFor(phrases.Select(p => p.Phrase.Length).DefaultIfEmpty(0).Max()) * BarSeconds;
         for (var i = 0; i < phrases.Count; i++)
             Schedule(engine, i * slot, phrases[i].Enemy, phrases[i].Phrase);
     }
 
-    public static void Play(SynthEngine engine, EnemyInfo enemy)
+    /// <param name="enemies">All living enemies; instruments are ranked across them.</param>
+    public static void Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies, EnemyInfo enemy)
     {
         engine.Stop();
+        EnemyVoices.Assign(enemies);
         Schedule(engine, 0, enemy, Compose(enemy));
     }
 
@@ -82,7 +77,7 @@ public static class IntentMotif
     {
         // Channels 0-7 stay clear of the percussion channel.
         var channel = enemy.Slot % 8;
-        var program = EnemyInstruments[enemy.Slot % EnemyInstruments.Length];
+        var program = EnemyVoices.ProgramOf(enemy);
         var pan = (int)Math.Round(16 + enemy.ScreenX * 95);
         engine.Schedule(start, s =>
         {

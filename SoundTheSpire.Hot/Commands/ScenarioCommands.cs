@@ -16,6 +16,8 @@ using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
 using MegaCrit.Sts2.Core.ValueProps;
+using SoundTheSpire.Hot.Audio;
+using SoundTheSpire.Hot.Combat;
 
 namespace SoundTheSpire.Hot.Commands;
 
@@ -157,11 +159,13 @@ public class StsStateConsoleCmd : AbstractConsoleCmd
             sb.AppendLine($"player {p.Name}: hp {p.CurrentHp}/{p.MaxHp} block {p.Block}");
 
         var players = combat.PlayerCreatures;
+        EnemyVoices.Assign(CombatReader.ReadEnemies(combat));
         var i = 0;
         foreach (var e in combat.Enemies)
         {
             var intents = e.Monster?.NextMove.Intents.Select(intent => DescribeIntent(intent, players, e)) ?? Enumerable.Empty<string>();
-            sb.AppendLine($"enemy {i++} {e.Name}: hp {e.CurrentHp}/{e.MaxHp} block {e.Block} alive {e.IsAlive} move {e.Monster?.NextMove.Id} intents [{string.Join(", ", intents)}]");
+            var voice = e.IsAlive ? EnemyVoices.InstrumentOf(e).Name : "-";
+            sb.AppendLine($"enemy {i++} {e.Name}: hp {e.CurrentHp}/{e.MaxHp} block {e.Block} alive {e.IsAlive} primary {e.IsPrimaryEnemy} voice {voice} move {e.Monster?.NextMove.Id} intents [{string.Join(", ", intents)}]");
         }
         return new CmdResult(true, sb.ToString().TrimEnd());
     }

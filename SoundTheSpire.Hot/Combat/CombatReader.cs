@@ -20,7 +20,8 @@ public readonly record struct IntentInfo(IntentKind Kind, int DamagePerHit = 0, 
 
 /// <param name="Slot">Stable index of the enemy within this combat; does not shift when others die.</param>
 /// <param name="ScreenX">Horizontal screen position, 0 = left edge, 1 = right edge.</param>
-public sealed record EnemyInfo(Creature Creature, int Slot, float ScreenX, IReadOnlyList<IntentInfo> Intents);
+/// <param name="IsPrimary">False for minions and other secondary enemies.</param>
+public sealed record EnemyInfo(Creature Creature, int Slot, float ScreenX, bool IsPrimary, int MaxHp, IReadOnlyList<IntentInfo> Intents);
 
 /// <summary>
 /// Reads what a sighted player can see about the enemies. Everything the sonification knows about combat goes
@@ -39,13 +40,11 @@ public static class CombatReader
         return enemies
             .Select((e, slot) => (Enemy: e, Slot: slot))
             .Where(x => x.Enemy.IsAlive && x.Enemy.Monster != null)
-            .Select(x => new EnemyInfo(x.Enemy, x.Slot, ScreenX(x.Enemy, x.Slot, enemies.Count), ReadIntents(x.Enemy, players)))
+            .Select(x => new EnemyInfo(x.Enemy, x.Slot, ScreenX(x.Enemy, x.Slot, enemies.Count),
+                x.Enemy.IsPrimaryEnemy, x.Enemy.MaxHp, ReadIntents(x.Enemy, players)))
             .OrderBy(e => e.ScreenX)
             .ToList();
     }
-
-    public static EnemyInfo? ReadEnemy(Creature enemy) =>
-        enemy.CombatState is { } combat ? ReadEnemies(combat).FirstOrDefault(e => e.Creature == enemy) : null;
 
     private static List<IntentInfo> ReadIntents(Creature enemy, IReadOnlyList<Creature> players) =>
         enemy.Monster!.NextMove.Intents.Select(intent => Describe(intent, players, enemy)).ToList();
