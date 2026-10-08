@@ -46,3 +46,47 @@ public class StsIntentsConsoleCmd : AbstractConsoleCmd
             : new CmdResult(false, $"No living enemy {index}, or not in combat.");
     }
 }
+
+public class StsScreenshotConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_screenshot";
+    public override string Args => "<path.png>";
+    public override string Description => "Save the current frame as a PNG.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (args.Length == 0)
+            return new CmdResult(false, "Missing output path.");
+        if (Engine.GetMainLoop() is not SceneTree tree)
+            return new CmdResult(false, "No scene tree.");
+        var path = string.Join(" ", args);
+        var error = tree.Root.GetTexture().GetImage().SavePng(path);
+        var window = $"window {DisplayServer.WindowGetMode()}, frames drawn {Engine.GetFramesDrawn()}";
+        return error == Error.Ok ? new CmdResult(true, $"Saved {path} ({window}).") : new CmdResult(false, $"SavePng failed: {error}.");
+    }
+}
+
+public class StsVeilConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_veil";
+    public override string Args => "[on|off]";
+    public override string Description => "Hide enemy intent icons so intents are judged by ear (toggle without argument, also F9).";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        var enabled = args.Length == 0 ? !IntentVeil.Enabled : args[0] switch
+        {
+            "on" => true,
+            "off" => false,
+            _ => (bool?)null,
+        };
+        if (enabled is not { } value)
+            return new CmdResult(false, $"Expected on or off, got '{args[0]}'.");
+        IntentVeil.Set(value);
+        return new CmdResult(true, $"Intent veil {(value ? $"on: {IntentVeil.Apply()}" : "off")}.");
+    }
+}
