@@ -15,6 +15,7 @@ SoundTheSpire 不是"把屏幕读出来"。目标是用多维度的听觉信息�
 ### 敌人意图乐句
 
 - **何时播放**：**每个玩家回合开始**按从左到右顺序播放全部敌人的意图；回合中**选中**某个敌人时播放它的意图（键盘/手柄焦点、鼠标悬停、出牌瞄准都算），会打断正在播放的全员意图。`R` 重听全体。
+- **引子**：全体播放前先有一小节小号 C 调 `1 5`（C5、G5 各一个二分音符，独立通道、居中），表明"接下来是对方的战斗意图"。选中单只不加引子。
 - **每只怪时长相同**：全体播放时每只怪占同样数量的整小节（默认一小节 = 2 秒），乐句从小节开头开始，不足部分用空拍补齐。任何一只怪需要超过一小节（如 10 段攻击），所有怪都一起放宽到同样的小节数。
 - **乐器 = 哪个敌人，电吉他优先给大怪**：按强度排序分配，顺序：失真吉他、铜管、弦乐、方波主音、管风琴。强度 = 主怪优先于随从（游戏的 `IsPrimaryEnemy` / `IsSecondaryEnemy`），再按生命上限从高到低，最后按编号。
   - 一场战斗内乐器固定，其他敌人死亡不会让乐器互换；死亡腾出的乐器给之后新出现的敌人（如分裂出来的史莱姆），新来者之间也按强度排。
@@ -62,7 +63,7 @@ SoundTheSpire 不是"把屏幕读出来"。目标是用多维度的听觉信息�
 SoundTheSpire.dll（常驻加载器，SoundTheSpireCode/）     SoundTheSpire.Hot.dll（可热重载，SoundTheSpire.Hot/）
 ├─ MainFile          mod 入口、依赖解析                    ├─ HotEntry          IHotModule 实现，F8/R 按键
 ├─ Core/MainThread   每帧主线程调度                        ├─ Combat/CombatReader   读取敌人、意图、屏幕位置
-├─ Core/HotModuleHost  加载/替换热模块                     ├─ Combat/IntentAnnouncer 开场/选中触发（Harmony 补丁）
+├─ Core/HotModuleHost  加载/替换热模块                     ├─ Combat/IntentAnnouncer 回合开始/选中触发（Harmony 补丁）
 ├─ Core/ConsoleRegistry 把热模块命令注入控制台             ├─ Audio/IntentMotif   意图 → 音符
 ├─ Core/DebugBridge  127.0.0.1:47800 外部命令（DEBUG）     ├─ Audio/Midi, SoundTest
 ├─ Audio/SynthEngine MeltySynth → Godot 音频流（独立线程） └─ Commands/           场景与试听命令
