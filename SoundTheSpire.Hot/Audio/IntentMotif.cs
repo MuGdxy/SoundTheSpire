@@ -55,9 +55,9 @@ public static class IntentMotif
             Schedule(engine, start + i * slot, phrases[i].Enemy, phrases[i].Phrase);
     }
 
-    // Do-sol (C5, G5) on trumpet, a half note each; on its own channel, centered.
+    // Do (quarter) - sol (dotted half) on trumpet, C5 and G5, filling one bar; on its own channel, centered.
     private const int IntroChannel = 8;
-    private static readonly int[] IntroKeys = { 72, 79 };
+    private static readonly (int Key, double Bars)[] IntroNotes = { (72, 0.25), (79, 0.75) };
 
     private static double PlayIntro(SynthEngine engine)
     {
@@ -66,10 +66,14 @@ public static class IntentMotif
             s.SetProgram(IntroChannel, Midi.Program.Trumpet);
             s.SetPan(IntroChannel, 64);
         });
-        var half = BarSeconds / IntroKeys.Length;
-        for (var i = 0; i < IntroKeys.Length; i++)
-            engine.Chord(i * half, half * 0.9, IntroChannel, 100, IntroKeys[i]);
-        return BarSeconds;
+        var t = 0.0;
+        foreach (var (key, bars) in IntroNotes)
+        {
+            var length = bars * BarSeconds;
+            engine.Chord(t, length * 0.95, IntroChannel, 100, key);
+            t += length;
+        }
+        return t;
     }
 
     /// <param name="enemies">All living enemies; instruments are ranked across them.</param>
