@@ -46,7 +46,7 @@ public static class ListeningTutorial
     private const int GiantAttack = 30;
 
     private const string ListenText =
-        "四只怪，每只都有自己的声音。\n" +
+        "每只怪都有自己的声音。\n" +
         "音高好像代表了什么？";
     private const string ChangeText =
         "最后那段和弦又响了。\n" +

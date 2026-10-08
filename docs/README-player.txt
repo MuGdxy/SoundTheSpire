@@ -7,6 +7,12 @@ Sound the Spire —— 用耳朵玩《杀戮尖塔 2》
 
 【安装】
 
+一键安装（推荐）：在发布页 https://github.com/MuGdxy/SoundTheSpire/releases 下载 install.bat，双击运行。
+它会自动找到游戏、下载最新版并装好；以后再运行一次就是更新。
+也可以在 PowerShell 里粘贴：
+   irm https://raw.githubusercontent.com/MuGdxy/SoundTheSpire/main/scripts/install.ps1 | iex
+
+手动安装：
 1. 打开游戏目录：Steam 库里右键《杀戮尖塔 2》→ 管理 → 浏览本地文件。
 2. 如果没有 mods 文件夹，新建一个。
 3. 把压缩包里的 SoundTheSpire 文件夹整个放进 mods，变成：
