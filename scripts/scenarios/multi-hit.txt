@@ -1,4 +1,4 @@
-# Multi-hit riff (1xx1xx1x) on enemy 0 with 2, 3, 4, 6 and 8 hits, then a light and a heavy 4-hit. Needs a combat open.
+# Multi-hit riffs on enemy 0 for 2..10 hits, then 12 (bar + remainder) and a light vs heavy 4-hit. Needs a combat open.
 wait combat
 sts_intent 0 attack 5 2
 sts_intents 0
@@ -8,15 +8,30 @@ sts_intents 0
 sleep 1.5
 sts_intent 0 attack 5 4
 sts_intents 0
+sleep 1.8
+sts_intent 0 attack 5 5
+sts_intents 0
 sleep 2
-sts_intent 0 attack 3 6
+sts_intent 0 attack 5 6
+sts_intents 0
+sleep 1.8
+sts_intent 0 attack 5 7
 sts_intents 0
 sleep 2.5
-sts_intent 0 attack 2 8
+sts_intent 0 attack 5 8
 sts_intents 0
-sleep 3
+sleep 2.6
+sts_intent 0 attack 5 9
+sts_intents 0
+sleep 2.2
+sts_intent 0 attack 5 10
+sts_intents 0
+sleep 3.2
+sts_intent 0 attack 3 12
+sts_intents 0
+sleep 3.6
 sts_intent 0 attack 1 4
 sts_intents 0
-sleep 2
+sleep 1.8
 sts_intent 0 attack 12 4
 sts_intents 0

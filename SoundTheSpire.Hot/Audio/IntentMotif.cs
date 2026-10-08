@@ -25,10 +25,30 @@ public static class IntentMotif
 
     private const double GapBetweenEnemies = 0.3;
 
-    private const string RiffPattern = "1xx1xx1x";
-    private const double RiffBpm = 120;
-    private const double RiffStepSeconds = 60.0 / RiffBpm / 2;
-    private const double DoubleHitGap = RiffStepSeconds;
+    // 4/4 at 120 BPM; a multi-hit attack should take about one bar.
+    private const double BeatSeconds = 60.0 / 120;
+    private const int Eighths = 2;
+    private const int Triplets = 3;
+    private const int FullBarHits = 8;
+
+    /// <summary>
+    /// Riff per hit count. '1' = open strum, 'x' = palm-muted chug, spaces only group by ear;
+    /// <c>StepsPerBeat</c> is the grid (eighth notes or eighth-note triplets).
+    /// </summary>
+    private static readonly Dictionary<int, (string Pattern, int StepsPerBeat)> Riffs = new()
+    {
+        [1] = ("1", Eighths),
+        [2] = ("11", Eighths),
+        [3] = ("1xx", Triplets),
+        [4] = ("1xxx", Eighths),
+        [5] = ("1xxx 1", Eighths),
+        [6] = ("1xx 1xx", Triplets),
+        [7] = ("1xx1 xx1", Eighths),
+        [8] = ("1xx1 xx1x", Eighths),
+        [9] = ("1xx 1xx 1xx", Triplets),
+        [10] = ("1xx1 xx1x 11", Eighths),
+    };
+
     private const int PalmMuteVelocityDrop = 20;
     private const double StrumSpread = 0.008;
 
@@ -117,26 +137,31 @@ public static class IntentMotif
     }
 
     /// <summary>
-    /// Multi-hit attacks as a power-chord riff, one strike per hit on an even grid, following
-    /// <see cref="RiffPattern"/> ('1' = open strum, 'x' = palm-muted chug): 3 hits = 1xx triplet, 4 = 1xx1, ...
-    /// A double hit is two open strums so it can't be mistaken for the start of a longer riff.
+    /// Multi-hit attacks as a power-chord riff from <see cref="Riffs"/>, one strike per hit, each lasting a full step.
+    /// Above the table, full 8-hit bars are played first and the remainder uses its own riff.
     /// </summary>
     private static double PlayRiff(SynthEngine engine, double t, int channel, int velocity, int hits, int[] keys)
     {
-        if (hits == 2)
+        var maxInTable = Riffs.Keys.Max();
+        while (hits > maxInTable)
         {
-            engine.Strum(t, DoubleHitGap, channel, velocity, StrumSpread, keys);
-            engine.Strum(t + DoubleHitGap, DoubleHitGap, channel, velocity, StrumSpread, keys);
-            return t + DoubleHitGap * 2 + 0.15;
+            t = PlayPattern(engine, t, channel, velocity, keys, Riffs[FullBarHits]);
+            hits -= FullBarHits;
         }
+        return PlayPattern(engine, t, channel, velocity, keys, Riffs[hits]) + 0.15;
+    }
 
-        for (var h = 0; h < hits; h++)
+    private static double PlayPattern(SynthEngine engine, double t, int channel, int velocity, int[] keys,
+        (string Pattern, int StepsPerBeat) riff)
+    {
+        var step = BeatSeconds / riff.StepsPerBeat;
+        foreach (var strike in riff.Pattern.Where(c => c != ' '))
         {
-            var open = RiffPattern[h % RiffPattern.Length] == '1';
-            var strikeVelocity = open ? velocity : Math.Max(1, velocity - PalmMuteVelocityDrop);
-            engine.Strum(t + h * RiffStepSeconds, RiffStepSeconds, channel, strikeVelocity, StrumSpread, keys);
+            var strikeVelocity = strike == '1' ? velocity : Math.Max(1, velocity - PalmMuteVelocityDrop);
+            engine.Strum(t, step, channel, strikeVelocity, StrumSpread, keys);
+            t += step;
         }
-        return t + hits * RiffStepSeconds + 0.15;
+        return t;
     }
 
     private static double Arpeggio(SynthEngine engine, double t, int channel, int velocity, params int[] keys)
