@@ -1,5 +1,7 @@
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using SoundTheSpire.Hot.Audio;
 
 namespace SoundTheSpire.Hot.Combat;
@@ -10,11 +12,22 @@ namespace SoundTheSpire.Hot.Combat;
 /// changes, even within the same tier, so every change is heard. Any cause counts: more block, an attacker killed,
 /// Weak applied, an intent changed, an attack card switching Ripple Basin off. Clearing the whole fight is a victory,
 /// so it stays silent.
+/// <para>
+/// A card or potion is judged as a whole, from leaving the hand to the end of its effect: if it lowered the damage
+/// that gets through, the status before and the status after play as a transition; if it raised it, the new status
+/// plays alone.
+/// </para>
 /// </summary>
 public static class DefenseMonitor
 {
+    private readonly record struct Defense(int Block, int Incoming)
+    {
+        public int Hurt => Math.Max(0, Incoming - Block);
+    }
+
     private static ICombatState? _combat;
-    private static int _hurt;
+    private static Defense _last;
+    private static Defense? _beforePlay;
 
     public static void Poll()
     {
@@ -23,18 +36,37 @@ public static class DefenseMonitor
             _combat = null;
             return;
         }
-        if (LocalContext.GetMe(combat)?.Creature is not { } me || !combat.Enemies.Any(e => e.IsAlive))
+        if (LocalContext.GetMe(combat)?.Creature is not { Player: { } player } me || !combat.Enemies.Any(e => e.IsAlive))
             return;
 
-        var incoming = CombatReader.IncomingDamage(combat);
-        var block = PassiveDefense.ProjectedBlock(combat, me);
-        var hurt = Hurt(block, incoming);
-        if (hurt != _hurt && SynthEngine.Instance is { } engine)
+        var now = new Defense(PassiveDefense.ProjectedBlock(combat, me), CombatReader.IncomingDamage(combat));
+        if (IsPlaying(player))
         {
-            MainFile.Logger.Info($"Defense hurt {_hurt} -> {hurt} (tier {BlockMotif.HurtTier(block, incoming)}): {PassiveDefense.Describe(combat, me)}, incoming {incoming}");
-            BlockMotif.PlayStatus(engine, block, incoming);
+            _beforePlay ??= _last;
+            _last = now;
+            return;
         }
-        _hurt = hurt;
+
+        var engine = SynthEngine.Instance;
+        if (_beforePlay is { } before)
+        {
+            _beforePlay = null;
+            _last = before;
+            if (now.Hurt < before.Hurt && engine != null)
+            {
+                MainFile.Logger.Info($"Defense improved by play: hurt {before.Hurt} -> {now.Hurt}: {PassiveDefense.Describe(combat, me)}, incoming {now.Incoming}");
+                BlockMotif.PlayTransition(engine, before.Block, before.Incoming, now.Block, now.Incoming);
+                _last = now;
+                return;
+            }
+        }
+
+        if (now.Hurt != _last.Hurt && engine != null)
+        {
+            MainFile.Logger.Info($"Defense hurt {_last.Hurt} -> {now.Hurt} (tier {BlockMotif.HurtTier(now.Block, now.Incoming)}): {PassiveDefense.Describe(combat, me)}, incoming {now.Incoming}");
+            BlockMotif.PlayStatus(engine, now.Block, now.Incoming);
+        }
+        _last = now;
     }
 
     /// <summary>
@@ -46,8 +78,11 @@ public static class DefenseMonitor
         if (LocalContext.GetMe(combat)?.Creature is not { } me)
             return;
         _combat = combat;
-        _hurt = Hurt(PassiveDefense.ProjectedBlock(combat, me), CombatReader.IncomingDamage(combat));
+        _beforePlay = null;
+        _last = new Defense(PassiveDefense.ProjectedBlock(combat, me), CombatReader.IncomingDamage(combat));
     }
 
-    private static int Hurt(int block, int incoming) => Math.Max(0, incoming - block);
+    /// <summary>A card sits in the play pile from leaving the hand until it resolves; potions only run an effect.</summary>
+    private static bool IsPlaying(Player player) =>
+        CombatManager.Instance.IsExecutingCardOrPotionEffect(player) || PileType.Play.GetPile(player).Cards.Count > 0;
 }

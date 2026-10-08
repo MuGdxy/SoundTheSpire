@@ -42,6 +42,14 @@ public static class BlockMotif
         ScheduleStatus(engine, 0, block, incoming);
     }
 
+    /// <summary>The status before, then the status after, one bar each: a card that improved the defense.</summary>
+    public static void PlayTransition(SynthEngine engine, int fromBlock, int fromIncoming, int toBlock, int toIncoming)
+    {
+        engine.Stop();
+        ScheduleStatus(engine, 0, fromBlock, fromIncoming);
+        ScheduleStatus(engine, BarSeconds, toBlock, toIncoming);
+    }
+
     /// <summary>One bar starting at <paramref name="at"/> describing the defense against this turn's attacks.</summary>
     public static void ScheduleStatus(SynthEngine engine, double at, int block, int incoming)
     {

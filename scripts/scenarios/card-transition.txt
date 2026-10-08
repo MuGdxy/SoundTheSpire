@@ -1,0 +1,25 @@
+# A card that improves the defense plays a transition: status before, then status after. Ironclad starter deck.
+# Starts a fresh SLIMES_WEAK fight in the current run; sts_state lists the hand.
+fight SLIMES_WEAK
+wait combat
+sleep 6
+sts_intent all attack 4
+sleep 2.5
+sts_state
+card DEFEND_IRONCLAD
+sts_state
+# Incoming 12. Defend (5 block): hurt 12 -> 7, transition tier 3 -> tier 2.
+sts_play 5
+sleep 5
+# Another Defend: hurt 7 -> 2, transition tier 2 -> tier 1.
+card DEFEND_IRONCLAD
+sts_play 5
+sleep 5
+# A Strike that kills an attacker also improves the defense (hurt 2 -> 0): transition tier 1 -> resolved.
+card STRIKE_IRONCLAD
+sts_play 5 0
+sleep 5
+# Hurt is already 0: more block changes nothing, silent.
+block 2
+sleep 2.5
+sts_state

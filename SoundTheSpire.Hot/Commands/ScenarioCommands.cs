@@ -138,6 +138,35 @@ public class StsIntentConsoleCmd : AbstractConsoleCmd
 }
 
 /// <summary>Ends the local player's turn, as the End Turn button does.</summary>
+public class StsPlayConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_play";
+    public override string Args => "<hand_index> [enemy_index]";
+    public override string Description => "Play a card from hand as if clicked (indices as in sts_state).";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (CombatReader.CurrentCombat is not { } combat || LocalContext.GetMe(combat) is not { PlayerCombatState: { } turn })
+            return new CmdResult(false, "Not in combat.");
+        var hand = turn.Hand.Cards;
+        if (args.Length == 0 || !int.TryParse(args[0], out var index) || index < 0 || index >= hand.Count)
+            return new CmdResult(false, $"Bad hand index, hand has {hand.Count} cards.");
+        Creature? target = null;
+        if (args.Length > 1)
+        {
+            if (!int.TryParse(args[1], out var enemy) || enemy < 0 || enemy >= combat.Enemies.Count)
+                return new CmdResult(false, $"Bad enemy index '{args[1]}'.");
+            target = combat.Enemies[enemy];
+        }
+        var card = hand[index];
+        return card.TryManualPlay(target)
+            ? new CmdResult(true, $"Playing {card.Id}.")
+            : new CmdResult(false, $"{card.Id} can't be played on that target.");
+    }
+}
+
 public class StsEndTurnConsoleCmd : AbstractConsoleCmd
 {
     public override string CmdName => "sts_endturn";
@@ -179,6 +208,8 @@ public class StsStateConsoleCmd : AbstractConsoleCmd
             sb.AppendLine($"player {p.Name}: hp {p.CurrentHp}/{p.MaxHp} block {p.Block}");
         if (LocalContext.GetMe(combat)?.Creature is { } me)
             sb.AppendLine($"defense at end of turn: {PassiveDefense.Describe(combat, me)}, incoming {CombatReader.IncomingDamage(combat)}");
+        if (LocalContext.GetMe(combat)?.PlayerCombatState is { } turn)
+            sb.AppendLine($"hand: {string.Join(", ", turn.Hand.Cards.Select((c, i) => $"{i} {c.Id}"))}");
 
         var players = combat.PlayerCreatures;
         EnemyVoices.Assign(CombatReader.ReadEnemies(combat));
