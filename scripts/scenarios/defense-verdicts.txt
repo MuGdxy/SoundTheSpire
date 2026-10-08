@@ -1,0 +1,24 @@
+# Every change of the defense verdict plays the new status phrase. Starts a fresh SLIMES_WEAK fight in the current run.
+fight SLIMES_WEAK
+wait combat
+sleep 6
+sts_intent 0 attack 4
+sts_intent 1 attack 8
+sts_intent 2 attack 10
+sleep 2
+# Undefended -> Partial (5 of 22): sus4 left hanging.
+block 5
+sleep 2.5
+# Partial -> Resolved (25 of 22): sus4 -> C major.
+block 20
+sleep 2.5
+# Resolved -> Partial (25 of 44): the intent got heavier.
+sts_intent 1 attack 30
+sleep 2.5
+# Partial -> Resolved (25 of 14): attacker killed.
+kill 1
+sleep 2.5
+# Still resolved: no phrase.
+block 5
+sleep 1
+sts_state

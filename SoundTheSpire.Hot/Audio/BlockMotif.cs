@@ -3,11 +3,13 @@ namespace SoundTheSpire.Hot.Audio;
 /// <summary>
 /// The defensive side, on piano in C like the intent intro. Block gains themselves already have the game's own sound.
 /// <list type="bullet">
-/// <item>Resolved (block covers incoming): sus4 → C major. Also played live by <see cref="Combat.DefenseMonitor"/>.</item>
+/// <item>Resolved (block covers incoming): sus4 → C major.</item>
 /// <item>Partly covered: sus4 left hanging.</item>
 /// <item>No block at all against an attack: a dissonant phrase.</item>
 /// <item>No incoming attack: C major alone.</item>
 /// </list>
+/// The turn summary ends with one of these, and <see cref="Combat.DefenseMonitor"/> plays the new one whenever the
+/// verdict changes during the turn.
 /// </summary>
 public static class BlockMotif
 {
@@ -20,25 +22,31 @@ public static class BlockMotif
     private static readonly int[] Clash = { 60, 61, 66 };        // C Db Gb
     private static readonly int[] ClashAfter = { 59, 60, 65 };   // B C F
 
-    public static void PlayResolved(SynthEngine engine)
+    public enum Verdict { Resolved, Partial, Undefended }
+
+    public static Verdict Judge(int block, int incoming) =>
+        block >= incoming ? Verdict.Resolved : block > 0 ? Verdict.Partial : Verdict.Undefended;
+
+    public static void PlayStatus(SynthEngine engine, int block, int incoming)
     {
         engine.Stop();
-        ScheduleResolved(engine, 0);
+        ScheduleStatus(engine, 0, block, incoming);
     }
 
     /// <summary>One bar starting at <paramref name="at"/> describing the defense against this turn's attacks.</summary>
     public static void ScheduleStatus(SynthEngine engine, double at, int block, int incoming)
     {
+        var verdict = Judge(block, incoming);
         if (incoming <= 0)
         {
             Setup(engine, at);
             engine.Chord(at, BeatSeconds * 3, Channel, 70, Resolved);
         }
-        else if (block >= incoming)
+        else if (verdict == Verdict.Resolved)
         {
             ScheduleResolved(engine, at);
         }
-        else if (block > 0)
+        else if (verdict == Verdict.Partial)
         {
             Setup(engine, at);
             engine.Chord(at, BeatSeconds * 3, Channel, 80, Suspended);
