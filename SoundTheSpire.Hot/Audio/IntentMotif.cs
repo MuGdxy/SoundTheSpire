@@ -25,6 +25,12 @@ public static class IntentMotif
 
     private const double GapBetweenEnemies = 0.3;
 
+    private static readonly int[] RiffStrikes = { 0, 3, 6 };
+    private const int RiffCycleSteps = 8;
+    private const double RiffStepSeconds = 0.09;
+    private const double PalmMuteSeconds = 0.07;
+    private const double StrumSpread = 0.008;
+
     public static void Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies)
     {
         engine.Stop();
@@ -106,9 +112,27 @@ public static class IntentMotif
             engine.Chord(t, duration, channel, velocity, keys);
             return t + duration + 0.1;
         }
+        return PlayRiff(engine, t, channel, velocity, hits, keys.Length >= 2 ? keys : new[] { root, root + 7 });
+    }
+
+    /// <summary>
+    /// Multi-hit attacks as a power-chord riff on the 1xx1xx1x grid (strikes on steps 0, 3, 6 of 8):
+    /// the first strike is an open strum that rings, the rest are palm-muted chugs.
+    /// </summary>
+    private static double PlayRiff(SynthEngine engine, double t, int channel, int velocity, int hits, int[] keys)
+    {
+        var lastStep = 0;
         for (var h = 0; h < hits; h++)
-            engine.Chord(t + h * 0.16, 0.12, channel, velocity, keys);
-        return t + hits * 0.16 + 0.15;
+        {
+            var step = h / RiffStrikes.Length * RiffCycleSteps + RiffStrikes[h % RiffStrikes.Length];
+            var at = t + step * RiffStepSeconds;
+            if (h == 0)
+                engine.Strum(at, RiffStrikes[1] * RiffStepSeconds, channel, velocity, StrumSpread, keys);
+            else
+                engine.Strum(at, PalmMuteSeconds, channel, Math.Max(1, velocity - 8), StrumSpread, keys);
+            lastStep = step;
+        }
+        return t + (lastStep + 2) * RiffStepSeconds + 0.15;
     }
 
     private static double Arpeggio(SynthEngine engine, double t, int channel, int velocity, params int[] keys)

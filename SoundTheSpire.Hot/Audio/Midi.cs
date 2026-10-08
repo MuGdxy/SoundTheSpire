@@ -42,4 +42,12 @@ public static class Midi
                 s.NoteOff(channel, key);
         });
     }
+
+    /// <summary>Downstroke: keys sound low to high, <paramref name="spread"/> seconds apart.</summary>
+    public static void Strum(this SynthEngine engine, double at, double duration, int channel, int velocity, double spread, params int[] keys)
+    {
+        var ordered = keys.Order().ToArray();
+        for (var k = 0; k < ordered.Length; k++)
+            engine.Chord(at + k * spread, duration, channel, velocity, ordered[k]);
+    }
 }
