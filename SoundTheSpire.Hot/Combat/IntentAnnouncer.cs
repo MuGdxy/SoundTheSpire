@@ -6,9 +6,9 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Nodes.Combat;
-using SoundTheSpire.SoundTheSpireCode.Audio;
+using SoundTheSpire.Hot.Audio;
 
-namespace SoundTheSpire.SoundTheSpireCode.Combat;
+namespace SoundTheSpire.Hot.Combat;
 
 /// <summary>
 /// The whole enemy line-up plays once when combat opens; after that an enemy's intent plays when it is selected

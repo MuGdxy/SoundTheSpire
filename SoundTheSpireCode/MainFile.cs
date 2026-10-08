@@ -4,12 +4,14 @@ using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
 using SoundTheSpire.SoundTheSpireCode.Audio;
-using SoundTheSpire.SoundTheSpireCode.Combat;
 using SoundTheSpire.SoundTheSpireCode.Core;
 
 namespace SoundTheSpire.SoundTheSpireCode;
 
-//You're recommended but not required to keep all your code in this package and all your assets in the SoundTheSpire folder.
+/// <summary>
+/// Resident half of the mod: main-thread pump, synthesizer, debug bridge and the hot-module host.
+/// Gameplay sonification lives in SoundTheSpire.Hot and can be reloaded with sts_reload.
+/// </summary>
 [ModInitializer(nameof(Initialize))]
 public partial class MainFile : Node
 {
@@ -31,9 +33,6 @@ public partial class MainFile : Node
             return File.Exists(path) ? context.LoadFromAssemblyPath(path) : null;
         };
 
-        //If you want to use scripts defined in your mod for Godot scenes, uncomment the following line.
-        //Godot.Bridge.ScriptManagerBridge.LookupScriptsInAssembly(assembly);
-     
         Harmony harmony = new(ModId);
 
         harmony.PatchAll(assembly);
@@ -41,6 +40,14 @@ public partial class MainFile : Node
         var tree = (SceneTree)Engine.GetMainLoop();
         MainThread.Install(tree);
         StartAudio(tree);
+        try
+        {
+            HotModuleHost.Load();
+        }
+        catch (Exception e)
+        {
+            Logger.Error($"Hot module failed to load: {e}");
+        }
 #if DEBUG
         DebugBridge.Start();
 #endif
@@ -61,18 +68,6 @@ public partial class MainFile : Node
 
         var started = DateTime.UtcNow;
         var engine = SynthEngine.Create(soundFont, tree.Root);
-        MainThread.Frame += PollTestHotkey;
-        MainThread.Frame += IntentAnnouncer.PollReplayKey;
         Logger.Info($"Synth engine ready at {engine.SampleRate} Hz in {(DateTime.UtcNow - started).TotalMilliseconds:F0} ms");
-    }
-
-    private static bool _testKeyWasDown;
-
-    private static void PollTestHotkey()
-    {
-        var down = Input.IsKeyPressed(Key.F8);
-        if (down && !_testKeyWasDown && SynthEngine.Instance is { } engine)
-            SoundTest.Play(engine);
-        _testKeyWasDown = down;
     }
 }

@@ -1,4 +1,4 @@
-namespace SoundTheSpire.SoundTheSpireCode.Audio;
+namespace SoundTheSpire.Hot.Audio;
 
 /// <summary>Spike: three timbres at three pan positions, to check quality, polyphony, panning and latency.</summary>
 public static class SoundTest

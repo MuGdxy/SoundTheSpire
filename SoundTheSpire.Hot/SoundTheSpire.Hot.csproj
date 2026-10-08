@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <!--
+      Hot-reloadable half of the mod. Compiled against the loader that is deployed in the mods folder (the one the
+      running game has loaded), so a loader API change fails here instead of at runtime.
+      Build + reload into a running game: scripts/hot.ps1
+    -->
+    <Import Project="..\Sts2PathDiscovery.props"/>
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>true</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <NoWarn>$(NoWarn);MSB3270</NoWarn>
+        <ModFolder>$(ModsPath)SoundTheSpire/</ModFolder>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="0Harmony" HintPath="$(Sts2DataDir)/0Harmony.dll" Private="false"/>
+        <Reference Include="sts2" HintPath="$(Sts2DataDir)/sts2.dll" Private="false"/>
+        <Reference Include="GodotSharp" HintPath="$(Sts2DataDir)/GodotSharp.dll" Private="false"/>
+        <Reference Include="SoundTheSpire" HintPath="$(ModFolder)SoundTheSpire.dll" Private="false"/>
+        <Reference Include="MeltySynth" HintPath="$(ModFolder)MeltySynth.dll" Private="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Using Include="SoundTheSpire.SoundTheSpireCode"/>
+        <Using Include="SoundTheSpire.SoundTheSpireCode.Audio"/>
+        <Using Include="SoundTheSpire.SoundTheSpireCode.Core"/>
+    </ItemGroup>
+
+    <Target Name="CheckLoaderDeployed" BeforeTargets="ResolveAssemblyReferences">
+        <Error Condition="!Exists('$(ModFolder)SoundTheSpire.dll')"
+               Text="Loader not deployed at $(ModFolder); build SoundTheSpire.csproj first (scripts/dev-restart.ps1)."/>
+    </Target>
+
+    <Target Name="CopyHotModuleToModsFolder" AfterTargets="PostBuildEvent">
+        <Copy SourceFiles="$(TargetPath);$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModFolder)"/>
+    </Target>
+</Project>

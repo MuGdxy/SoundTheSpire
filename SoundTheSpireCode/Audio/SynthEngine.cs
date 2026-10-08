@@ -78,6 +78,16 @@ public sealed class SynthEngine
         }
     }
 
+    /// <summary>Like <see cref="Stop"/>, and also restores programs, pans and controllers to their defaults.</summary>
+    public void Reset()
+    {
+        lock (_lock)
+        {
+            _events.Clear();
+            _synth.Reset();
+        }
+    }
+
     private void OnPlayerReady()
     {
         _player.Play();

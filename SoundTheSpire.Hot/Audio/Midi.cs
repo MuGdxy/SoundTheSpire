@@ -1,6 +1,6 @@
 using MeltySynth;
 
-namespace SoundTheSpire.SoundTheSpireCode.Audio;
+namespace SoundTheSpire.Hot.Audio;
 
 public static class Midi
 {

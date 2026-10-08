@@ -2,7 +2,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 
-namespace SoundTheSpire.SoundTheSpireCode.Combat;
+namespace SoundTheSpire.Hot.Combat;
 
 public enum IntentKind
 {

@@ -20,7 +20,7 @@ $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
 while ((Get-Date) -lt $deadline) {
     Start-Sleep -Seconds 2
     try {
-        $out = & $sts sts_state -ErrorAction Stop
+        $out = & $sts sts_status -ErrorAction Stop
     } catch {
         continue
     }

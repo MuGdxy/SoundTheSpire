@@ -7,7 +7,7 @@ namespace SoundTheSpire.SoundTheSpireCode.Core;
 /// Runs work on Godot's main thread once per frame. Game state, Godot nodes and the synthesizer
 /// must only be touched from the main thread.
 /// </summary>
-internal static class MainThread
+public static class MainThread
 {
     private static readonly ConcurrentQueue<Action> Pending = new();
 

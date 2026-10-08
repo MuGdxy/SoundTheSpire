@@ -17,7 +17,7 @@ using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
 using MegaCrit.Sts2.Core.ValueProps;
 
-namespace SoundTheSpire.SoundTheSpireCode.Commands;
+namespace SoundTheSpire.Hot.Commands;
 
 /// <summary>Starts an unsaved singleplayer run straight from the main menu.</summary>
 public class StsRunConsoleCmd : AbstractConsoleCmd

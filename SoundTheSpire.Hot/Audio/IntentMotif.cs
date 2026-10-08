@@ -1,6 +1,6 @@
-using SoundTheSpire.SoundTheSpireCode.Combat;
+using SoundTheSpire.Hot.Combat;
 
-namespace SoundTheSpire.SoundTheSpireCode.Audio;
+namespace SoundTheSpire.Hot.Audio;
 
 /// <summary>
 /// One phrase per enemy, left to right. Instrument = which enemy, pan = where it stands,
