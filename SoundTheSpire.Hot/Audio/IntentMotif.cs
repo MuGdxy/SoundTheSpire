@@ -68,11 +68,15 @@ public static class IntentMotif
             s.SetProgram(IntroChannel, Midi.Program.Trumpet);
             s.SetPan(IntroChannel, 64);
         });
+        // Legato: each note runs slightly into the next; only the last one leaves a breath before the line-up.
+        const double overlap = 0.06;
         var t = 0.0;
-        foreach (var (key, bars) in IntroNotes)
+        for (var i = 0; i < IntroNotes.Length; i++)
         {
+            var (key, bars) = IntroNotes[i];
             var length = bars * BarSeconds;
-            engine.Chord(t, length * 0.95, IntroChannel, 100, key);
+            var sounding = i < IntroNotes.Length - 1 ? length + overlap : length * 0.95;
+            engine.Chord(t, sounding, IntroChannel, 100, key);
             t += length;
         }
         return t;
