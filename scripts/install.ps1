@@ -75,13 +75,10 @@ $work = Join-Path ([IO.Path]::GetTempPath()) ("SoundTheSpire-" + [guid]::NewGuid
 New-Item -ItemType Directory -Path $work | Out-Null
 try {
     if (-not $ZipPath) {
-        Write-Host "正在查询最新版本……"
-        $release = Invoke-RestMethod "https://api.github.com/repos/$Repo/releases/latest" -Headers @{ "User-Agent" = "SoundTheSpire-installer" }
-        $asset = $release.assets | Where-Object { $_.name -like "SoundTheSpire-*.zip" } | Select-Object -First 1
-        if (-not $asset) { throw "最新发布（$($release.tag_name)）里没有安装包。" }
-        $ZipPath = Join-Path $work $asset.name
-        Write-Host "正在下载 $($asset.name)（$([math]::Round($asset.size / 1MB, 1)) MB）……"
-        Invoke-WebRequest $asset.browser_download_url -OutFile $ZipPath -UseBasicParsing
+        $ZipPath = Join-Path $work "SoundTheSpire-latest.zip"
+        $downloadUrl = "https://github.com/$Repo/releases/latest/download/SoundTheSpire-latest.zip"
+        Write-Host "正在下载最新版本……"
+        Invoke-WebRequest $downloadUrl -OutFile $ZipPath -UseBasicParsing
     }
     $extract = Join-Path $work "extract"
     Expand-Archive -Path $ZipPath -DestinationPath $extract

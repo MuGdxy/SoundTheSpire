@@ -25,5 +25,7 @@ Copy-Item (Join-Path $root "docs/README-player.txt") (Join-Path $mod "README.txt
 $zip = Join-Path $dist "SoundTheSpire-$version.zip"
 if (Test-Path $zip) { Remove-Item $zip }
 Compress-Archive -Path $mod -DestinationPath $zip
+$latestZip = Join-Path $dist "SoundTheSpire-latest.zip"
+Copy-Item $zip $latestZip -Force
 Write-Host "Packaged: $zip ($([math]::Round((Get-Item $zip).Length / 1MB, 1)) MB)"
 Get-ChildItem -Recurse $mod | ForEach-Object { "  " + $_.FullName.Substring($stage.Length + 1) }

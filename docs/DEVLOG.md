@@ -175,7 +175,7 @@ SoundTheSpire.dll（常驻加载器，SoundTheSpireCode/）     SoundTheSpire.Ho
 | 改了热模块（`SoundTheSpire.Hot/`） | `.\scripts\hot.ps1 [-Then cmd, ...]`（约 3.5 秒，不离开当前战斗） |
 | 发送单条控制台命令 | `.\scripts\sts.ps1 <命令>` |
 | 跑场景脚本 | `.\scripts\scenario.ps1 scripts\scenarios\<文件>.txt` |
-| 发布 | 先 `package.ps1`，推送后 `gh release create <版本> dist\SoundTheSpire-<版本>.zip scripts\install.bat`。玩家双击 `install.bat`（或 `irm …/scripts/install.ps1 \| iex`）：自动找游戏（注册表 + Steam 库列表）、下载最新发布、覆盖安装；`install.ps1 -Uninstall` 卸载，`-ZipPath` / `-GamePath` 用于本地测试。脚本不能带 BOM（经 `irm` 取回后 BOM 会变成第一行前的多余命令，报 `?#` 错）；PowerShell 5 读无 BOM 本地文件按 ANSI，所以本地测试用 `& ([scriptblock]::Create((Get-Content -Raw -Encoding UTF8 .\scripts\install.ps1))) -GamePath …`。仓库首页 `README.md` 放安装命令 |
+| 发布 | 先 `package.ps1`，推送后 `gh release create <版本> dist\SoundTheSpire-<版本>.zip dist\SoundTheSpire-latest.zip scripts\install.bat`。每个最新发布都必须带固定名 `SoundTheSpire-latest.zip`；安装器直接下载 `/releases/latest/download/SoundTheSpire-latest.zip`，不调用会触发匿名限流的 GitHub API。玩家双击 `install.bat`（或 `irm …/scripts/install.ps1 \| iex`）：自动找游戏（注册表 + Steam 库列表）、下载最新发布、覆盖安装；`install.ps1 -Uninstall` 卸载，`-ZipPath` / `-GamePath` 用于本地测试。脚本不能带 BOM（经 `irm` 取回后 BOM 会变成第一行前的多余命令，报 `?#` 错）；PowerShell 5 读无 BOM 本地文件按 ANSI，所以本地测试用 `& ([scriptblock]::Create((Get-Content -Raw -Encoding UTF8 .\scripts\install.ps1))) -GamePath …`。仓库首页 `README.md` 放安装命令 |
 | 创意工坊 | 官方上传工具 [megacrit/sts2-mod-uploader](https://github.com/megacrit/sts2-mod-uploader) 解压到 `tools\ModUploader`（不入库）。`.\scripts\workshop.ps1` 打包并把 `dist/stage/SoundTheSpire` 拷到 `workshop/content`，列出将上传的内容；加 `-Upload` 才真正上传（需 Steam 已登录发布账号）。标题、描述（BBCode）、可见性、更新说明在 `workshop/workshop.json`，预览图 `workshop/image.png` 须小于 1 MB。第一次上传创建物品并写 `workshop/mod_id.txt`，要提交，之后上传就是更新。游戏从 `steamapps\workshop\content\2868840\<id>` 加载订阅的模组；本地 `mods\` 里同 id 的模组优先 |
 | 打包发给别人 | `.\scripts\package.ps1`：Release 构建（无调试桥）到 `dist/stage/`，不动游戏里的开发版；输出 `dist/SoundTheSpire-<版本>.zip`，内含 `SoundTheSpire/` 和给玩家的 `README.txt`（源文件 `docs/README-player.txt`） |
 
@@ -275,3 +275,4 @@ v1 不做：朗读、手牌信息、导航、地图、商店、事件、多人�
 - 仓库首页 `README.md`：Logo、一键安装 / 卸载命令、按键；去掉 `install.ps1` 的 BOM（它让 `irm | iex` 先报一行错）。
 - 教学关按钮（`TutorialButton`）：主菜单（无子菜单时）和一局中非战斗时显示在左下角；主菜单点击开一局不存档的铁甲战士（种子 `LISTEN`），进入地图后自动进教学关，一局中点击等同 F10。版本 v0.0.2。
 - 卸载入口：`scripts/uninstall.ps1`（`irm …/uninstall.ps1 | iex`，内部调用 `install.ps1 -Uninstall`）和 `uninstall.bat`，作为发布附件。注意编辑工具会给 `install.ps1` 加回 BOM，改完要检查首字节。
+- 安装器不再调用 GitHub Releases API（共享公网 IP 容易触发匿名限流），改为下载最新发布里的固定附件名 `SoundTheSpire-latest.zip`；`package.ps1` 同时生成版本名和固定名两个包。
