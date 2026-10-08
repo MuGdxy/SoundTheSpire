@@ -1,0 +1,9 @@
+{
+  "title": "Sound the Spire",
+  "description": "[h1]用耳朵玩《杀戮尖塔 2》[/h1]\n\n把战斗信息变成音乐：敌人要做什么、你挡不挡得住，都能听出来。不是朗读，是多维度的音乐。\n\n[list]\n[*]敌人意图乐句：每只怪一段，鼠标移到怪身上单独听，[b]R[/b] 重听本回合汇总。\n[*]防御端：回合中局面每次改变，最后那段和弦都会响起。\n[*]训练遮罩（默认开启，[b]F9[/b] 切换）：战斗中隐藏意图、血量护甲数字、伤害数字、卡牌数值，逼你用声音判断。卡牌图鉴里照常可以读数值。\n[*]声音教学关：在一局中、不在战斗时按 [b]F10[/b]。支持联机，所有玩家都要订阅本模组。\n[/list]\n\n开模组时游戏使用单独的存档，原来的进度不受影响。如果之前用一键安装装过本模组，请删除游戏目录下的 mods\\SoundTheSpire，否则游戏会优先加载本地那份。\n\n音色：GeneralUser GS SoundFont（S. Christian Collins）。合成：MeltySynth（MIT）。\n源码与问题反馈：[url=https://github.com/MuGdxy/SoundTheSpire]github.com/MuGdxy/SoundTheSpire[/url]\n\n[h1]Play Slay the Spire 2 by ear[/h1]\n\nCombat information becomes music: what each enemy intends and whether your defense holds can be heard. Not text-to-speech, but multi-dimensional music.\n\n[list]\n[*]Enemy intent phrases, one per enemy; hover an enemy to hear it alone, [b]R[/b] replays the turn summary.\n[*]Defense: every change during your turn sounds the closing chord again.\n[*]Training veil (on by default, [b]F9[/b]): hides intents, HP/block numbers, damage numbers and card values in combat. The card library still shows values.\n[*]Listening tutorial: press [b]F10[/b] in a run, outside combat. Works in multiplayer if everyone has the mod.\n[/list]\n\nModded play uses a separate save. If you installed the mod manually before, delete mods\\SoundTheSpire in the game folder, otherwise the game loads that local copy instead.",
+  "visibility": "private",
+  "changeNote": "v0.0.1: first release.",
+  "tags": [],
+  "dependencies": [],
+  "contentDescriptors": []
+}

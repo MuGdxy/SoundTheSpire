@@ -176,6 +176,7 @@ SoundTheSpire.dll（常驻加载器，SoundTheSpireCode/）     SoundTheSpire.Ho
 | 发送单条控制台命令 | `.\scripts\sts.ps1 <命令>` |
 | 跑场景脚本 | `.\scripts\scenario.ps1 scripts\scenarios\<文件>.txt` |
 | 发布 | 先 `package.ps1`，推送后 `gh release create <版本> dist\SoundTheSpire-<版本>.zip scripts\install.bat`。玩家双击 `install.bat`（或 `irm …/scripts/install.ps1 \| iex`）：自动找游戏（注册表 + Steam 库列表）、下载最新发布、覆盖安装；`install.ps1 -Uninstall` 卸载，`-ZipPath` / `-GamePath` 用于本地测试。脚本带 BOM（PowerShell 5 才能读中文），所以不用 `param()` 块 |
+| 创意工坊 | 官方上传工具 [megacrit/sts2-mod-uploader](https://github.com/megacrit/sts2-mod-uploader) 解压到 `tools\ModUploader`（不入库）。`.\scripts\workshop.ps1` 打包并把 `dist/stage/SoundTheSpire` 拷到 `workshop/content`，列出将上传的内容；加 `-Upload` 才真正上传（需 Steam 已登录发布账号）。标题、描述（BBCode）、可见性、更新说明在 `workshop/workshop.json`，预览图 `workshop/image.png` 须小于 1 MB。第一次上传创建物品并写 `workshop/mod_id.txt`，要提交，之后上传就是更新。游戏从 `steamapps\workshop\content\2868840\<id>` 加载订阅的模组；本地 `mods\` 里同 id 的模组优先 |
 | 打包发给别人 | `.\scripts\package.ps1`：Release 构建（无调试桥）到 `dist/stage/`，不动游戏里的开发版；输出 `dist/SoundTheSpire-<版本>.zip`，内含 `SoundTheSpire/` 和给玩家的 `README.txt`（源文件 `docs/README-player.txt`） |
 
 场景脚本语法：每行一条控制台命令；`#` 注释；`sleep <秒>`；`wait menu|run|combat`。
@@ -270,3 +271,4 @@ v1 不做：朗读、手牌信息、导航、地图、商店、事件、多人�
 - 教学提示改为只提问（"音高 / 和弦好像代表了什么？"），不解说，玩家自己探索；提示里不出现数字。
 - 一键安装：`scripts/install.ps1` + `install.bat`，从 GitHub 最新发布下载安装 / 更新，`-Uninstall` 卸载。
 - 小号引子 `1 5` 改为连音。
+- 创意工坊上架流程：`workshop/` 工作区 + `scripts/workshop.ps1`，用官方上传工具（尚未上传）。
