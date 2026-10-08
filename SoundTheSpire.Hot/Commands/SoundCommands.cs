@@ -139,6 +139,27 @@ public class StsFindCardConsoleCmd : AbstractConsoleCmd
     }
 }
 
+public class StsFindMonsterConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_findmonster";
+    public override string Args => "<text>";
+    public override string Description => "List monsters whose shown name (or id) contains the text, with their type name.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (args.Length == 0)
+            return new CmdResult(false, "Usage: sts_findmonster " + Args);
+        var text = string.Join(" ", args);
+        var found = ModelDb.Monsters
+            .Select(m => (Model: m, Name: m.Title.GetFormattedText()))
+            .Where(m => m.Name.Contains(text, StringComparison.OrdinalIgnoreCase) || m.Model.Id.Entry.Contains(text, StringComparison.OrdinalIgnoreCase))
+            .Select(m => $"{m.Model.Id.Entry} {m.Name} ({m.Model.GetType().Name})");
+        return new CmdResult(true, string.Join("\n", found));
+    }
+}
+
 public class StsVeilConsoleCmd : AbstractConsoleCmd
 {
     public override string CmdName => "sts_veil";

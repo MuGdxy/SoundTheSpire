@@ -25,45 +25,44 @@ using SoundTheSpire.Hot.Commands;
 namespace SoundTheSpire.Hot.Combat;
 
 /// <summary>
-/// One-turn lesson in hearing numbers, set up inside the Waterfall Giant fight: three slimes and the Giant attack in
-/// four rising tiers (left to right). Each player's hand: Turbo for energy, three free Midnights (one kills a slime) and
-/// Impervious to cover the Giant, who is already in his last, unkillable phase. The player speaks each step in a speech bubble; the next step
-/// starts when the previous one has been done.
+/// One-turn lesson in hearing numbers, set up inside the Waterfall Giant fight. Left to right, each with its own move:
+/// a small slime's tackle, the rock Bowlbug's headbutt, the Entomancer's bees (multi-hit), and the Giant in his last,
+/// unkillable phase about to erupt. Each player's hand: Turbo for energy, Bash for Vulnerable, four free Midnights (one
+/// each for the slime and the Bowlbug, two for the Vulnerable Entomancer) and Impervious to cover the Giant. The player's
+/// speech bubble explains only what the sounds mean, never what to play: the line-up, then how the defense chord follows
+/// every change, then the resolution once nothing gets through.
 /// </summary>
 public static class ListeningTutorial
 {
     public const string Encounter = "WATERFALL_GIANT_BOSS";
 
-    private static readonly (Func<MonsterModel> Model, int Attack)[] Slimes =
+    private static readonly (Func<MonsterModel> Model, string Move)[] Minions =
     {
-        (() => ModelDb.Monster<TwigSlimeS>(), 3),
-        (() => ModelDb.Monster<LeafSlimeS>(), 8),
-        (() => ModelDb.Monster<LeafSlimeM>(), 15),
+        (() => ModelDb.Monster<TwigSlimeS>(), "TACKLE_MOVE"),
+        (() => ModelDb.Monster<BowlbugRock>(), "HEADBUTT_MOVE"),
+        (() => ModelDb.Monster<Entomancer>(), "BEES_MOVE"),
     };
+    private const int Midnights = 4;
     private const int GiantAttack = 30;
 
     private const string ListenText =
-        "声音教学。四只怪从左到右依次亮出攻击，一个比一个重。\n" +
-        "最后一小节是这回合你会挨的打：越刺耳，伤得越重。\n" +
-        "把鼠标依次移到每只怪身上，单独听它；按 R 重听全部。";
-    private const string KillText =
-        "现在动手：先打内核加速补足费用，再用午夜把三只史莱姆一只只杀掉。\n" +
-        "每杀一只，它的攻击就不会落到你身上，听防御的和弦一步步缓和。";
-    private const string KillTextTogether =
-        "现在动手：先打内核加速补足费用，再和队友一起用午夜把三只史莱姆杀掉。\n" +
-        "每杀一只，它的攻击就不会落到你身上，听防御的和弦一步步缓和。";
-    private const string BlockText =
-        "瀑布巨兽已进入最后阶段，锁血无敌，杀不死。\n" +
-        "只能防：打出岿然不动，挡住它的致命一击。";
+        "声音教学。四只怪从左到右依次出声，一只一段：\n" +
+        "攻击越重，声音越低沉有力；多段攻击是连续扫弦，段数越多越密。\n" +
+        "最后一小节是这回合你会挨多少打：越刺耳，伤得越重。\n" +
+        "鼠标移到怪身上单独听它，按 R 重听全部。";
+    private const string ChangeText =
+        "只要这回合你会挨的打变了，最后那段和弦就会重新响起。\n" +
+        "变好时从旧和弦连音滑到新和弦，连续变好会连成一条线；\n" +
+        "从刺耳到悬着，离不受伤越近越和谐。";
     private const string ResolvedText =
-        "悬着的和弦落回了大三和弦：完美解决，这回合你不会受伤。\n" +
-        "结束回合，看它的攻击被挡下。";
+        "悬着的和弦落回明亮的大三和弦：完美解决，这回合你不会受伤。";
 
-    private enum Step { Off, Listen, Kill, Block, Resolved }
+    private enum Step { Off, Listen, Change, Resolved }
 
     private static Step _step;
     private static ICombatState? _combat;
-    private static readonly List<Creature> SlimeCreatures = new();
+    private static readonly List<Creature> MinionCreatures = new();
+    private static int _startHurt;
     private static readonly HashSet<Creature> Heard = new();
     private static NSpeechBubbleVfx? _bubble;
 
@@ -142,16 +141,17 @@ public static class ListeningTutorial
         Stop();
         var giant = combat.Enemies.First(e => e.IsAlive && e.Monster is WaterfallGiant);
 
-        foreach (var (model, attack) in Slimes)
+        foreach (var (model, move) in Minions)
         {
-            var slime = await CreatureCmd.Add(model().ToMutable(), combat);
-            SetAttack(slime, attack);
-            SlimeCreatures.Add(slime);
+            var minion = await CreatureCmd.Add(model().ToMutable(), combat);
+            var monster = minion.Monster!;
+            monster.SetMoveImmediate((MoveState)monster.MoveStateMachine!.States[move], forceTransition: true);
+            MinionCreatures.Add(minion);
         }
         if (NCombatRoom.Instance is { } room)
         {
             await room.ToSignal(room.GetTree(), SceneTree.SignalName.ProcessFrame);
-            Layout(room, combat, SlimeCreatures.Append(giant).ToList());
+            Layout(room, combat, MinionCreatures.Append(giant).ToList());
         }
 
         await EnterLastPhase((WaterfallGiant)giant.Monster!);
@@ -161,7 +161,8 @@ public static class ListeningTutorial
             foreach (var card in PileType.Hand.GetPile(player).Cards.ToList())
                 await CardPileCmd.Add(card, PileType.Draw);
             await CardPileCmd.Add(combat.CreateCard(ModelDb.Card<Turbo>(), player), PileType.Hand);
-            for (var i = 0; i < Slimes.Length; i++)
+            await CardPileCmd.Add(combat.CreateCard(ModelDb.Card<Bash>(), player), PileType.Hand);
+            for (var i = 0; i < Midnights; i++)
             {
                 var midnight = combat.CreateCard(ModelDb.Card<Midnight>(), player);
                 midnight.SetToFreeThisCombat();
@@ -171,6 +172,9 @@ public static class ListeningTutorial
         }
 
         _combat = combat;
+        _startHurt = LocalContext.GetMe(combat)?.Creature is { } me
+            ? Math.Max(0, CombatReader.IncomingDamage(combat) - PassiveDefense.ProjectedBlock(combat, me))
+            : 0;
         _step = Step.Listen;
         MainFile.Logger.Info("Tutorial: set up, listening step");
         Say(ListenText);
@@ -182,7 +186,7 @@ public static class ListeningTutorial
     {
         _step = Step.Off;
         _combat = null;
-        SlimeCreatures.Clear();
+        MinionCreatures.Clear();
         Heard.Clear();
         if (_bubble != null && GodotObject.IsInstanceValid(_bubble))
             _bubble.QueueFree();
@@ -207,19 +211,14 @@ public static class ListeningTutorial
         if (combat.CurrentSide != CombatSide.Player || LocalContext.GetMe(combat)?.Creature is not { } me)
             return;
 
-        var slimesLeft = SlimeCreatures.Count(s => s.IsAlive);
-        switch (_step)
+        var hurt = Math.Max(0, CombatReader.IncomingDamage(combat) - PassiveDefense.ProjectedBlock(combat, me));
+        if (_step != Step.Resolved && hurt == 0)
         {
-            case Step.Listen when Heard.Count(c => c.IsAlive) >= combat.Enemies.Count(e => e.IsAlive) || slimesLeft < SlimeCreatures.Count:
-                Advance(Step.Kill, Multiplayer ? KillTextTogether : KillText);
-                break;
-            case Step.Kill when slimesLeft == 0:
-                Advance(Step.Block, BlockText);
-                break;
-            case Step.Block when PassiveDefense.ProjectedBlock(combat, me) >= CombatReader.IncomingDamage(combat):
-                Advance(Step.Resolved, ResolvedText);
-                break;
+            Advance(Step.Resolved, ResolvedText);
+            return;
         }
+        if (_step == Step.Listen && (Heard.Count(c => c.IsAlive) >= combat.Enemies.Count(e => e.IsAlive) || hurt < _startHurt))
+            Advance(Step.Change, ChangeText);
     }
 
     private static void Advance(Step step, string text)
@@ -239,14 +238,6 @@ public static class ListeningTutorial
         _bubble = NSpeechBubbleVfx.Create(text, me, 1e9);
         if (_bubble != null)
             me.GetVfxContainer()?.AddChildSafely(_bubble);
-    }
-
-    private static void SetAttack(Creature creature, int damage)
-    {
-        var monster = creature.Monster!;
-        var move = StsIntentConsoleCmd.BuildMove(monster, "attack", damage, 1)!;
-        move.FollowUpState = monster.NextMove;
-        monster.SetMoveImmediate(move, forceTransition: true);
     }
 
     /// <summary>The Giant's own knockout: infinite HP without numbers, then the eruption as his only move.</summary>

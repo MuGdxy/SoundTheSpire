@@ -1,6 +1,7 @@
-# Listening tutorial, played through: hear the line-up, kill the three slimes, block the Giant, end the turn.
-# Starts a fresh Ironclad run. Hand after setup: Turbo, Midnight x3 (free this combat), Impervious. Enemy 0 is the Giant
-# in his last phase (eruption 30), 1-3 the slimes (attacks 3, 8, 15); a dead slime leaves the list, so the next is 1.
+# Listening tutorial, played through: hear the line-up, kill the three minions, block the Giant, end the turn.
+# Starts a fresh Ironclad run. Hand after setup: Turbo, Bash, Midnight x4 (free this combat), Impervious. Enemy 0 is the
+# Giant in his last phase (eruption 30), 1 the small slime (tackle), 2 the rock Bowlbug (headbutt), 3 the Entomancer
+# (bees, multi-hit). A dead enemy leaves the list.
 sts_menu
 wait menu
 sts_run ironclad
@@ -16,13 +17,20 @@ sleep 1.5
 sts_intents 2
 sleep 1.5
 sts_intents 3
-sleep 2
+sleep 2.5
+# Turbo, then Bash on the Entomancer.
 sts_play 0
 sleep 1
+sts_play 0 3
+sleep 3
+# Midnight on the slime, the Bowlbug, then two on the Vulnerable Entomancer.
 sts_play 0 1
 sleep 3
 sts_play 0 1
 sleep 3
+sts_play 0 1
+sleep 3
+sts_state
 sts_play 0 1
 sleep 3
 sts_state
