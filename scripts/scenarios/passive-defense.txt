@@ -1,0 +1,30 @@
+# Projected end-of-turn block: Orichalcum, Plating, Ripple Basin and Cloak Clasp count without playing a card.
+# Starts a fresh SLIMES_WEAK fight in the current run; the relics are removed again at the end.
+fight SLIMES_WEAK
+wait combat
+sleep 6
+sts_intent 0 attack 4
+sts_intent 1 attack 8
+sts_intent 2 attack 10
+# Incoming 22. Orichalcum +6 (block is 0), Plating +4, Ripple Basin +4 (no attack played), Cloak Clasp +1 per card in hand.
+relic add ORICHALCUM
+power PLATING_POWER 4 0
+relic add RIPPLE_BASIN
+relic add CLOAK_CLASP
+sts_state
+# Any block switches Orichalcum off: 3 + 4 + 4 + hand.
+block 3
+sts_state
+# Summary with partial cover: sus4 left hanging.
+sts_intents
+sleep 9
+# Enough block now -> "Defense resolved" cadence.
+block 6
+sleep 3
+sts_state
+# Summary with full cover: sus4 -> C major.
+sts_intents
+sleep 9
+relic remove ORICHALCUM
+relic remove RIPPLE_BASIN
+relic remove CLOAK_CLASP

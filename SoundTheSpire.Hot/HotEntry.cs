@@ -1,4 +1,5 @@
 using Godot;
+using MegaCrit.Sts2.Core.Combat;
 using SoundTheSpire.Hot.Audio;
 using SoundTheSpire.Hot.Combat;
 
@@ -13,8 +14,14 @@ public sealed class HotEntry : IHotModule
         context.OnFrame(PollTestHotkey);
         context.OnFrame(IntentAnnouncer.PollReplayKey);
         context.OnFrame(DefenseMonitor.Poll);
-        if (CombatReader.CurrentCombat is { CurrentSide: MegaCrit.Sts2.Core.Combat.CombatSide.Player } combat)
+        CombatManager.Instance.TurnStarted += IntentAnnouncer.OnTurnStarted;
+        if (CombatReader.CurrentCombat is { CurrentSide: CombatSide.Player } combat)
             DefenseMonitor.StartWatching(combat);
+    }
+
+    public void Unload()
+    {
+        CombatManager.Instance.TurnStarted -= IntentAnnouncer.OnTurnStarted;
     }
 
     private void PollTestHotkey()

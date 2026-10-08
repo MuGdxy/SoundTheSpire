@@ -2,17 +2,15 @@ using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;
-using MegaCrit.Sts2.Core.Entities.Players;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using SoundTheSpire.Hot.Audio;
 
 namespace SoundTheSpire.Hot.Combat;
 
 /// <summary>
-/// The whole enemy line-up plays at the start of every player turn; in between, an enemy's intent plays when it is
-/// selected (keyboard/controller focus, mouse hover, or card targeting). R replays the whole line-up.
+/// Turn summary when the player gets control (after start-of-turn relics, draw and auto-play have finished):
+/// trumpet intro, the enemy line-up, then one bar for the defense status. In between, an enemy's intent plays when
+/// it is selected (keyboard/controller focus, mouse hover, or card targeting). R replays the summary.
 /// </summary>
 public static class IntentAnnouncer
 {
@@ -24,7 +22,7 @@ public static class IntentAnnouncer
     {
         if (CombatReader.CurrentCombat is not { } combat || SynthEngine.Instance is not { } engine)
             return false;
-        IntentMotif.Play(engine, CombatReader.ReadEnemies(combat));
+        PlayTurnSummary(engine, combat);
         return true;
     }
 
@@ -48,17 +46,24 @@ public static class IntentAnnouncer
         _replayKeyWasDown = down;
     }
 
-    [HarmonyPatch(typeof(Hook), nameof(Hook.AfterPlayerTurnStart))]
-    private static class TurnStartPatch
+    /// <summary>Raised by the game once the player's turn setup is complete and play begins.</summary>
+    public static void OnTurnStarted(CombatState combat)
     {
-        private static void Prefix(ICombatState combatState, PlayerChoiceContext choiceContext, Player player)
-        {
-            if (!LocalContext.IsMe(player) || SynthEngine.Instance is not { } engine)
-                return;
-            var enemies = CombatReader.ReadEnemies(combatState);
-            MainFile.Logger.Info($"Turn {combatState.RoundNumber} start: playing intents of {enemies.Count} enemies");
-            IntentMotif.Play(engine, enemies);
-        }
+        if (SynthEngine.Instance is not { } engine || combat.CurrentSide != CombatSide.Player)
+            return;
+        MainFile.Logger.Info($"Turn {combat.RoundNumber} ready: playing turn summary");
+        PlayTurnSummary(engine, combat);
+        DefenseMonitor.StartWatching(combat);
+    }
+
+    private static void PlayTurnSummary(SynthEngine engine, ICombatState combat)
+    {
+        var end = IntentMotif.Play(engine, CombatReader.ReadEnemies(combat));
+        if (LocalContext.GetMe(combat)?.Creature is not { } me)
+            return;
+        var incoming = CombatReader.IncomingDamage(combat);
+        MainFile.Logger.Info($"Defense status: {PassiveDefense.Describe(combat, me)}, incoming {incoming}");
+        BlockMotif.ScheduleStatus(engine, end, PassiveDefense.ProjectedBlock(combat, me), incoming);
     }
 
     [HarmonyPatch(typeof(NCreature), "OnFocus")]

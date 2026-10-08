@@ -1,0 +1,18 @@
+# Checks the projection against the game: predicted block before ending the turn vs. block during the enemy turn.
+fight SLIMES_WEAK
+wait combat
+sleep 6
+sts_intent 0 defend 5
+sts_intent 1 defend 5
+sts_intent 2 defend 5
+relic add ORICHALCUM
+power PLATING_POWER 4 0
+relic add RIPPLE_BASIN
+relic add CLOAK_CLASP
+sts_state
+sts_endturn
+sleep 1
+sts_state
+relic remove ORICHALCUM
+relic remove RIPPLE_BASIN
+relic remove CLOAK_CLASP

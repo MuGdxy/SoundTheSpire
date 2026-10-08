@@ -177,6 +177,8 @@ public class StsStateConsoleCmd : AbstractConsoleCmd
 
         foreach (var p in combat.PlayerCreatures)
             sb.AppendLine($"player {p.Name}: hp {p.CurrentHp}/{p.MaxHp} block {p.Block}");
+        if (LocalContext.GetMe(combat)?.Creature is { } me)
+            sb.AppendLine($"defense at end of turn: {PassiveDefense.Describe(combat, me)}, incoming {CombatReader.IncomingDamage(combat)}");
 
         var players = combat.PlayerCreatures;
         EnemyVoices.Assign(CombatReader.ReadEnemies(combat));

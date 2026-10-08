@@ -44,7 +44,8 @@ public static class IntentMotif
     private const double StrumSpread = 0.008;
 
     /// <summary>The whole line-up, announced by a one-bar trumpet intro so it reads as "enemy intents".</summary>
-    public static void Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies)
+    /// <returns>When the line-up ends, on a bar line.</returns>
+    public static double Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies)
     {
         engine.Stop();
         EnemyVoices.Assign(enemies);
@@ -53,6 +54,7 @@ public static class IntentMotif
         var slot = BarsFor(phrases.Select(p => p.Phrase.Length).DefaultIfEmpty(0).Max()) * BarSeconds;
         for (var i = 0; i < phrases.Count; i++)
             Schedule(engine, start + i * slot, phrases[i].Enemy, phrases[i].Phrase);
+        return start + phrases.Count * slot;
     }
 
     // Do (quarter) - sol (dotted half) on trumpet, C4 and G4, filling one bar; on its own channel, centered.
