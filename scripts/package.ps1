@@ -16,7 +16,7 @@ dotnet build (Join-Path $root "SoundTheSpire.csproj") -c Release -p:ModsPath=$mo
 if ($LASTEXITCODE -ne 0) { throw "Release build failed." }
 
 $mod = Join-Path $stage "SoundTheSpire"
-foreach ($file in "SoundTheSpire.json", "SoundTheSpire.dll", "SoundTheSpire.Hot.dll", "MeltySynth.dll", "soundfonts/GeneralUser-GS.sf2", "profiles/waterfall.json") {
+foreach ($file in "SoundTheSpire.json", "SoundTheSpire.dll", "SoundTheSpire.Hot.dll", "MeltySynth.dll", "Tolk.dll", "nvdaControllerClient64.dll", "SAAPI64.dll", "Tolk-LICENSE.txt", "NVDA-LICENSE.txt", "soundfonts/GeneralUser-GS.sf2", "profiles/waterfall.json", "voices/zhs/manifest.json") {
     if (-not (Test-Path (Join-Path $mod $file))) { throw "Package is missing $file." }
 }
 Get-ChildItem $mod -Filter *.pdb | Remove-Item

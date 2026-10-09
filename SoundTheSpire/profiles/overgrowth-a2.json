@@ -2,7 +2,7 @@
   "id": "overgrowth-a2",
   "eventPath": "event:/music/act1_a2_v2",
   "key": "D minor",
-  "intentHarmonyMode": "root",
+  "intentHarmonyMode": "melody",
   "outputGainDb": 19.6,
   "tonicPitchClass": 2,
   "bpm": 82.0,
@@ -960,14 +960,14 @@
       "name": "trumpet",
       "minimumVelocity": 0,
       "gainDb": 1.6,
-      "reverb": 35,
-      "chorus": 5,
+      "reverb": 28,
+      "chorus": 0,
       "panMotionDepth": 0,
       "panMotionRateBeats": 1.0,
       "minNote": 54,
       "maxNote": 84,
       "gateRatio": 0.72,
-      "modulation": 10
+      "modulation": 0
     },
     {
       "program": 30,
@@ -999,17 +999,17 @@
     },
     {
       "program": 110,
-      "name": "electric fiddle",
+      "name": "fiddle",
       "minimumVelocity": 0,
       "gainDb": -2.3,
-      "reverb": 55,
-      "chorus": 45,
+      "reverb": 38,
+      "chorus": 0,
       "panMotionDepth": 0,
       "panMotionRateBeats": 1.0,
       "minNote": 55,
       "maxNote": 96,
       "gateRatio": 1.0,
-      "modulation": 55
+      "modulation": 24
     },
     {
       "program": 7,

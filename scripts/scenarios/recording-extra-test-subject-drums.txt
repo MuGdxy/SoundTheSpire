@@ -1,0 +1,57 @@
+fight TEST_SUBJECT_BOSS
+wait combat
+sts_test_subject_phase2
+sleep 3
+sts_veil off
+power STRENGTH_POWER 5 1
+
+# Keep one native focus while the intent grows by exactly one hit per bar.
+sts_intent 0 attack 10 1
+sts_melody
+sts_focus 0
+sleep 2.7
+sts_intent 0 attack 10 2
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 3
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 4
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 5
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 6
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 7
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 8
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 9
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 10
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 11
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 12
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 13
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 14
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 15
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 16
+sts_melody
+sleep 5

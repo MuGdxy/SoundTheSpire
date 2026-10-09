@@ -1,0 +1,20 @@
+---
+description: Require documentation review before changing SoundTheSpire
+alwaysApply: true
+---
+
+# Documentation First
+
+Before implementing, diagnosing, recording, packaging, or publishing:
+
+1. Search and read the relevant sections of `docs/DEVLOG.md`.
+2. Read the matching topic document when present, such as:
+   - `docs/VOICE-ANNOUNCER.md` for voice and screen-reader work.
+   - `docs/README-player.txt` for player-facing behavior.
+3. Inspect existing scripts, profiles, and prior analysis artifacts before creating a new workflow.
+4. Treat documentation as project history, then verify it against current code and runtime evidence.
+5. If docs and code disagree, state the discrepancy before editing.
+6. Never claim “all tracks/scenes/features” are complete without checking the documented scope and current inventory.
+7. Update `docs/DEVLOG.md` after substantial verified changes.
+
+Prefer extending the documented architecture over introducing a parallel implementation.

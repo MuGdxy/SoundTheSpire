@@ -30,6 +30,7 @@ public static class MusicClock
     public static MusicProfileData? ActiveProfile { get; private set; }
     public static bool IsProfileActive => ActiveProfile != null;
     public static bool IsClockActive => CurrentTrack != null;
+    public static bool HasAttachedEvent => _event != null;
     public static bool HasFmodBeat => _lastBeatTicks != 0;
     public static double Tempo => _tempo;
     public static int BeatsPerBar => _beatsPerBar;
@@ -37,6 +38,8 @@ public static class MusicClock
     public static int CurrentBar => _bar;
     public static int CurrentBeat => _beat;
     public static int TimelinePositionMs => _timelinePositionMs;
+    public static int? PlaybackState =>
+        _event == null ? null : _event.Call("get_playback_state").AsInt32();
     public static double EstimatedTimelinePositionMs => _timelinePositionMs +
         (_lastBeatTicks == 0 ? 0.0 : Time.GetTicksMsec() - _lastBeatTicks);
     public static string? LastMarker { get; private set; }
@@ -109,6 +112,9 @@ public static class MusicClock
             _beatsPerBar = profile.BeatsPerBar;
             _beatUnit = profile.BeatUnit;
             SynthEngine.Instance?.SetProfileGain((float)Math.Pow(10.0, profile.OutputGainDb / 20.0));
+            MainFile.Logger.Info(
+                $"Music profile selected: event '{track}', profile '{profile.Id}', " +
+                $"source '{profile.SourceTrackName}', key '{profile.Key}'.");
         }
         Attach(controller);
     }
@@ -177,8 +183,14 @@ public static class MusicClock
     [HarmonyPatch(typeof(NRunMusicController), nameof(NRunMusicController.PlayCustomMusic))]
     private static class PlayCustomMusicPatch
     {
-        private static void Postfix(NRunMusicController __instance, string customMusic) =>
+        private static void Postfix(NRunMusicController __instance, string customMusic)
+        {
             Activate(__instance, customMusic);
+            if (_event != null)
+                return;
+            MainFile.Logger.Warn($"Custom music '{customMusic}' is unavailable; restoring act music.");
+            __instance.StopCustomMusic();
+        }
     }
 
     [HarmonyPatch(typeof(NRunMusicController), nameof(NRunMusicController.UpdateMusic))]
@@ -187,7 +199,7 @@ public static class MusicClock
         private static void Postfix(NRunMusicController __instance)
         {
             var track = AccessTools.Field(typeof(NRunMusicController), "_currentTrack").GetValue(__instance) as string;
-            if (track != null && (ActiveProfile?.EventPath != track || _event == null))
+            if (track != null && (CurrentTrack != track || _event == null))
                 Activate(__instance, track);
         }
     }

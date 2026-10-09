@@ -1,0 +1,4 @@
+sts_menu
+wait menu
+sts_regular_test glory-a1
+wait run

@@ -1,0 +1,6 @@
+sts_test_subject_phase2
+sts_intent 0 attack 10 3
+sts_focus 0
+sleep 3
+sts_intent 0 attack 10 4
+sleep 6

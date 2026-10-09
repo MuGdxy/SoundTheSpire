@@ -1,0 +1,37 @@
+fight SLIMES_WEAK
+wait combat
+sts_intent 0 attack 3
+sts_intent 1 attack 15
+sts_intent 2 attack 50
+sts_veil on
+sts_focus 0
+sleep 2.5
+sts_focus 1
+sleep 2.5
+sts_focus 2
+sleep 3
+sts_veil off
+sts_focus clear
+sts_focus 0
+sleep 2.5
+sts_focus 1
+sleep 2.5
+sts_focus 2
+sleep 2.6
+sts_focus clear
+sts_focus 0
+sleep 2.6
+sts_focus 1
+sleep 2.6
+sts_focus 2
+sleep 3
+
+# Add a visible double-hit slime after the single-hit strength comparison.
+sts_intent 2 attack 8 2
+sleep 1
+sts_focus clear
+sts_focus 2
+sleep 2.6
+sts_focus clear
+sts_focus 2
+sleep 8

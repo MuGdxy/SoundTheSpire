@@ -27,19 +27,23 @@ public static class LegatoLine
         get { lock (Gate) return _open; }
     }
 
-    /// <summary>Stops the engine and breaks the line; use instead of <see cref="SynthEngine.Stop"/>.</summary>
+    /// <summary>Releases only the defensive line's MIDI channel; other audio layers keep playing.</summary>
     public static void Interrupt(SynthEngine engine)
     {
+        var channel = -1;
         lock (Gate)
         {
             _applied = ++_issued;
+            if (_open)
+                channel = _channel;
             _open = false;
             Sounding.Clear();
         }
-        engine.Stop();
+        if (channel >= 0)
+            engine.Schedule(0, synth => synth.NoteOffAll(channel, immediate: false));
     }
 
-    /// <summary>Starts a new line on <paramref name="channel"/>, cutting anything else that is playing.</summary>
+    /// <summary>Starts a new defensive line, replacing only the prior line on this layer.</summary>
     public static void Begin(SynthEngine engine, int channel)
     {
         Interrupt(engine);

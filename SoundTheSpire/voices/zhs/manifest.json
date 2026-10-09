@@ -1,0 +1,4276 @@
+{
+  "version": 1,
+  "locale": "zhs",
+  "gapMs": 160,
+  "volumeDb": 0,
+  "countPlacement": "after",
+  "common": {
+    "encounter": {
+      "file": "common/encounter.ogg",
+      "text": "敌人来袭"
+    },
+    "reinforcements": {
+      "file": "common/reinforcements.ogg",
+      "text": "增援抵达"
+    }
+  },
+  "encounters": {
+    "WATERFALL_GIANT_BOSS": {
+      "file": "encounters/boss/waterfall_giant_boss.ogg",
+      "text": "巨兽苏醒——瀑布巨兽"
+    }
+  },
+  "rosterOverrides": {
+    "CALCIFIED_CULTIST+DAMP_CULTIST": "敌人来袭。咔咔两只。",
+    "DECIMILLIPEDE_SEGMENT_BACK+DECIMILLIPEDE_SEGMENT_FRONT+DECIMILLIPEDE_SEGMENT_MIDDLE": "敌人来袭。千足虫。",
+    "PHANTASMAL_GARDENER+PHANTASMAL_GARDENER+PHANTASMAL_GARDENER+PHANTASMAL_GARDENER": "敌人来袭。四漫。",
+    "QUEEN+TORCH_HEAD_AMALGAM": "敌人来袭。灯和女王。"
+  },
+  "monsters": {
+    "AEONGLASS": {
+      "file": "monsters/aeonglass.ogg",
+      "text": "永世沙漏",
+      "matrixText": "沙漏"
+    },
+    "ASSASSIN_RUBY_RAIDER": {
+      "file": "monsters/assassin_ruby_raider.ogg",
+      "text": "劫掠者刺客"
+    },
+    "AXEBOT": {
+      "file": "monsters/axebot.ogg",
+      "text": "巨斧机器人"
+    },
+    "AXE_RUBY_RAIDER": {
+      "file": "monsters/axe_ruby_raider.ogg",
+      "text": "劫掠者斧手"
+    },
+    "BATTLE_FRIEND_V1": {
+      "file": "monsters/battle_friend_v1.ogg",
+      "text": "战斗好伙伴V1.0"
+    },
+    "BATTLE_FRIEND_V2": {
+      "file": "monsters/battle_friend_v2.ogg",
+      "text": "战斗好伙伴V2.0"
+    },
+    "BATTLE_FRIEND_V3": {
+      "file": "monsters/battle_friend_v3.ogg",
+      "text": "战斗好伙伴V3.0"
+    },
+    "BOWLBUG_EGG": {
+      "file": "monsters/bowlbug_egg.ogg",
+      "text": "盛碗虫（卵）",
+      "matrixText": "成碗虫·卵"
+    },
+    "BOWLBUG_NECTAR": {
+      "file": "monsters/bowlbug_nectar.ogg",
+      "text": "盛碗虫（蜜）",
+      "matrixText": "成碗虫·蜜"
+    },
+    "BOWLBUG_PROGENITOR": {
+      "file": "monsters/bowlbug_progenitor.ogg",
+      "text": "盛碗虫族母",
+      "matrixText": "成碗虫母虫"
+    },
+    "BOWLBUG_ROCK": {
+      "file": "monsters/bowlbug_rock.ogg",
+      "text": "盛碗虫（石）",
+      "matrixText": "成碗虫·石"
+    },
+    "BOWLBUG_SILK": {
+      "file": "monsters/bowlbug_silk.ogg",
+      "text": "盛碗虫（丝）",
+      "matrixText": "成碗虫·丝"
+    },
+    "BRUTE_RUBY_RAIDER": {
+      "file": "monsters/brute_ruby_raider.ogg",
+      "text": "劫掠者暴徒"
+    },
+    "BYGONE_EFFIGY": {
+      "file": "monsters/bygone_effigy.ogg",
+      "text": "旧日雕像"
+    },
+    "BYRDONIS": {
+      "file": "monsters/byrdonis.ogg",
+      "text": "多尼斯异鸟",
+      "matrixText": "异鸟"
+    },
+    "CALCIFIED_CULTIST": {
+      "file": "monsters/calcified_cultist.ogg",
+      "text": "钙化邪教徒",
+      "matrixText": "咔咔"
+    },
+    "CAVE_MAW": {
+      "file": "monsters/cave_maw.ogg",
+      "text": "馋嘴洞胃"
+    },
+    "CEREMONIAL_BEAST": {
+      "file": "monsters/ceremonial_beast.ogg",
+      "text": "仪式兽"
+    },
+    "CHOMPER": {
+      "file": "monsters/chomper.ogg",
+      "text": "啃咬机",
+      "matrixText": "小型机宝"
+    },
+    "CORPSE_SLUG": {
+      "file": "monsters/corpse_slug.ogg",
+      "text": "噬尸蛞蝓"
+    },
+    "CROSSBOW_RUBY_RAIDER": {
+      "file": "monsters/crossbow_ruby_raider.ogg",
+      "text": "劫掠者弩手"
+    },
+    "CRUSHER": {
+      "file": "monsters/crusher.ogg",
+      "text": "碾碎爪"
+    },
+    "CRYSTAL_SNAIL": {
+      "file": "monsters/crystal_snail.ogg",
+      "text": "晶壳蜗牛"
+    },
+    "CUBEX_CONSTRUCT": {
+      "file": "monsters/cubex_construct.ogg",
+      "text": "方柱构装体"
+    },
+    "DAMP_CULTIST": {
+      "file": "monsters/damp_cultist.ogg",
+      "text": "潮湿邪教徒",
+      "matrixText": "咔咔"
+    },
+    "DECIMILLIPEDE_SEGMENT_BACK": {
+      "file": "monsters/decimillipede_segment_back.ogg",
+      "text": "残杀千足虫",
+      "matrixText": "千足虫"
+    },
+    "DECIMILLIPEDE_SEGMENT_FRONT": {
+      "file": "monsters/decimillipede_segment_front.ogg",
+      "text": "残杀千足虫",
+      "matrixText": "千足虫"
+    },
+    "DECIMILLIPEDE_SEGMENT_MIDDLE": {
+      "file": "monsters/decimillipede_segment_middle.ogg",
+      "text": "残杀千足虫",
+      "matrixText": "千足虫"
+    },
+    "DEVOTED_SCULPTOR": {
+      "file": "monsters/devoted_sculptor.ogg",
+      "text": "虔诚雕刻师",
+      "matrixText": "大咔咔"
+    },
+    "ENTOMANCER": {
+      "file": "monsters/entomancer.ogg",
+      "text": "蜂群术士",
+      "matrixText": "养蜂人"
+    },
+    "EXOSKELETON": {
+      "file": "monsters/exoskeleton.ogg",
+      "text": "外骨骼虫",
+      "matrixText": "蟑螂"
+    },
+    "EYE_WITH_TEETH": {
+      "file": "monsters/eye_with_teeth.ogg",
+      "text": "利齿之眼"
+    },
+    "FABRICATOR": {
+      "file": "monsters/fabricator.ogg",
+      "text": "组装师"
+    },
+    "FAKE_MERCHANT_MONSTER": {
+      "file": "monsters/fake_merchant_monster.ogg",
+      "text": "商人？？？"
+    },
+    "FAT_GREMLIN": {
+      "file": "monsters/fat_gremlin.ogg",
+      "text": "胖地精"
+    },
+    "FLAIL_KNIGHT": {
+      "file": "monsters/flail_knight.ogg",
+      "text": "连枷骑士"
+    },
+    "FLEETING_ECHO": {
+      "file": "monsters/fleeting_echo.ogg",
+      "text": "余影魔"
+    },
+    "FLYCONID": {
+      "file": "monsters/flyconid.ogg",
+      "text": "飞蝇菌子"
+    },
+    "FOGMOG": {
+      "file": "monsters/fogmog.ogg",
+      "text": "雾菇"
+    },
+    "FOSSIL_STALKER": {
+      "file": "monsters/fossil_stalker.ogg",
+      "text": "化石追踪者"
+    },
+    "FROG_KNIGHT": {
+      "file": "monsters/frog_knight.ogg",
+      "text": "青蛙骑士"
+    },
+    "FUZZY_WURM_CRAWLER": {
+      "file": "monsters/fuzzy_wurm_crawler.ogg",
+      "text": "毛绒伏地虫"
+    },
+    "GAS_BOMB": {
+      "file": "monsters/gas_bomb.ogg",
+      "text": "气态炸弹"
+    },
+    "GLOBE_HEAD": {
+      "file": "monsters/globe_head.ogg",
+      "text": "电球头"
+    },
+    "GRAVETIDE_CORPSE_SLUG": {
+      "file": "monsters/gravetide_corpse_slug.ogg",
+      "text": "噬尸蛞蝓"
+    },
+    "GRAVETIDE_SLUG": {
+      "file": "monsters/gravetide_slug.ogg",
+      "text": "墓潮蛞蝓"
+    },
+    "GRAVETIDE_SLUG_CORPSE": {
+      "file": "monsters/gravetide_slug_corpse.ogg",
+      "text": "噬尸蛞蝓尸体"
+    },
+    "GREMLIN_MERC": {
+      "file": "monsters/gremlin_merc.ogg",
+      "text": "地精佣兵"
+    },
+    "GUARDBOT": {
+      "file": "monsters/guardbot.ogg",
+      "text": "守护机器人"
+    },
+    "HAUNTED_SHIP": {
+      "file": "monsters/haunted_ship.ogg",
+      "text": "幽灵船"
+    },
+    "HUMAN_FACE_COLUMN": {
+      "file": "monsters/human_face_column.ogg",
+      "text": "人面柱"
+    },
+    "HUNTER_KILLER": {
+      "file": "monsters/hunter_killer.ogg",
+      "text": "猎人杀手"
+    },
+    "INFESTED_PRISM": {
+      "file": "monsters/infested_prism.ogg",
+      "text": "感染棱柱",
+      "matrixText": "棱柱"
+    },
+    "INKLET": {
+      "file": "monsters/inklet.ogg",
+      "text": "墨宝"
+    },
+    "KIN_FOLLOWER": {
+      "file": "monsters/kin_follower.ogg",
+      "text": "同族信徒"
+    },
+    "KIN_PRIEST": {
+      "file": "monsters/kin_priest.ogg",
+      "text": "同族神官"
+    },
+    "KNOWLEDGE_DEMON": {
+      "file": "monsters/knowledge_demon.ogg",
+      "text": "知识恶魔"
+    },
+    "LAGAVULIN_MATRIARCH": {
+      "file": "monsters/lagavulin_matriarch.ogg",
+      "text": "乐加维林族母",
+      "matrixText": "乐嘉祖母"
+    },
+    "LANTERN_FISH": {
+      "file": "monsters/lantern_fish.ogg",
+      "text": "灯笼鱼"
+    },
+    "LEAF_SLIME_M": {
+      "file": "monsters/leaf_slime_m.ogg",
+      "text": "树叶史莱姆（中）",
+      "matrixText": "中型树叶史莱姆"
+    },
+    "LEAF_SLIME_S": {
+      "file": "monsters/leaf_slime_s.ogg",
+      "text": "树叶史莱姆（小）",
+      "matrixText": "小型树叶史莱姆"
+    },
+    "LIVING_FOG": {
+      "file": "monsters/living_fog.ogg",
+      "text": "活雾"
+    },
+    "LIVING_SHIELD": {
+      "file": "monsters/living_shield.ogg",
+      "text": "活体盾"
+    },
+    "LOUSE_PROGENITOR": {
+      "file": "monsters/louse_progenitor.ogg",
+      "text": "虱虫之祖"
+    },
+    "MAGI_KNIGHT": {
+      "file": "monsters/magi_knight.ogg",
+      "text": "魔法骑士"
+    },
+    "MAWLER": {
+      "file": "monsters/mawler.ogg",
+      "text": "蛮兽"
+    },
+    "MECHA_KNIGHT": {
+      "file": "monsters/mecha_knight.ogg",
+      "text": "机甲骑士",
+      "matrixText": "大型机宝"
+    },
+    "MYCORRHIZAL_BULWARK": {
+      "file": "monsters/mycorrhizal_bulwark.ogg",
+      "text": "菌根幼弟"
+    },
+    "MYCORRHIZAL_VANGUARD": {
+      "file": "monsters/mycorrhizal_vanguard.ogg",
+      "text": "菌根长兄"
+    },
+    "MYSTERIOUS_KNIGHT": {
+      "file": "monsters/mysterious_knight.ogg",
+      "text": "神秘骑士"
+    },
+    "MYTE": {
+      "file": "monsters/myte.ogg",
+      "text": "异螨"
+    },
+    "NIBBIT": {
+      "file": "monsters/nibbit.ogg",
+      "text": "小啃兽"
+    },
+    "NOISEBOT": {
+      "file": "monsters/noisebot.ogg",
+      "text": "噪音机器人"
+    },
+    "ORIGIN_EYE_WITH_TEETH": {
+      "file": "monsters/origin_eye_with_teeth.ogg",
+      "text": "始源利齿之眼"
+    },
+    "ORIGIN_FOGMOG": {
+      "file": "monsters/origin_fogmog.ogg",
+      "text": "始源雾菇"
+    },
+    "OVICOPTER": {
+      "file": "monsters/ovicopter.ogg",
+      "text": "直飞产卵虫"
+    },
+    "OWL_MAGISTRATE": {
+      "file": "monsters/owl_magistrate.ogg",
+      "text": "猫头鹰法官"
+    },
+    "PARAFRIGHT": {
+      "file": "monsters/parafright.ogg",
+      "text": "寄生惧魔"
+    },
+    "PHANTASMAL_GARDENER": {
+      "file": "monsters/phantasmal_gardener.ogg",
+      "text": "花园幽灵鳗"
+    },
+    "PHROG_PARASITE": {
+      "file": "monsters/phrog_parasite.ogg",
+      "text": "异蛙寄生虫",
+      "matrixText": "区区"
+    },
+    "PUNCH_CONSTRUCT": {
+      "file": "monsters/punch_construct.ogg",
+      "text": "拳击构装体"
+    },
+    "QUEEN": {
+      "file": "monsters/queen.ogg",
+      "text": "女王"
+    },
+    "QUIRKY_HOPPER": {
+      "file": "monsters/quirky_hopper.ogg",
+      "text": "怪癖草蜢"
+    },
+    "RADIO_JELLYFISH": {
+      "file": "monsters/radio_jellyfish.ogg",
+      "text": "收音水母"
+    },
+    "REVERSE_SALAMANDER": {
+      "file": "monsters/reverse_salamander.ogg",
+      "text": "逆流蝾螈"
+    },
+    "ROCKET": {
+      "file": "monsters/rocket.ogg",
+      "text": "火箭"
+    },
+    "ROCK_SNAIL": {
+      "file": "monsters/rock_snail.ogg",
+      "text": "爬岩蜗牛"
+    },
+    "SANGUINE_LEECH": {
+      "file": "monsters/sanguine_leech.ogg",
+      "text": "吸血血蛭"
+    },
+    "SCROLL_OF_BITING": {
+      "file": "monsters/scroll_of_biting.ogg",
+      "text": "咬人卷轴"
+    },
+    "SEAPUNK": {
+      "file": "monsters/seapunk.ogg",
+      "text": "海洋混混"
+    },
+    "SEWER_CLAM": {
+      "file": "monsters/sewer_clam.ogg",
+      "text": "下水道蚌"
+    },
+    "SHRINKER_BEETLE": {
+      "file": "monsters/shrinker_beetle.ogg",
+      "text": "缩小甲虫"
+    },
+    "SILK_MOTH": {
+      "file": "monsters/silk_moth.ogg",
+      "text": "垂丝蛾"
+    },
+    "SKULKING_COLONY": {
+      "file": "monsters/skulking_colony.ogg",
+      "text": "鬼祟珊瑚群"
+    },
+    "SLIMED_BERSERKER": {
+      "file": "monsters/slimed_berserker.ogg",
+      "text": "史莱姆狂战士"
+    },
+    "SLIME_SNAIL": {
+      "file": "monsters/slime_snail.ogg",
+      "text": "涎丝蜗牛"
+    },
+    "SLITHERING_STRANGLER": {
+      "file": "monsters/slithering_strangler.ogg",
+      "text": "蛇行扼杀者"
+    },
+    "SLUDGE_SPINNER": {
+      "file": "monsters/sludge_spinner.ogg",
+      "text": "淤泥旋螺"
+    },
+    "SLUMBERING_BEETLE": {
+      "file": "monsters/slumbering_beetle.ogg",
+      "text": "熟睡甲虫"
+    },
+    "SNAPPING_JAXFRUIT": {
+      "file": "monsters/snapping_jaxfruit.ogg",
+      "text": "闪光贾克斯果"
+    },
+    "SNEAKY_GREMLIN": {
+      "file": "monsters/sneaky_gremlin.ogg",
+      "text": "卑鄙地精"
+    },
+    "SOUL_FYSH": {
+      "file": "monsters/soul_fysh.ogg",
+      "text": "灵魂异鱼"
+    },
+    "SOUL_NEXUS": {
+      "file": "monsters/soul_nexus.ogg",
+      "text": "灵魂枢纽"
+    },
+    "SOUL_ROE": {
+      "file": "monsters/soul_roe.ogg",
+      "text": "灵魂异鱼籽"
+    },
+    "SOUL_ROES": {
+      "file": "monsters/soul_roes.ogg",
+      "text": "灵魂异鱼卵"
+    },
+    "SPECTRAL_KNIGHT": {
+      "file": "monsters/spectral_knight.ogg",
+      "text": "幽灵骑士"
+    },
+    "SPINY_TOAD": {
+      "file": "monsters/spiny_toad.ogg",
+      "text": "棘刺蟾蜍"
+    },
+    "STABBOT": {
+      "file": "monsters/stabbot.ogg",
+      "text": "戳刺机器人"
+    },
+    "TERROR_EEL": {
+      "file": "monsters/terror_eel.ogg",
+      "text": "骇鳗"
+    },
+    "TEST_SUBJECT": {
+      "file": "monsters/test_subject.ogg",
+      "text": "实验体 #C240",
+      "matrixText": "实验体"
+    },
+    "THE_FORGOTTEN": {
+      "file": "monsters/the_forgotten.ogg",
+      "text": "遗忘之物"
+    },
+    "THE_INSATIABLE": {
+      "file": "monsters/the_insatiable.ogg",
+      "text": "无厌沙虫"
+    },
+    "THE_LOST": {
+      "file": "monsters/the_lost.ogg",
+      "text": "失落之物"
+    },
+    "THE_OBSCURA": {
+      "file": "monsters/the_obscura.ogg",
+      "text": "胧光怪"
+    },
+    "THIEVING_HOPPER": {
+      "file": "monsters/thieving_hopper.ogg",
+      "text": "偷窃草蜢"
+    },
+    "THINGS_CAVE_GOD_BODY": {
+      "file": "monsters/things_cave_god_body.ogg",
+      "text": "活体巨岩"
+    },
+    "THINGS_CAVE_GOD_CAPTIVE_CLAW": {
+      "file": "monsters/things_cave_god_captive_claw.ogg",
+      "text": "岩之手"
+    },
+    "THINGS_CAVE_GOD_LEFT_HAND": {
+      "file": "monsters/things_cave_god_left_hand.ogg",
+      "text": "巨岩左臂"
+    },
+    "THINGS_CAVE_GOD_RIGHT_HAND": {
+      "file": "monsters/things_cave_god_right_hand.ogg",
+      "text": "巨岩右臂"
+    },
+    "THINGS_SCALE_BEETLE": {
+      "file": "monsters/things_scale_beetle.ogg",
+      "text": "放缩巨甲虫"
+    },
+    "THINGS_THE_LEGACY": {
+      "file": "monsters/things_the_legacy.ogg",
+      "text": "腐化之遗"
+    },
+    "TOADPOLE": {
+      "file": "monsters/toadpole.ogg",
+      "text": "蟾蜍蝌蚪"
+    },
+    "TORCH_HEAD_AMALGAM": {
+      "file": "monsters/torch_head_amalgam.ogg",
+      "text": "火炬头聚合体"
+    },
+    "TOUGH_EGG": {
+      "file": "monsters/tough_egg.ogg",
+      "text": "结实的卵"
+    },
+    "TRACKER_RUBY_RAIDER": {
+      "file": "monsters/tracker_ruby_raider.ogg",
+      "text": "劫掠者追踪手"
+    },
+    "TUNNELER": {
+      "file": "monsters/tunneler.ogg",
+      "text": "地道虫"
+    },
+    "TURRET_OPERATOR": {
+      "file": "monsters/turret_operator.ogg",
+      "text": "高塔炮手"
+    },
+    "TWIG_SLIME_M": {
+      "file": "monsters/twig_slime_m.ogg",
+      "text": "树枝史莱姆（中）",
+      "matrixText": "中型树枝史莱姆"
+    },
+    "TWIG_SLIME_S": {
+      "file": "monsters/twig_slime_s.ogg",
+      "text": "树枝史莱姆（小）",
+      "matrixText": "小型树枝史莱姆"
+    },
+    "TWO_TAILED_RAT": {
+      "file": "monsters/two_tailed_rat.ogg",
+      "text": "双尾鼠"
+    },
+    "VANTOM": {
+      "file": "monsters/vantom.ogg",
+      "text": "墨影幻灵"
+    },
+    "VINE_SHAMBLER": {
+      "file": "monsters/vine_shambler.ogg",
+      "text": "藤蔓蹒跚者"
+    },
+    "WATERFALL_GIANT": {
+      "file": "monsters/waterfall_giant.ogg",
+      "text": "瀑布巨兽"
+    },
+    "WATER_SPONGE": {
+      "file": "monsters/water_sponge.ogg",
+      "text": "吸水海绵"
+    },
+    "WRIGGLER": {
+      "file": "monsters/wriggler.ogg",
+      "text": "扭动虫"
+    },
+    "ZAPBOT": {
+      "file": "monsters/zapbot.ogg",
+      "text": "电击机器人"
+    }
+  },
+  "counts": {
+    "2": {
+      "file": "counts/2.ogg",
+      "text": "两只"
+    },
+    "3": {
+      "file": "counts/3.ogg",
+      "text": "三只"
+    },
+    "4": {
+      "file": "counts/4.ogg",
+      "text": "四只"
+    },
+    "5": {
+      "file": "counts/5.ogg",
+      "text": "五只"
+    }
+  },
+  "status": {
+    "matrixDirectory": "status/matrix-qwen",
+    "buffPowers": [
+      "STRENGTH_POWER",
+      "DEXTERITY_POWER"
+    ],
+    "parts": {
+      "you": {
+        "file": "status/parts/you.ogg",
+        "text": "你现在"
+      },
+      "buffStarted": {
+        "file": "status/parts/buff_started.ogg",
+        "text": "获得"
+      },
+      "debuffStarted": {
+        "file": "status/parts/debuff_started.ogg",
+        "text": "受到"
+      },
+      "possessive": {
+        "file": "status/parts/possessive.ogg",
+        "text": "的"
+      },
+      "ended": {
+        "file": "status/parts/ended.ogg",
+        "text": "结束"
+      }
+    },
+    "templates": {
+      "buffStarted": [
+        "target",
+        "buffStarted",
+        "power"
+      ],
+      "debuffStarted": [
+        "target",
+        "debuffStarted",
+        "power"
+      ],
+      "statusEnded": [
+        "target",
+        "possessive",
+        "power",
+        "ended"
+      ]
+    },
+    "powers": {
+      "VULNERABLE_POWER": {
+        "file": "status/powers/vulnerable.ogg",
+        "text": "易伤状态"
+      },
+      "WEAK_POWER": {
+        "file": "status/powers/weak.ogg",
+        "text": "虚弱"
+      },
+      "STRENGTH_POWER": {
+        "file": "status/powers/strength.ogg",
+        "text": "力量"
+      },
+      "DEXTERITY_POWER": {
+        "file": "status/powers/dexterity.ogg",
+        "text": "敏捷"
+      }
+    }
+  },
+  "rosters": {
+    "AEONGLASS": {
+      "file": "encounters/rosters/2d8a3b0c3258b5d2.ogg",
+      "text": "敌人来袭。沙漏。"
+    },
+    "ASSASSIN_RUBY_RAIDER+AXE_RUBY_RAIDER+BRUTE_RUBY_RAIDER": {
+      "file": "encounters/rosters/9ecc6895ad6ea7d8.ogg",
+      "text": "敌人来袭。劫掠者队伍：斧手、暴徒与刺客。"
+    },
+    "ASSASSIN_RUBY_RAIDER+AXE_RUBY_RAIDER+CROSSBOW_RUBY_RAIDER": {
+      "file": "encounters/rosters/e896c5d37ace9207.ogg",
+      "text": "敌人来袭。劫掠者队伍：斧手、弩手与刺客。"
+    },
+    "ASSASSIN_RUBY_RAIDER+AXE_RUBY_RAIDER+TRACKER_RUBY_RAIDER": {
+      "file": "encounters/rosters/b64e60af7701f6d3.ogg",
+      "text": "敌人来袭。劫掠者队伍：追踪手、刺客与斧手。"
+    },
+    "ASSASSIN_RUBY_RAIDER+BRUTE_RUBY_RAIDER+CROSSBOW_RUBY_RAIDER": {
+      "file": "encounters/rosters/f88ca2bdcfe9eac8.ogg",
+      "text": "敌人来袭。劫掠者队伍：弩手、暴徒与刺客。"
+    },
+    "ASSASSIN_RUBY_RAIDER+BRUTE_RUBY_RAIDER+TRACKER_RUBY_RAIDER": {
+      "file": "encounters/rosters/3ad41804043c8c5c.ogg",
+      "text": "敌人来袭。劫掠者队伍：刺客、追踪手与暴徒。"
+    },
+    "ASSASSIN_RUBY_RAIDER+CROSSBOW_RUBY_RAIDER+TRACKER_RUBY_RAIDER": {
+      "file": "encounters/rosters/3d2cfb7d42fce66d.ogg",
+      "text": "敌人来袭。劫掠者队伍：弩手、刺客与追踪手。"
+    },
+    "AXEBOT": {
+      "file": "encounters/rosters/154c3ff7359aff21.ogg",
+      "text": "敌人来袭。巨斧机器人。"
+    },
+    "AXE_RUBY_RAIDER+BRUTE_RUBY_RAIDER+CROSSBOW_RUBY_RAIDER": {
+      "file": "encounters/rosters/835ce71a3842ed3c.ogg",
+      "text": "敌人来袭。劫掠者队伍：弩手、暴徒与斧手。"
+    },
+    "AXE_RUBY_RAIDER+BRUTE_RUBY_RAIDER+TRACKER_RUBY_RAIDER": {
+      "file": "encounters/rosters/797599cf3ea268d0.ogg",
+      "text": "敌人来袭。劫掠者队伍：斧手、暴徒与追踪手。"
+    },
+    "AXE_RUBY_RAIDER+CROSSBOW_RUBY_RAIDER+TRACKER_RUBY_RAIDER": {
+      "file": "encounters/rosters/d2ce32dfd048fc65.ogg",
+      "text": "敌人来袭。劫掠者队伍：追踪手、斧手与弩手。"
+    },
+    "BATTLE_FRIEND_V1": {
+      "file": "encounters/rosters/49a1983f31e1229f.ogg",
+      "text": "敌人来袭。战斗好伙伴V1.0。"
+    },
+    "BATTLE_FRIEND_V2": {
+      "file": "encounters/rosters/30e7e7e7f6fcd766.ogg",
+      "text": "敌人来袭。战斗好伙伴V2.0。"
+    },
+    "BATTLE_FRIEND_V3": {
+      "file": "encounters/rosters/287e99ff4d3f676c.ogg",
+      "text": "敌人来袭。战斗好伙伴V3.0。"
+    },
+    "BOWLBUG_EGG+BOWLBUG_NECTAR+BOWLBUG_ROCK": {
+      "file": "encounters/rosters/d80d61bfcb07716f.ogg",
+      "text": "敌人来袭。成碗虫·石、成碗虫·卵与成碗虫·蜜。"
+    },
+    "BOWLBUG_EGG+BOWLBUG_ROCK": {
+      "file": "encounters/rosters/8acd40b8c5322580.ogg",
+      "text": "敌人来袭。成碗虫·石与成碗虫·卵。"
+    },
+    "BOWLBUG_EGG+BOWLBUG_ROCK+BOWLBUG_SILK": {
+      "file": "encounters/rosters/aae749a588c4429b.ogg",
+      "text": "敌人来袭。成碗虫·石、成碗虫·卵与成碗虫·丝。"
+    },
+    "BOWLBUG_NECTAR+BOWLBUG_ROCK": {
+      "file": "encounters/rosters/da4d024bb087377f.ogg",
+      "text": "敌人来袭。成碗虫·石与成碗虫·蜜。"
+    },
+    "BOWLBUG_NECTAR+BOWLBUG_ROCK+BOWLBUG_SILK": {
+      "file": "encounters/rosters/48d1903f4c85e237.ogg",
+      "text": "敌人来袭。成碗虫·石、成碗虫·丝与成碗虫·蜜。"
+    },
+    "BOWLBUG_PROGENITOR": {
+      "file": "encounters/rosters/4fa5627792d764d7.ogg",
+      "text": "敌人来袭。成碗虫母虫。"
+    },
+    "BOWLBUG_ROCK+BOWLBUG_SILK+SLUMBERING_BEETLE": {
+      "file": "encounters/rosters/7d5d76fd3e4309b7.ogg",
+      "text": "敌人来袭。成碗虫·石、成碗虫·丝与熟睡甲虫。"
+    },
+    "BRUTE_RUBY_RAIDER+CROSSBOW_RUBY_RAIDER+TRACKER_RUBY_RAIDER": {
+      "file": "encounters/rosters/0036fa1ced2fa849.ogg",
+      "text": "敌人来袭。劫掠者队伍：弩手、追踪手与暴徒。"
+    },
+    "BYGONE_EFFIGY": {
+      "file": "encounters/rosters/0328c98292f3f8a9.ogg",
+      "text": "敌人来袭。旧日雕像。"
+    },
+    "BYRDONIS": {
+      "file": "encounters/rosters/929215c58f302e95.ogg",
+      "text": "敌人来袭。异鸟。"
+    },
+    "CALCIFIED_CULTIST+DAMP_CULTIST": {
+      "file": "encounters/rosters/d2cea4cd75debe39.ogg",
+      "text": "敌人来袭。咔咔两只。",
+      "instruction": "成熟冷静的女性旁白，标准中国大陆普通话。咔咔两个字，第一个咔读第一声 kā，第二个咔读第四声 kà。逐字清晰，语速从容，完整读出句末。"
+    },
+    "CALCIFIED_CULTIST+SEAPUNK": {
+      "file": "encounters/rosters/183de74269317e36.ogg",
+      "text": "敌人来袭。咔咔与海洋混混。",
+      "instruction": "成熟冷静的女性旁白，标准中国大陆普通话。咔咔两个字，第一个咔读第一声 kā，第二个咔读第四声 kà。逐字清晰，语速从容，完整读出句末。"
+    },
+    "CAVE_MAW": {
+      "file": "encounters/rosters/2e1c5e991032e46e.ogg",
+      "text": "敌人来袭。馋嘴洞胃。"
+    },
+    "CAVE_MAW+CRYSTAL_SNAIL+SLIME_SNAIL": {
+      "file": "encounters/rosters/d3a032bedfbc02d4.ogg",
+      "text": "敌人来袭。馋嘴洞胃、晶壳蜗牛与涎丝蜗牛。"
+    },
+    "CAVE_MAW+LANTERN_FISH": {
+      "file": "encounters/rosters/43e3cae75b29bbb1.ogg",
+      "text": "敌人来袭。馋嘴洞胃与灯笼鱼。"
+    },
+    "CAVE_MAW+SANGUINE_LEECH+SILK_MOTH": {
+      "file": "encounters/rosters/799194eaac82c488.ogg",
+      "text": "敌人来袭。馋嘴洞胃、垂丝蛾与吸血血蛭。"
+    },
+    "CEREMONIAL_BEAST": {
+      "file": "encounters/rosters/2196bf2039b47fd4.ogg",
+      "text": "敌人来袭。仪式兽。"
+    },
+    "CHOMPER+CHOMPER": {
+      "file": "encounters/rosters/9513147b3c2ee63c.ogg",
+      "text": "敌人来袭。小型机宝两只。"
+    },
+    "CORPSE_SLUG+CORPSE_SLUG": {
+      "file": "encounters/rosters/a6417f076e2f330b.ogg",
+      "text": "敌人来袭。噬尸蛞蝓两只。"
+    },
+    "CORPSE_SLUG+CORPSE_SLUG+CORPSE_SLUG": {
+      "file": "encounters/rosters/718cc05b744b4424.ogg",
+      "text": "敌人来袭。噬尸蛞蝓三只。"
+    },
+    "CRUSHER+ROCKET": {
+      "file": "encounters/rosters/0716c75f2ae7d3e5.ogg",
+      "text": "敌人来袭。碾碎爪与火箭。"
+    },
+    "CRYSTAL_SNAIL+LANTERN_FISH+SILK_MOTH": {
+      "file": "encounters/rosters/09c664b2ae02de29.ogg",
+      "text": "敌人来袭。灯笼鱼、垂丝蛾与晶壳蜗牛。"
+    },
+    "CRYSTAL_SNAIL+LANTERN_FISH+WATER_SPONGE": {
+      "file": "encounters/rosters/78afb170d5bcda19.ogg",
+      "text": "敌人来袭。灯笼鱼、吸水海绵与晶壳蜗牛。"
+    },
+    "CRYSTAL_SNAIL+ROCK_SNAIL+SLIME_SNAIL": {
+      "file": "encounters/rosters/7ef9fd69f632dd96.ogg",
+      "text": "敌人来袭。晶壳蜗牛、涎丝蜗牛与爬岩蜗牛。"
+    },
+    "CRYSTAL_SNAIL+ROCK_SNAIL+WATER_SPONGE": {
+      "file": "encounters/rosters/9df114b83a6c39cb.ogg",
+      "text": "敌人来袭。吸水海绵、爬岩蜗牛与晶壳蜗牛。"
+    },
+    "CUBEX_CONSTRUCT": {
+      "file": "encounters/rosters/e4ac74a17fe0a9b9.ogg",
+      "text": "敌人来袭。方柱构装体。"
+    },
+    "CUBEX_CONSTRUCT+CUBEX_CONSTRUCT+PUNCH_CONSTRUCT": {
+      "file": "encounters/rosters/cc3c7df65b210346.ogg",
+      "text": "敌人来袭。拳击构装体与方柱构装体两只。"
+    },
+    "DECIMILLIPEDE_SEGMENT_BACK+DECIMILLIPEDE_SEGMENT_FRONT+DECIMILLIPEDE_SEGMENT_MIDDLE": {
+      "file": "encounters/rosters/2ef6b398296a1607.ogg",
+      "text": "敌人来袭。千足虫。"
+    },
+    "DEVOTED_SCULPTOR": {
+      "file": "encounters/rosters/bc637cb3268b1503.ogg",
+      "text": "敌人来袭。大咔咔。",
+      "instruction": "成熟冷静的女性旁白，标准中国大陆普通话。咔咔两个字，第一个咔读第一声 kā，第二个咔读第四声 kà。逐字清晰，语速从容，完整读出句末。"
+    },
+    "ENTOMANCER": {
+      "file": "encounters/rosters/99b5af5afb02cc4a.ogg",
+      "text": "敌人来袭。养蜂人。"
+    },
+    "EXOSKELETON+EXOSKELETON+EXOSKELETON": {
+      "file": "encounters/rosters/dc3b49245040f290.ogg",
+      "text": "敌人来袭。蟑螂三只。"
+    },
+    "EXOSKELETON+EXOSKELETON+EXOSKELETON+EXOSKELETON": {
+      "file": "encounters/rosters/95f5075f2fb2f6f3.ogg",
+      "text": "敌人来袭。蟑螂四只。"
+    },
+    "FABRICATOR": {
+      "file": "encounters/rosters/66ae2ca650e7e49a.ogg",
+      "text": "敌人来袭。组装师。"
+    },
+    "FAKE_MERCHANT_MONSTER": {
+      "file": "encounters/rosters/61adce9a2c6b5ffb.ogg",
+      "text": "敌人来袭。商人？？？。"
+    },
+    "FLAIL_KNIGHT+MAGI_KNIGHT+SPECTRAL_KNIGHT": {
+      "file": "encounters/rosters/d53e04052265f2f9.ogg",
+      "text": "敌人来袭。连枷骑士、幽灵骑士与魔法骑士。"
+    },
+    "FLEETING_ECHO": {
+      "file": "encounters/rosters/41b98b7ac81c9780.ogg",
+      "text": "敌人来袭。余影魔。"
+    },
+    "FLYCONID+LEAF_SLIME_M": {
+      "file": "encounters/rosters/4acec9fae0fb741b.ogg",
+      "text": "敌人来袭。中型树叶史莱姆与飞蝇菌子。"
+    },
+    "FLYCONID+SNAPPING_JAXFRUIT": {
+      "file": "encounters/rosters/6d37dff877c25a06.ogg",
+      "text": "敌人来袭。闪光贾克斯果与飞蝇菌子。"
+    },
+    "FLYCONID+TWIG_SLIME_M": {
+      "file": "encounters/rosters/263ff9cab94feb1b.ogg",
+      "text": "敌人来袭。中型树枝史莱姆与飞蝇菌子。"
+    },
+    "FOGMOG": {
+      "file": "encounters/rosters/7fe37c2e07b1416a.ogg",
+      "text": "敌人来袭。雾菇。"
+    },
+    "FOSSIL_STALKER": {
+      "file": "encounters/rosters/314f8ea614634340.ogg",
+      "text": "敌人来袭。化石追踪者。"
+    },
+    "FROG_KNIGHT": {
+      "file": "encounters/rosters/851f5c27a0a5802b.ogg",
+      "text": "敌人来袭。青蛙骑士。"
+    },
+    "FUZZY_WURM_CRAWLER": {
+      "file": "encounters/rosters/c9cc9caaf032d619.ogg",
+      "text": "敌人来袭。毛绒伏地虫。"
+    },
+    "FUZZY_WURM_CRAWLER+SHRINKER_BEETLE": {
+      "file": "encounters/rosters/57a0ff27f0f1a3b8.ogg",
+      "text": "敌人来袭。缩小甲虫与毛绒伏地虫。"
+    },
+    "GLOBE_HEAD": {
+      "file": "encounters/rosters/ff47134a9d43830a.ogg",
+      "text": "敌人来袭。电球头。"
+    },
+    "GRAVETIDE_CORPSE_SLUG+GRAVETIDE_CORPSE_SLUG+GRAVETIDE_SLUG": {
+      "file": "encounters/rosters/ce1c77e0bdab7b9a.ogg",
+      "text": "敌人来袭。墓潮蛞蝓与噬尸蛞蝓两只。"
+    },
+    "GREMLIN_MERC": {
+      "file": "encounters/rosters/2dfdfdc407afcb23.ogg",
+      "text": "敌人来袭。地精佣兵。"
+    },
+    "HAUNTED_SHIP": {
+      "file": "encounters/rosters/6ac9c02f440fe2e6.ogg",
+      "text": "敌人来袭。幽灵船。"
+    },
+    "HUMAN_FACE_COLUMN+HUMAN_FACE_COLUMN+HUMAN_FACE_COLUMN": {
+      "file": "encounters/rosters/d2229c5665902b7b.ogg",
+      "text": "敌人来袭。人面柱三只。"
+    },
+    "HUNTER_KILLER": {
+      "file": "encounters/rosters/edc4bc84c669704f.ogg",
+      "text": "敌人来袭。猎人杀手。"
+    },
+    "INFESTED_PRISM": {
+      "file": "encounters/rosters/bbf15eeebad2f257.ogg",
+      "text": "敌人来袭。棱柱。"
+    },
+    "INKLET+INKLET+INKLET": {
+      "file": "encounters/rosters/c4bd851a48527173.ogg",
+      "text": "敌人来袭。墨宝三只。"
+    },
+    "KIN_FOLLOWER+KIN_FOLLOWER+KIN_PRIEST": {
+      "file": "encounters/rosters/0538b2ba37b9746a.ogg",
+      "text": "敌人来袭。同族信徒两只与同族神官。"
+    },
+    "KNOWLEDGE_DEMON": {
+      "file": "encounters/rosters/a7503d285331898f.ogg",
+      "text": "敌人来袭。知识恶魔。"
+    },
+    "LAGAVULIN_MATRIARCH": {
+      "file": "encounters/rosters/1e32098b0baf7558.ogg",
+      "text": "敌人来袭。乐嘉祖母。"
+    },
+    "LANTERN_FISH+LANTERN_FISH": {
+      "file": "encounters/rosters/da6faba2438b26df.ogg",
+      "text": "敌人来袭。灯笼鱼两只。"
+    },
+    "LANTERN_FISH+LANTERN_FISH+LANTERN_FISH": {
+      "file": "encounters/rosters/ae6de88fcb55fa2d.ogg",
+      "text": "敌人来袭。灯笼鱼三只。"
+    },
+    "LEAF_SLIME_M+LEAF_SLIME_S+TWIG_SLIME_M+TWIG_SLIME_S": {
+      "file": "encounters/rosters/5f0a4039a3ad86e5.ogg",
+      "text": "敌人来袭。史莱姆队伍：中型树枝、中型树叶、小型树枝与小型树叶。",
+      "instruction": "成熟冷静的女性旁白，标准中国大陆普通话。清楚、完整地读出整句，尤其必须完整读出最后一个词的最后一个字，句末不得吞音、弱化或提前收尾。"
+    },
+    "LEAF_SLIME_M+LEAF_SLIME_S+TWIG_SLIME_S": {
+      "file": "encounters/rosters/63f23e21fcdd8bce.ogg",
+      "text": "敌人来袭。史莱姆队伍：小型树枝、中型树叶与小型树叶。",
+      "instruction": "成熟冷静的女性旁白，标准中国大陆普通话。清楚、完整地读出整句，尤其必须完整读出最后一个词的最后一个字，句末不得吞音、弱化或提前收尾。"
+    },
+    "LEAF_SLIME_M+SLITHERING_STRANGLER": {
+      "file": "encounters/rosters/beef8a1e362c5bfd.ogg",
+      "text": "敌人来袭。中型树叶史莱姆与蛇行扼杀者。"
+    },
+    "LEAF_SLIME_S+LEAF_SLIME_S+SLITHERING_STRANGLER": {
+      "file": "encounters/rosters/eacfe4f4b6450e01.ogg",
+      "text": "敌人来袭。小型树叶史莱姆两只与蛇行扼杀者。"
+    },
+    "LEAF_SLIME_S+SLITHERING_STRANGLER+TWIG_SLIME_S": {
+      "file": "encounters/rosters/e4b4275b8763ed3f.ogg",
+      "text": "敌人来袭。小型树枝史莱姆、小型树叶史莱姆与蛇行扼杀者。"
+    },
+    "LEAF_SLIME_S+TWIG_SLIME_M+TWIG_SLIME_S": {
+      "file": "encounters/rosters/612f5c8d374a1d9f.ogg",
+      "text": "敌人来袭。史莱姆队伍：小型树枝、中型树枝与小型树叶。",
+      "instruction": "成熟冷静的女性旁白，标准中国大陆普通话。清楚、完整地读出整句，尤其必须完整读出最后一个词的最后一个字，句末不得吞音、弱化或提前收尾。"
+    },
+    "LIVING_FOG": {
+      "file": "encounters/rosters/4fc2c80711110310.ogg",
+      "text": "敌人来袭。活雾。"
+    },
+    "LIVING_SHIELD+TURRET_OPERATOR": {
+      "file": "encounters/rosters/e2d87618061a808e.ogg",
+      "text": "敌人来袭。活体盾与高塔炮手。"
+    },
+    "LOUSE_PROGENITOR": {
+      "file": "encounters/rosters/d7e91eda81f57882.ogg",
+      "text": "敌人来袭。虱虫之祖。"
+    },
+    "MAWLER": {
+      "file": "encounters/rosters/8854681584abec86.ogg",
+      "text": "敌人来袭。蛮兽。"
+    },
+    "MECHA_KNIGHT": {
+      "file": "encounters/rosters/cebf5d8a0063b7f0.ogg",
+      "text": "敌人来袭。大型机宝。"
+    },
+    "MYCORRHIZAL_BULWARK+MYCORRHIZAL_VANGUARD": {
+      "file": "encounters/rosters/3e87538da7390dc0.ogg",
+      "text": "敌人来袭。菌根长兄与菌根幼弟。"
+    },
+    "MYSTERIOUS_KNIGHT": {
+      "file": "encounters/rosters/12abafc63907b3fb.ogg",
+      "text": "敌人来袭。神秘骑士。"
+    },
+    "MYTE+MYTE": {
+      "file": "encounters/rosters/3a69b44f1d793484.ogg",
+      "text": "敌人来袭。异螨两只。"
+    },
+    "NIBBIT": {
+      "file": "encounters/rosters/fd8b1fc4a059318a.ogg",
+      "text": "敌人来袭。小啃兽。"
+    },
+    "NIBBIT+NIBBIT": {
+      "file": "encounters/rosters/2ef3904b5e79941c.ogg",
+      "text": "敌人来袭。小啃兽两只。"
+    },
+    "ORIGIN_FOGMOG": {
+      "file": "encounters/rosters/e3ba8ce06edde472.ogg",
+      "text": "敌人来袭。始源雾菇。"
+    },
+    "OVICOPTER": {
+      "file": "encounters/rosters/9976ebd663d3e9a3.ogg",
+      "text": "敌人来袭。直飞产卵虫。"
+    },
+    "OWL_MAGISTRATE": {
+      "file": "encounters/rosters/f18be39195bc33c2.ogg",
+      "text": "敌人来袭。猫头鹰法官。"
+    },
+    "PHANTASMAL_GARDENER+PHANTASMAL_GARDENER+PHANTASMAL_GARDENER+PHANTASMAL_GARDENER": {
+      "file": "encounters/rosters/d4dcc522fa198681.ogg",
+      "text": "敌人来袭。四漫。",
+      "instruction": "成熟冷静的女性旁白，标准中国大陆普通话。四漫两个字必须连续读出，中间不要停顿，吐字清晰，从容但不要拆开成两个词。"
+    },
+    "PHROG_PARASITE": {
+      "file": "encounters/rosters/9d67e35160b295c7.ogg",
+      "text": "敌人来袭。区区。"
+    },
+    "PUNCH_CONSTRUCT": {
+      "file": "encounters/rosters/150a73cbe8b19ceb.ogg",
+      "text": "敌人来袭。拳击构装体。"
+    },
+    "QUEEN+TORCH_HEAD_AMALGAM": {
+      "file": "encounters/rosters/2e710d782833542f.ogg",
+      "text": "敌人来袭。灯和女王。"
+    },
+    "QUIRKY_HOPPER": {
+      "file": "encounters/rosters/a2e06fa34835efd2.ogg",
+      "text": "敌人来袭。怪癖草蜢。"
+    },
+    "RADIO_JELLYFISH": {
+      "file": "encounters/rosters/defe252ba3db55b4.ogg",
+      "text": "敌人来袭。收音水母。"
+    },
+    "REVERSE_SALAMANDER": {
+      "file": "encounters/rosters/134dad2d1d6127d6.ogg",
+      "text": "敌人来袭。逆流蝾螈。"
+    },
+    "ROCK_SNAIL+SILK_MOTH+SLIME_SNAIL": {
+      "file": "encounters/rosters/9a0dcd40bbe8f837.ogg",
+      "text": "敌人来袭。垂丝蛾、爬岩蜗牛与涎丝蜗牛。"
+    },
+    "SANGUINE_LEECH+SANGUINE_LEECH": {
+      "file": "encounters/rosters/325fe23b1041912b.ogg",
+      "text": "敌人来袭。吸血血蛭两只。"
+    },
+    "SANGUINE_LEECH+SANGUINE_LEECH+SANGUINE_LEECH": {
+      "file": "encounters/rosters/fa9796007d176062.ogg",
+      "text": "敌人来袭。吸血血蛭三只。"
+    },
+    "SANGUINE_LEECH+SANGUINE_LEECH+SILK_MOTH": {
+      "file": "encounters/rosters/a42533a028fe7c8e.ogg",
+      "text": "敌人来袭。垂丝蛾与吸血血蛭两只。"
+    },
+    "SANGUINE_LEECH+SANGUINE_LEECH+WATER_SPONGE": {
+      "file": "encounters/rosters/d6845773832bac9b.ogg",
+      "text": "敌人来袭。吸水海绵与吸血血蛭两只。"
+    },
+    "SANGUINE_LEECH+SILK_MOTH": {
+      "file": "encounters/rosters/a99d4d6390c60d00.ogg",
+      "text": "敌人来袭。垂丝蛾与吸血血蛭。"
+    },
+    "SANGUINE_LEECH+WATER_SPONGE": {
+      "file": "encounters/rosters/ee581dc366be8d52.ogg",
+      "text": "敌人来袭。吸水海绵与吸血血蛭。"
+    },
+    "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": {
+      "file": "encounters/rosters/2cf2c8d36b289caa.ogg",
+      "text": "敌人来袭。咬人卷轴三只。"
+    },
+    "SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING+SCROLL_OF_BITING": {
+      "file": "encounters/rosters/b9ac61ec2d5615e4.ogg",
+      "text": "敌人来袭。咬人卷轴四只。"
+    },
+    "SEAPUNK": {
+      "file": "encounters/rosters/b7b915abb5973647.ogg",
+      "text": "敌人来袭。海洋混混。"
+    },
+    "SEWER_CLAM": {
+      "file": "encounters/rosters/de484777c00f7855.ogg",
+      "text": "敌人来袭。下水道蚌。"
+    },
+    "SHRINKER_BEETLE": {
+      "file": "encounters/rosters/479d9457f37d0f05.ogg",
+      "text": "敌人来袭。缩小甲虫。"
+    },
+    "SKULKING_COLONY": {
+      "file": "encounters/rosters/2d4fde1dc511eaf6.ogg",
+      "text": "敌人来袭。鬼祟珊瑚群。"
+    },
+    "SLIMED_BERSERKER": {
+      "file": "encounters/rosters/210237ad91bc77a7.ogg",
+      "text": "敌人来袭。史莱姆狂战士。"
+    },
+    "SLITHERING_STRANGLER+SNAPPING_JAXFRUIT": {
+      "file": "encounters/rosters/683063b3c6472b44.ogg",
+      "text": "敌人来袭。闪光贾克斯果与蛇行扼杀者。"
+    },
+    "SLITHERING_STRANGLER+TWIG_SLIME_M": {
+      "file": "encounters/rosters/13dc5170dfc40696.ogg",
+      "text": "敌人来袭。中型树枝史莱姆与蛇行扼杀者。"
+    },
+    "SLITHERING_STRANGLER+TWIG_SLIME_S+TWIG_SLIME_S": {
+      "file": "encounters/rosters/88f5870971402702.ogg",
+      "text": "敌人来袭。小型树枝史莱姆两只与蛇行扼杀者。"
+    },
+    "SLUDGE_SPINNER": {
+      "file": "encounters/rosters/c6b3703bdc87f808.ogg",
+      "text": "敌人来袭。淤泥旋螺。"
+    },
+    "SOUL_FYSH": {
+      "file": "encounters/rosters/cdd1a3835baf8f19.ogg",
+      "text": "敌人来袭。灵魂异鱼。"
+    },
+    "SOUL_NEXUS": {
+      "file": "encounters/rosters/03daf9ee9f6e4ecb.ogg",
+      "text": "敌人来袭。灵魂枢纽。"
+    },
+    "SOUL_ROES": {
+      "file": "encounters/rosters/d8cada8dca68b0d8.ogg",
+      "text": "敌人来袭。灵魂异鱼卵。"
+    },
+    "SPINY_TOAD": {
+      "file": "encounters/rosters/1bdc8e709569474a.ogg",
+      "text": "敌人来袭。棘刺蟾蜍。"
+    },
+    "TERROR_EEL": {
+      "file": "encounters/rosters/cf42540db193aa56.ogg",
+      "text": "敌人来袭。骇鳗。"
+    },
+    "TEST_SUBJECT": {
+      "file": "encounters/rosters/40d18b5c4173dfc0.ogg",
+      "text": "敌人来袭。实验体。"
+    },
+    "THE_FORGOTTEN+THE_LOST": {
+      "file": "encounters/rosters/696a3ea1b60c0bd5.ogg",
+      "text": "敌人来袭。失落之物与遗忘之物。"
+    },
+    "THE_INSATIABLE": {
+      "file": "encounters/rosters/a40409a92c29e88a.ogg",
+      "text": "敌人来袭。无厌沙虫。"
+    },
+    "THE_OBSCURA": {
+      "file": "encounters/rosters/d8bc9dbda6641fcc.ogg",
+      "text": "敌人来袭。胧光怪。"
+    },
+    "THIEVING_HOPPER": {
+      "file": "encounters/rosters/02a4a7313d1b7ff9.ogg",
+      "text": "敌人来袭。偷窃草蜢。"
+    },
+    "THINGS_CAVE_GOD_BODY+THINGS_CAVE_GOD_LEFT_HAND+THINGS_CAVE_GOD_RIGHT_HAND": {
+      "file": "encounters/rosters/6a5f5952b09e3043.ogg",
+      "text": "敌人来袭。巨岩左臂、巨岩右臂与活体巨岩。"
+    },
+    "THINGS_SCALE_BEETLE": {
+      "file": "encounters/rosters/38fc7fef94b68474.ogg",
+      "text": "敌人来袭。放缩巨甲虫。"
+    },
+    "THINGS_THE_LEGACY": {
+      "file": "encounters/rosters/005fed3e5069cb60.ogg",
+      "text": "敌人来袭。腐化之遗。"
+    },
+    "TOADPOLE+TOADPOLE": {
+      "file": "encounters/rosters/dbfbd7f75f9e9a07.ogg",
+      "text": "敌人来袭。蟾蜍蝌蚪两只。"
+    },
+    "TUNNELER": {
+      "file": "encounters/rosters/28d8cc1562f36317.ogg",
+      "text": "敌人来袭。地道虫。"
+    },
+    "TWO_TAILED_RAT+TWO_TAILED_RAT+TWO_TAILED_RAT": {
+      "file": "encounters/rosters/6f0b83ca0de999ce.ogg",
+      "text": "敌人来袭。双尾鼠三只。"
+    },
+    "VANTOM": {
+      "file": "encounters/rosters/1c61e1f8f9e295b5.ogg",
+      "text": "敌人来袭。墨影幻灵。"
+    },
+    "VINE_SHAMBLER": {
+      "file": "encounters/rosters/8651a8c0efe2fb91.ogg",
+      "text": "敌人来袭。藤蔓蹒跚者。"
+    },
+    "WATERFALL_GIANT": {
+      "file": "encounters/rosters/4d0d00061fbf4b97.ogg",
+      "text": "敌人来袭。瀑布巨兽。"
+    }
+  },
+  "cards": {
+    "ABRASIVE": {
+      "file": "cards/abrasive.ogg",
+      "text": "磨蚀",
+      "displayText": "磨蚀"
+    },
+    "ABUNDANCE": {
+      "file": "cards/abundance.ogg",
+      "text": "富足",
+      "displayText": "富足"
+    },
+    "ACCELERANT": {
+      "file": "cards/accelerant.ogg",
+      "text": "触媒",
+      "displayText": "触媒"
+    },
+    "ACCURACY": {
+      "file": "cards/accuracy.ogg",
+      "text": "精准",
+      "displayText": "精准"
+    },
+    "ACROBATICS": {
+      "file": "cards/acrobatics.ogg",
+      "text": "杂技",
+      "displayText": "杂技"
+    },
+    "ADAPTIVE_STRIKE": {
+      "file": "cards/adaptive_strike.ogg",
+      "text": "适应打击",
+      "displayText": "适应打击"
+    },
+    "ADRENALINE": {
+      "file": "cards/adrenaline.ogg",
+      "text": "肾上腺素",
+      "displayText": "肾上腺素"
+    },
+    "AFTERIMAGE": {
+      "file": "cards/afterimage.ogg",
+      "text": "余像",
+      "displayText": "余像"
+    },
+    "AFTERLIFE": {
+      "file": "cards/afterlife.ogg",
+      "text": "来生",
+      "displayText": "来生"
+    },
+    "AGGRESSION": {
+      "file": "cards/aggression.ogg",
+      "text": "好勇斗狠",
+      "displayText": "好勇斗狠"
+    },
+    "ALCHEMIZE": {
+      "file": "cards/alchemize.ogg",
+      "text": "炼制药水",
+      "displayText": "炼制药水"
+    },
+    "ALIGNMENT": {
+      "file": "cards/alignment.ogg",
+      "text": "星位序列",
+      "displayText": "星位序列"
+    },
+    "ALL_FOR_ONE": {
+      "file": "cards/all_for_one.ogg",
+      "text": "万物一心",
+      "displayText": "万物一心"
+    },
+    "ANGER": {
+      "file": "cards/anger.ogg",
+      "text": "愤怒",
+      "displayText": "愤怒"
+    },
+    "ANOINTED": {
+      "file": "cards/anointed.ogg",
+      "text": "天选",
+      "displayText": "天选"
+    },
+    "ANTICIPATE": {
+      "file": "cards/anticipate.ogg",
+      "text": "预判",
+      "displayText": "预判"
+    },
+    "APOTHEOSIS": {
+      "file": "cards/apotheosis.ogg",
+      "text": "神化",
+      "displayText": "神化"
+    },
+    "APPARITION": {
+      "file": "cards/apparition.ogg",
+      "text": "灵体",
+      "displayText": "灵体"
+    },
+    "ARMAMENTS": {
+      "file": "cards/armaments.ogg",
+      "text": "武装",
+      "displayText": "武装"
+    },
+    "ARSENAL": {
+      "file": "cards/arsenal.ogg",
+      "text": "武器库",
+      "displayText": "武器库"
+    },
+    "ASCENDERS_BANE": {
+      "file": "cards/ascenders_bane.ogg",
+      "text": "进阶之灾",
+      "displayText": "进阶之灾"
+    },
+    "ASHEN_STRIKE": {
+      "file": "cards/ashen_strike.ogg",
+      "text": "灰烬打击",
+      "displayText": "灰烬打击"
+    },
+    "ASSASSINATE": {
+      "file": "cards/assassinate.ogg",
+      "text": "刺杀",
+      "displayText": "刺杀"
+    },
+    "ASTRAL_PULSE": {
+      "file": "cards/astral_pulse.ogg",
+      "text": "星界脉冲",
+      "displayText": "星界脉冲"
+    },
+    "AUTOMATION": {
+      "file": "cards/automation.ogg",
+      "text": "自动化",
+      "displayText": "自动化"
+    },
+    "BACKFLIP": {
+      "file": "cards/backflip.ogg",
+      "text": "后空翻",
+      "displayText": "后空翻"
+    },
+    "BACKSTAB": {
+      "file": "cards/backstab.ogg",
+      "text": "背刺",
+      "displayText": "背刺"
+    },
+    "BAD_LUCK": {
+      "file": "cards/bad_luck.ogg",
+      "text": "霉运",
+      "displayText": "霉运"
+    },
+    "BALL_LIGHTNING": {
+      "file": "cards/ball_lightning.ogg",
+      "text": "球状闪电",
+      "displayText": "球状闪电"
+    },
+    "BANSHEES_CRY": {
+      "file": "cards/banshees_cry.ogg",
+      "text": "女妖之嚎",
+      "displayText": "女妖之嚎"
+    },
+    "BARRAGE": {
+      "file": "cards/barrage.ogg",
+      "text": "弹幕齐射",
+      "displayText": "弹幕齐射"
+    },
+    "BARRICADE": {
+      "file": "cards/barricade.ogg",
+      "text": "壁垒",
+      "displayText": "壁垒"
+    },
+    "BASH": {
+      "file": "cards/bash.ogg",
+      "text": "痛击",
+      "displayText": "痛击"
+    },
+    "BATTLE_TRANCE": {
+      "file": "cards/battle_trance.ogg",
+      "text": "战斗专注",
+      "displayText": "战斗专注"
+    },
+    "BEACON_OF_HOPE": {
+      "file": "cards/beacon_of_hope.ogg",
+      "text": "希望灯塔",
+      "displayText": "希望灯塔"
+    },
+    "BEAM_CELL": {
+      "file": "cards/beam_cell.ogg",
+      "text": "光束射线",
+      "displayText": "光束射线"
+    },
+    "BEAT_DOWN": {
+      "file": "cards/beat_down.ogg",
+      "text": "狠揍",
+      "displayText": "狠揍"
+    },
+    "BEAT_INTO_SHAPE": {
+      "file": "cards/beat_into_shape.ogg",
+      "text": "锻打成型",
+      "displayText": "锻打成型"
+    },
+    "BECKON": {
+      "file": "cards/beckon.ogg",
+      "text": "呼唤",
+      "displayText": "呼唤"
+    },
+    "BEGONE": {
+      "file": "cards/begone.ogg",
+      "text": "下去！",
+      "displayText": "下去！"
+    },
+    "BELIEVE_IN_YOU": {
+      "file": "cards/believe_in_you.ogg",
+      "text": "相信着你",
+      "displayText": "相信着你"
+    },
+    "BIASED_COGNITION": {
+      "file": "cards/biased_cognition.ogg",
+      "text": "偏差认知",
+      "displayText": "偏差认知"
+    },
+    "BIG_BANG": {
+      "file": "cards/big_bang.ogg",
+      "text": "大爆炸",
+      "displayText": "大爆炸"
+    },
+    "BLACK_HOLE": {
+      "file": "cards/black_hole.ogg",
+      "text": "黑洞",
+      "displayText": "黑洞"
+    },
+    "BLADE_DANCE": {
+      "file": "cards/blade_dance.ogg",
+      "text": "刀刃之舞",
+      "displayText": "刀刃之舞"
+    },
+    "BLADE_OF_INK": {
+      "file": "cards/blade_of_ink.ogg",
+      "text": "墨之刃",
+      "displayText": "墨之刃"
+    },
+    "BLADE_SYMPHONY": {
+      "file": "cards/blade_symphony.ogg",
+      "text": "刀刃交响曲",
+      "displayText": "刀刃交响曲"
+    },
+    "BLAZE": {
+      "file": "cards/blaze.ogg",
+      "text": "炽焰",
+      "displayText": "炽焰"
+    },
+    "BLIGHT_STRIKE": {
+      "file": "cards/blight_strike.ogg",
+      "text": "荒疫打击",
+      "displayText": "荒疫打击"
+    },
+    "BLOODLETTING": {
+      "file": "cards/bloodletting.ogg",
+      "text": "放血",
+      "displayText": "放血"
+    },
+    "BLOOD_WALL": {
+      "file": "cards/blood_wall.ogg",
+      "text": "血墙",
+      "displayText": "血墙"
+    },
+    "BLUDGEON": {
+      "file": "cards/bludgeon.ogg",
+      "text": "重锤",
+      "displayText": "重锤"
+    },
+    "BLUR": {
+      "file": "cards/blur.ogg",
+      "text": "残影",
+      "displayText": "残影"
+    },
+    "BODYGUARD": {
+      "file": "cards/bodyguard.ogg",
+      "text": "护卫",
+      "displayText": "护卫"
+    },
+    "BODY_SLAM": {
+      "file": "cards/body_slam.ogg",
+      "text": "全身撞击",
+      "displayText": "全身撞击"
+    },
+    "BOLAS": {
+      "file": "cards/bolas.ogg",
+      "text": "流星锤",
+      "displayText": "流星锤"
+    },
+    "BOMBARDMENT": {
+      "file": "cards/bombardment.ogg",
+      "text": "轰击",
+      "displayText": "轰击"
+    },
+    "BONE_SHARDS": {
+      "file": "cards/bone_shards.ogg",
+      "text": "碎骨",
+      "displayText": "碎骨"
+    },
+    "BOOST_AWAY": {
+      "file": "cards/boost_away.ogg",
+      "text": "高速脱离",
+      "displayText": "高速脱离"
+    },
+    "BOOT_SEQUENCE": {
+      "file": "cards/boot_sequence.ogg",
+      "text": "启动流程",
+      "displayText": "启动流程"
+    },
+    "BORROWED_TIME": {
+      "file": "cards/borrowed_time.ogg",
+      "text": "预借时间",
+      "displayText": "预借时间"
+    },
+    "BOUNCING_FLASK": {
+      "file": "cards/bouncing_flask.ogg",
+      "text": "弹跳药瓶",
+      "displayText": "弹跳药瓶"
+    },
+    "BRAND": {
+      "file": "cards/brand.ogg",
+      "text": "烙印",
+      "displayText": "烙印"
+    },
+    "BREAK": {
+      "file": "cards/break.ogg",
+      "text": "破击",
+      "displayText": "破击"
+    },
+    "BREAKTHROUGH": {
+      "file": "cards/breakthrough.ogg",
+      "text": "突破",
+      "displayText": "突破"
+    },
+    "BRIGHTEST_FLAME": {
+      "file": "cards/brightest_flame.ogg",
+      "text": "至亮之焰",
+      "displayText": "至亮之焰"
+    },
+    "BUBBLE_BUBBLE": {
+      "file": "cards/bubble_bubble.ogg",
+      "text": "咕嘟冒泡",
+      "displayText": "咕嘟冒泡"
+    },
+    "BUFFER": {
+      "file": "cards/buffer.ogg",
+      "text": "缓冲",
+      "displayText": "缓冲"
+    },
+    "BULK_UP": {
+      "file": "cards/bulk_up.ogg",
+      "text": "暴涨",
+      "displayText": "暴涨"
+    },
+    "BULLET_TIME": {
+      "file": "cards/bullet_time.ogg",
+      "text": "子弹时间",
+      "displayText": "子弹时间"
+    },
+    "BULLY": {
+      "file": "cards/bully.ogg",
+      "text": "欺凌",
+      "displayText": "欺凌"
+    },
+    "BULWARK": {
+      "file": "cards/bulwark.ogg",
+      "text": "铸墙",
+      "displayText": "铸墙"
+    },
+    "BUNDLE_OF_JOY": {
+      "file": "cards/bundle_of_joy.ogg",
+      "text": "新生之喜",
+      "displayText": "新生之喜"
+    },
+    "BURN": {
+      "file": "cards/burn.ogg",
+      "text": "灼伤",
+      "displayText": "灼伤"
+    },
+    "BURNING_PACT": {
+      "file": "cards/burning_pact.ogg",
+      "text": "燃烧契约",
+      "displayText": "燃烧契约"
+    },
+    "BURST": {
+      "file": "cards/burst.ogg",
+      "text": "爆发",
+      "displayText": "爆发"
+    },
+    "BURY": {
+      "file": "cards/bury.ogg",
+      "text": "埋葬",
+      "displayText": "埋葬"
+    },
+    "BYRDONIS_EGG": {
+      "file": "cards/byrdonis_egg.ogg",
+      "text": "异鸟蛋",
+      "displayText": "多尼斯异鸟蛋",
+      "spokenText": "异鸟蛋"
+    },
+    "BYRD_SWOOP": {
+      "file": "cards/byrd_swoop.ogg",
+      "text": "异鸟扑击",
+      "displayText": "异鸟扑击"
+    },
+    "CACOPHONY": {
+      "file": "cards/cacophony.ogg",
+      "text": "不谐合曲",
+      "displayText": "不谐合曲"
+    },
+    "CALAMITY": {
+      "file": "cards/calamity.ogg",
+      "text": "劫难",
+      "displayText": "劫难"
+    },
+    "CALCIFY": {
+      "file": "cards/calcify.ogg",
+      "text": "钙化",
+      "displayText": "钙化"
+    },
+    "CALCULATED_GAMBLE": {
+      "file": "cards/calculated_gamble.ogg",
+      "text": "计算下注",
+      "displayText": "计算下注"
+    },
+    "CALL_OF_THE_VOID": {
+      "file": "cards/call_of_the_void.ogg",
+      "text": "虚空之唤",
+      "displayText": "虚空之唤"
+    },
+    "CALTROPS": {
+      "file": "cards/caltrops.ogg",
+      "text": "铁蒺藜",
+      "displayText": "铁蒺藜"
+    },
+    "CAPACITOR": {
+      "file": "cards/capacitor.ogg",
+      "text": "扩容",
+      "displayText": "扩容"
+    },
+    "CAPTURE_SPIRIT": {
+      "file": "cards/capture_spirit.ogg",
+      "text": "捕捉灵魂",
+      "displayText": "捕捉灵魂"
+    },
+    "CASCADE": {
+      "file": "cards/cascade.ogg",
+      "text": "倾泻",
+      "displayText": "倾泻"
+    },
+    "CATASTROPHE": {
+      "file": "cards/catastrophe.ogg",
+      "text": "横祸",
+      "displayText": "横祸"
+    },
+    "CAVE_GOD_ARCANE_TRIAL": {
+      "file": "cards/cave_god_arcane_trial.ogg",
+      "text": "坚韧试炼",
+      "displayText": "坚韧试炼"
+    },
+    "CAVE_GOD_BROKEN_BLADE_TRIAL": {
+      "file": "cards/cave_god_broken_blade_trial.ogg",
+      "text": "断刃",
+      "displayText": "断刃"
+    },
+    "CAVE_GOD_MARTIAL_TRIAL": {
+      "file": "cards/cave_god_martial_trial.ogg",
+      "text": "刚猛试炼",
+      "displayText": "刚猛试炼"
+    },
+    "CAVE_GOD_SHATTERED_SHIELD_TRIAL": {
+      "file": "cards/cave_god_shattered_shield_trial.ogg",
+      "text": "碎盾",
+      "displayText": "碎盾"
+    },
+    "CELESTIAL_MIGHT": {
+      "file": "cards/celestial_might.ogg",
+      "text": "天穹之力",
+      "displayText": "天穹之力"
+    },
+    "CHAOS": {
+      "file": "cards/chaos.ogg",
+      "text": "混沌",
+      "displayText": "混沌"
+    },
+    "CHARGE": {
+      "file": "cards/charge.ogg",
+      "text": "冲锋！！",
+      "displayText": "冲锋！！"
+    },
+    "CHARGE_BATTERY": {
+      "file": "cards/charge_battery.ogg",
+      "text": "充电",
+      "displayText": "充电"
+    },
+    "CHILD_OF_THE_STARS": {
+      "file": "cards/child_of_the_stars.ogg",
+      "text": "群星之子",
+      "displayText": "群星之子"
+    },
+    "CHILL": {
+      "file": "cards/chill.ogg",
+      "text": "冰寒",
+      "displayText": "冰寒"
+    },
+    "CINDER": {
+      "file": "cards/cinder.ogg",
+      "text": "余烬",
+      "displayText": "余烬"
+    },
+    "CLASH": {
+      "file": "cards/clash.ogg",
+      "text": "交锋",
+      "displayText": "交锋"
+    },
+    "CLAW": {
+      "file": "cards/claw.ogg",
+      "text": "爪击",
+      "displayText": "爪击"
+    },
+    "CLEANSE": {
+      "file": "cards/cleanse.ogg",
+      "text": "洁净",
+      "displayText": "洁净"
+    },
+    "CLOAK_AND_DAGGER": {
+      "file": "cards/cloak_and_dagger.ogg",
+      "text": "斗篷与匕首",
+      "displayText": "斗篷与匕首"
+    },
+    "CLOAK_OF_STARS": {
+      "file": "cards/cloak_of_stars.ogg",
+      "text": "群星斗篷",
+      "displayText": "群星斗篷"
+    },
+    "CLUMSY": {
+      "file": "cards/clumsy.ogg",
+      "text": "笨拙",
+      "displayText": "笨拙"
+    },
+    "COLD_SNAP": {
+      "file": "cards/cold_snap.ogg",
+      "text": "寒流",
+      "displayText": "寒流"
+    },
+    "COLLISION_COURSE": {
+      "file": "cards/collision_course.ogg",
+      "text": "碰撞轨迹",
+      "displayText": "碰撞轨迹"
+    },
+    "COLOSSUS": {
+      "file": "cards/colossus.ogg",
+      "text": "巨像",
+      "displayText": "巨像"
+    },
+    "COMET": {
+      "file": "cards/comet.ogg",
+      "text": "彗星",
+      "displayText": "彗星"
+    },
+    "COMPACT": {
+      "file": "cards/compact.ogg",
+      "text": "压缩",
+      "displayText": "压缩"
+    },
+    "COMPILE_DRIVER": {
+      "file": "cards/compile_driver.ogg",
+      "text": "编译冲击",
+      "displayText": "编译冲击"
+    },
+    "CONCOCT": {
+      "file": "cards/concoct.ogg",
+      "text": "调制",
+      "displayText": "调制"
+    },
+    "CONFLAGRATION": {
+      "file": "cards/conflagration.ogg",
+      "text": "焚烧",
+      "displayText": "焚烧"
+    },
+    "CONQUEROR": {
+      "file": "cards/conqueror.ogg",
+      "text": "征服者",
+      "displayText": "征服者"
+    },
+    "CONSTELLATION": {
+      "file": "cards/constellation.ogg",
+      "text": "群星荟萃",
+      "displayText": "群星荟萃"
+    },
+    "CONSUMING_SHADOW": {
+      "file": "cards/consuming_shadow.ogg",
+      "text": "吞噬暗影",
+      "displayText": "吞噬暗影"
+    },
+    "CONVERGENCE": {
+      "file": "cards/convergence.ogg",
+      "text": "汇流",
+      "displayText": "汇流"
+    },
+    "COOLANT": {
+      "file": "cards/coolant.ogg",
+      "text": "冷却剂",
+      "displayText": "冷却剂"
+    },
+    "COOLHEADED": {
+      "file": "cards/coolheaded.ogg",
+      "text": "冷静头脑",
+      "displayText": "冷静头脑"
+    },
+    "COORDINATE": {
+      "file": "cards/coordinate.ogg",
+      "text": "协同配合",
+      "displayText": "协同配合"
+    },
+    "CORROSIVE_WAVE": {
+      "file": "cards/corrosive_wave.ogg",
+      "text": "腐蚀波",
+      "displayText": "腐蚀波"
+    },
+    "CORRUPTION": {
+      "file": "cards/corruption.ogg",
+      "text": "腐化",
+      "displayText": "腐化"
+    },
+    "COSMIC_INDIFFERENCE": {
+      "file": "cards/cosmic_indifference.ogg",
+      "text": "宇宙冷漠",
+      "displayText": "宇宙冷漠"
+    },
+    "COUNTDOWN": {
+      "file": "cards/countdown.ogg",
+      "text": "倒数计时",
+      "displayText": "倒数计时"
+    },
+    "CRASH_LANDING": {
+      "file": "cards/crash_landing.ogg",
+      "text": "迫降",
+      "displayText": "迫降"
+    },
+    "CREATIVE_AI": {
+      "file": "cards/creative_ai.ogg",
+      "text": "创造性AI",
+      "displayText": "创造性AI"
+    },
+    "CRESCENT_SPEAR": {
+      "file": "cards/crescent_spear.ogg",
+      "text": "新月长矛",
+      "displayText": "新月长矛"
+    },
+    "CRIMSON_MANTLE": {
+      "file": "cards/crimson_mantle.ogg",
+      "text": "绯红披风",
+      "displayText": "绯红披风"
+    },
+    "CRUELTY": {
+      "file": "cards/cruelty.ogg",
+      "text": "残酷",
+      "displayText": "残酷"
+    },
+    "CRUSH_UNDER": {
+      "file": "cards/crush_under.ogg",
+      "text": "下砸",
+      "displayText": "下砸"
+    },
+    "CURSE_OF_THE_BELL": {
+      "file": "cards/curse_of_the_bell.ogg",
+      "text": "铃铛的诅咒",
+      "displayText": "铃铛的诅咒"
+    },
+    "DAGGER_SPRAY": {
+      "file": "cards/dagger_spray.ogg",
+      "text": "匕首雨",
+      "displayText": "匕首雨"
+    },
+    "DAGGER_THROW": {
+      "file": "cards/dagger_throw.ogg",
+      "text": "投掷匕首",
+      "displayText": "投掷匕首"
+    },
+    "DANSE_MACABRE": {
+      "file": "cards/danse_macabre.ogg",
+      "text": "死亡之舞",
+      "displayText": "死亡之舞"
+    },
+    "DARKNESS": {
+      "file": "cards/darkness.ogg",
+      "text": "漆黑",
+      "displayText": "漆黑"
+    },
+    "DARK_EMBRACE": {
+      "file": "cards/dark_embrace.ogg",
+      "text": "黑暗之拥",
+      "displayText": "黑暗之拥"
+    },
+    "DARK_SHACKLES": {
+      "file": "cards/dark_shackles.ogg",
+      "text": "黑暗镣铐",
+      "displayText": "黑暗镣铐"
+    },
+    "DASH": {
+      "file": "cards/dash.ogg",
+      "text": "冲刺",
+      "displayText": "冲刺"
+    },
+    "DAZED": {
+      "file": "cards/dazed.ogg",
+      "text": "晕眩",
+      "displayText": "晕眩"
+    },
+    "DEADLY_POISON": {
+      "file": "cards/deadly_poison.ogg",
+      "text": "致命毒药",
+      "displayText": "致命毒药"
+    },
+    "DEATHBRINGER": {
+      "file": "cards/deathbringer.ogg",
+      "text": "死亡使者",
+      "displayText": "死亡使者"
+    },
+    "DEATHS_DOOR": {
+      "file": "cards/deaths_door.ogg",
+      "text": "死亡之门",
+      "displayText": "死亡之门"
+    },
+    "DEATH_MARCH": {
+      "file": "cards/death_march.ogg",
+      "text": "死亡行军",
+      "displayText": "死亡行军"
+    },
+    "DEBILITATE": {
+      "file": "cards/debilitate.ogg",
+      "text": "摧残",
+      "displayText": "摧残"
+    },
+    "DEBRIS": {
+      "file": "cards/debris.ogg",
+      "text": "碎屑",
+      "displayText": "碎屑"
+    },
+    "DEBT": {
+      "file": "cards/debt.ogg",
+      "text": "债务",
+      "displayText": "债务"
+    },
+    "DECAY": {
+      "file": "cards/decay.ogg",
+      "text": "腐朽",
+      "displayText": "腐朽"
+    },
+    "DECISIONS_DECISIONS": {
+      "file": "cards/decisions_decisions.ogg",
+      "text": "抉择，抉择",
+      "displayText": "抉择，抉择"
+    },
+    "DEFEND_DEFECT": {
+      "file": "cards/defend_defect.ogg",
+      "text": "防御",
+      "displayText": "防御"
+    },
+    "DEFEND_IRONCLAD": {
+      "file": "cards/defend_ironclad.ogg",
+      "text": "防御",
+      "displayText": "防御"
+    },
+    "DEFEND_NECROBINDER": {
+      "file": "cards/defend_necrobinder.ogg",
+      "text": "防御",
+      "displayText": "防御"
+    },
+    "DEFEND_REGENT": {
+      "file": "cards/defend_regent.ogg",
+      "text": "防御",
+      "displayText": "防御"
+    },
+    "DEFEND_SILENT": {
+      "file": "cards/defend_silent.ogg",
+      "text": "防御",
+      "displayText": "防御"
+    },
+    "DEFILE": {
+      "file": "cards/defile.ogg",
+      "text": "玷污",
+      "displayText": "玷污"
+    },
+    "DEFLECT": {
+      "file": "cards/deflect.ogg",
+      "text": "偏折",
+      "displayText": "偏折"
+    },
+    "DEFRAGMENT": {
+      "file": "cards/defragment.ogg",
+      "text": "碎片整理",
+      "displayText": "碎片整理"
+    },
+    "DEFY": {
+      "file": "cards/defy.ogg",
+      "text": "违逆",
+      "displayText": "违逆"
+    },
+    "DELAY": {
+      "file": "cards/delay.ogg",
+      "text": "拖延",
+      "displayText": "拖延"
+    },
+    "DEMESNE": {
+      "file": "cards/demesne.ogg",
+      "text": "领域",
+      "displayText": "领域"
+    },
+    "DEMONIC_SHIELD": {
+      "file": "cards/demonic_shield.ogg",
+      "text": "恶魔护盾",
+      "displayText": "恶魔护盾"
+    },
+    "DEMON_FORM": {
+      "file": "cards/demon_form.ogg",
+      "text": "恶魔形态",
+      "displayText": "恶魔形态"
+    },
+    "DEPRECATED_CARD": {
+      "file": "cards/deprecated_card.ogg",
+      "text": "弃用卡牌",
+      "displayText": "弃用卡牌"
+    },
+    "DEVASTATE": {
+      "file": "cards/devastate.ogg",
+      "text": "葬送",
+      "displayText": "葬送"
+    },
+    "DEVOUR_LIFE": {
+      "file": "cards/devour_life.ogg",
+      "text": "吞噬生命",
+      "displayText": "吞噬生命"
+    },
+    "DIRGE": {
+      "file": "cards/dirge.ogg",
+      "text": "挽歌",
+      "displayText": "挽歌"
+    },
+    "DISCOVERY": {
+      "file": "cards/discovery.ogg",
+      "text": "发现",
+      "displayText": "发现"
+    },
+    "DISINTEGRATION": {
+      "file": "cards/disintegration.ogg",
+      "text": "瓦解",
+      "displayText": "瓦解"
+    },
+    "DISMANTLE": {
+      "file": "cards/dismantle.ogg",
+      "text": "拆卸",
+      "displayText": "拆卸"
+    },
+    "DISTRACTION": {
+      "file": "cards/distraction.ogg",
+      "text": "声东击西",
+      "displayText": "声东击西"
+    },
+    "DODGE_AND_ROLL": {
+      "file": "cards/dodge_and_roll.ogg",
+      "text": "闪躲翻滚",
+      "displayText": "闪躲翻滚"
+    },
+    "DOMINATE": {
+      "file": "cards/dominate.ogg",
+      "text": "主宰",
+      "displayText": "主宰"
+    },
+    "DOUBLE_ENERGY": {
+      "file": "cards/double_energy.ogg",
+      "text": "双倍能量",
+      "displayText": "双倍能量"
+    },
+    "DOUBT": {
+      "file": "cards/doubt.ogg",
+      "text": "疑虑",
+      "displayText": "疑虑"
+    },
+    "DOWSING": {
+      "file": "cards/dowsing.ogg",
+      "text": "探寻",
+      "displayText": "探寻"
+    },
+    "DRAIN_POWER": {
+      "file": "cards/drain_power.ogg",
+      "text": "能量汲取",
+      "displayText": "能量汲取"
+    },
+    "DRAMATIC_ENTRANCE": {
+      "file": "cards/dramatic_entrance.ogg",
+      "text": "闪亮登场",
+      "displayText": "闪亮登场"
+    },
+    "DREDGE": {
+      "file": "cards/dredge.ogg",
+      "text": "清淤",
+      "displayText": "清淤"
+    },
+    "DRUM_OF_BATTLE": {
+      "file": "cards/drum_of_battle.ogg",
+      "text": "战鼓",
+      "displayText": "战鼓"
+    },
+    "DUALCAST": {
+      "file": "cards/dualcast.ogg",
+      "text": "双重释放",
+      "displayText": "双重释放"
+    },
+    "DUAL_WIELD": {
+      "file": "cards/dual_wield.ogg",
+      "text": "双持",
+      "displayText": "双持"
+    },
+    "DYING_STAR": {
+      "file": "cards/dying_star.ogg",
+      "text": "星灭",
+      "displayText": "星灭"
+    },
+    "ECHOING_SLASH": {
+      "file": "cards/echoing_slash.ogg",
+      "text": "回响斩击",
+      "displayText": "回响斩击"
+    },
+    "ECHO_FORM": {
+      "file": "cards/echo_form.ogg",
+      "text": "回响形态",
+      "displayText": "回响形态"
+    },
+    "EIDOLON": {
+      "file": "cards/eidolon.ogg",
+      "text": "幻景",
+      "displayText": "幻景"
+    },
+    "END_OF_DAYS": {
+      "file": "cards/end_of_days.ogg",
+      "text": "末日降临",
+      "displayText": "末日降临"
+    },
+    "ENERGY_SURGE": {
+      "file": "cards/energy_surge.ogg",
+      "text": "能量涌动",
+      "displayText": "能量涌动"
+    },
+    "ENFEEBLING_TOUCH": {
+      "file": "cards/enfeebling_touch.ogg",
+      "text": "弱化之触",
+      "displayText": "弱化之触"
+    },
+    "ENLIGHTENMENT": {
+      "file": "cards/enlightenment.ogg",
+      "text": "开悟",
+      "displayText": "开悟"
+    },
+    "ENTHRALLED": {
+      "file": "cards/enthralled.ogg",
+      "text": "执迷",
+      "displayText": "执迷"
+    },
+    "ENTRENCH": {
+      "file": "cards/entrench.ogg",
+      "text": "巩固",
+      "displayText": "巩固"
+    },
+    "ENTROPY": {
+      "file": "cards/entropy.ogg",
+      "text": "熵",
+      "displayText": "熵"
+    },
+    "ENVENOM": {
+      "file": "cards/envenom.ogg",
+      "text": "涂毒",
+      "displayText": "涂毒"
+    },
+    "EQUILIBRIUM": {
+      "file": "cards/equilibrium.ogg",
+      "text": "均衡",
+      "displayText": "均衡"
+    },
+    "ERADICATE": {
+      "file": "cards/eradicate.ogg",
+      "text": "根除",
+      "displayText": "根除"
+    },
+    "ESCAPE_PLAN": {
+      "file": "cards/escape_plan.ogg",
+      "text": "逃脱计划",
+      "displayText": "逃脱计划"
+    },
+    "ETERNAL_ARMOR": {
+      "file": "cards/eternal_armor.ogg",
+      "text": "永恒铠甲",
+      "displayText": "永恒铠甲"
+    },
+    "EVIL_EYE": {
+      "file": "cards/evil_eye.ogg",
+      "text": "邪眼",
+      "displayText": "邪眼"
+    },
+    "EXPECT_A_FIGHT": {
+      "file": "cards/expect_a_fight.ogg",
+      "text": "跃跃欲试",
+      "displayText": "跃跃欲试"
+    },
+    "EXPERTISE": {
+      "file": "cards/expertise.ogg",
+      "text": "独门技术",
+      "displayText": "独门技术"
+    },
+    "EXPOSE": {
+      "file": "cards/expose.ogg",
+      "text": "暴露",
+      "displayText": "暴露"
+    },
+    "EXTERMINATE": {
+      "file": "cards/exterminate.ogg",
+      "text": "杀灭",
+      "displayText": "杀灭"
+    },
+    "FADE": {
+      "file": "cards/fade.ogg",
+      "text": "消影",
+      "displayText": "消影"
+    },
+    "FALLING_STAR": {
+      "file": "cards/falling_star.ogg",
+      "text": "陨星",
+      "displayText": "陨星"
+    },
+    "FAN_OF_KNIVES": {
+      "file": "cards/fan_of_knives.ogg",
+      "text": "刀扇",
+      "displayText": "刀扇"
+    },
+    "FASTEN": {
+      "file": "cards/fasten.ogg",
+      "text": "勒紧",
+      "displayText": "勒紧"
+    },
+    "FEAR": {
+      "file": "cards/fear.ogg",
+      "text": "恐惧",
+      "displayText": "恐惧"
+    },
+    "FEED": {
+      "file": "cards/feed.ogg",
+      "text": "狂宴",
+      "displayText": "狂宴"
+    },
+    "FEEDING_FRENZY": {
+      "file": "cards/feeding_frenzy.ogg",
+      "text": "疯狂进食",
+      "displayText": "疯狂进食"
+    },
+    "FEEL_NO_PAIN": {
+      "file": "cards/feel_no_pain.ogg",
+      "text": "无惧疼痛",
+      "displayText": "无惧疼痛"
+    },
+    "FERAL": {
+      "file": "cards/feral.ogg",
+      "text": "野性",
+      "displayText": "野性"
+    },
+    "FETCH": {
+      "file": "cards/fetch.ogg",
+      "text": "取回",
+      "displayText": "取回"
+    },
+    "FIEND_FIRE": {
+      "file": "cards/fiend_fire.ogg",
+      "text": "恶魔之焰",
+      "displayText": "恶魔之焰"
+    },
+    "FIGHT_ME": {
+      "file": "cards/fight_me.ogg",
+      "text": "与我一战！",
+      "displayText": "与我一战！"
+    },
+    "FIGHT_THROUGH": {
+      "file": "cards/fight_through.ogg",
+      "text": "强撑",
+      "displayText": "强撑"
+    },
+    "FINESSE": {
+      "file": "cards/finesse.ogg",
+      "text": "妙计",
+      "displayText": "妙计"
+    },
+    "FINISHER": {
+      "file": "cards/finisher.ogg",
+      "text": "终结技",
+      "displayText": "终结技"
+    },
+    "FISTICUFFS": {
+      "file": "cards/fisticuffs.ogg",
+      "text": "拳斗",
+      "displayText": "拳斗"
+    },
+    "FLAK_CANNON": {
+      "file": "cards/flak_cannon.ogg",
+      "text": "散射炮",
+      "displayText": "散射炮"
+    },
+    "FLAME_BARRIER": {
+      "file": "cards/flame_barrier.ogg",
+      "text": "火焰屏障",
+      "displayText": "火焰屏障"
+    },
+    "FLANKING": {
+      "file": "cards/flanking.ogg",
+      "text": "夹击",
+      "displayText": "夹击"
+    },
+    "FLASH_OF_STEEL": {
+      "file": "cards/flash_of_steel.ogg",
+      "text": "亮剑",
+      "displayText": "亮剑"
+    },
+    "FLATTEN": {
+      "file": "cards/flatten.ogg",
+      "text": "重压",
+      "displayText": "重压"
+    },
+    "FLECHETTES": {
+      "file": "cards/flechettes.ogg",
+      "text": "飞镖",
+      "displayText": "飞镖"
+    },
+    "FLICK_FLACK": {
+      "file": "cards/flick_flack.ogg",
+      "text": "翻越撑击",
+      "displayText": "翻越撑击"
+    },
+    "FOCUSED_STRIKE": {
+      "file": "cards/focused_strike.ogg",
+      "text": "集中打击",
+      "displayText": "集中打击"
+    },
+    "FOLLY": {
+      "file": "cards/folly.ogg",
+      "text": "愚行",
+      "displayText": "愚行"
+    },
+    "FOOTWORK": {
+      "file": "cards/footwork.ogg",
+      "text": "灵动步法",
+      "displayText": "灵动步法"
+    },
+    "FORBIDDEN_GRIMOIRE": {
+      "file": "cards/forbidden_grimoire.ogg",
+      "text": "禁忌魔典",
+      "displayText": "禁忌魔典"
+    },
+    "FOREGONE_CONCLUSION": {
+      "file": "cards/foregone_conclusion.ogg",
+      "text": "既定事项",
+      "displayText": "既定事项"
+    },
+    "FORGOTTEN_RITUAL": {
+      "file": "cards/forgotten_ritual.ogg",
+      "text": "被遗忘的仪式",
+      "displayText": "被遗忘的仪式"
+    },
+    "FRANTIC_ESCAPE": {
+      "file": "cards/frantic_escape.ogg",
+      "text": "狂乱逃离",
+      "displayText": "狂乱逃离"
+    },
+    "FRIENDSHIP": {
+      "file": "cards/friendship.ogg",
+      "text": "友谊",
+      "displayText": "友谊"
+    },
+    "FTL": {
+      "file": "cards/ftl.ogg",
+      "text": "超越光速",
+      "displayText": "超越光速"
+    },
+    "FUEL": {
+      "file": "cards/fuel.ogg",
+      "text": "燃料",
+      "displayText": "燃料"
+    },
+    "FURNACE": {
+      "file": "cards/furnace.ogg",
+      "text": "熔炉",
+      "displayText": "熔炉"
+    },
+    "FUSION": {
+      "file": "cards/fusion.ogg",
+      "text": "聚变",
+      "displayText": "聚变"
+    },
+    "GAMMA_BLAST": {
+      "file": "cards/gamma_blast.ogg",
+      "text": "伽马爆破",
+      "displayText": "伽马爆破"
+    },
+    "GANG_UP": {
+      "file": "cards/gang_up.ogg",
+      "text": "群起攻之",
+      "displayText": "群起攻之"
+    },
+    "GATHER_LIGHT": {
+      "file": "cards/gather_light.ogg",
+      "text": "收集光辉",
+      "displayText": "收集光辉"
+    },
+    "GENESIS": {
+      "file": "cards/genesis.ogg",
+      "text": "创世纪",
+      "displayText": "创世纪"
+    },
+    "GENETIC_ALGORITHM": {
+      "file": "cards/genetic_algorithm.ogg",
+      "text": "遗传算法",
+      "displayText": "遗传算法"
+    },
+    "GIANT_ROCK": {
+      "file": "cards/giant_rock.ogg",
+      "text": "巨石",
+      "displayText": "巨石"
+    },
+    "GLACIER": {
+      "file": "cards/glacier.ogg",
+      "text": "冰川",
+      "displayText": "冰川"
+    },
+    "GLASSWORK": {
+      "file": "cards/glasswork.ogg",
+      "text": "玻璃工艺",
+      "displayText": "玻璃工艺"
+    },
+    "GLIMMER": {
+      "file": "cards/glimmer.ogg",
+      "text": "微光",
+      "displayText": "微光"
+    },
+    "GLIMPSE_BEYOND": {
+      "file": "cards/glimpse_beyond.ogg",
+      "text": "彼岸一瞥",
+      "displayText": "彼岸一瞥"
+    },
+    "GLITTERSTREAM": {
+      "file": "cards/glitterstream.ogg",
+      "text": "流光溢彩",
+      "displayText": "流光溢彩"
+    },
+    "GLOW": {
+      "file": "cards/glow.ogg",
+      "text": "辉光",
+      "displayText": "辉光"
+    },
+    "GOLD_AXE": {
+      "file": "cards/gold_axe.ogg",
+      "text": "金斧",
+      "displayText": "金斧"
+    },
+    "GO_FOR_THE_EYES": {
+      "file": "cards/go_for_the_eyes.ogg",
+      "text": "眼部攻击",
+      "displayText": "眼部攻击"
+    },
+    "GRAND_FINALE": {
+      "file": "cards/grand_finale.ogg",
+      "text": "华丽收场",
+      "displayText": "华丽收场"
+    },
+    "GRAVEBLAST": {
+      "file": "cards/graveblast.ogg",
+      "text": "坟冢爆射",
+      "displayText": "坟冢爆射"
+    },
+    "GRAVE_WARDEN": {
+      "file": "cards/grave_warden.ogg",
+      "text": "守墓人",
+      "displayText": "守墓人"
+    },
+    "GREED": {
+      "file": "cards/greed.ogg",
+      "text": "贪婪",
+      "displayText": "贪婪"
+    },
+    "GUARDS": {
+      "file": "cards/guards.ogg",
+      "text": "护驾！！！",
+      "displayText": "护驾！！！"
+    },
+    "GUIDING_STAR": {
+      "file": "cards/guiding_star.ogg",
+      "text": "引导之星",
+      "displayText": "引导之星"
+    },
+    "GUILTY": {
+      "file": "cards/guilty.ogg",
+      "text": "愧疚",
+      "displayText": "愧疚"
+    },
+    "GUNK_UP": {
+      "file": "cards/gunk_up.ogg",
+      "text": "污秽攻击",
+      "displayText": "污秽攻击"
+    },
+    "HAILSTORM": {
+      "file": "cards/hailstorm.ogg",
+      "text": "冰雹风暴",
+      "displayText": "冰雹风暴"
+    },
+    "HAMMER_TIME": {
+      "file": "cards/hammer_time.ogg",
+      "text": "锤子时间",
+      "displayText": "锤子时间"
+    },
+    "HAND_OF_GREED": {
+      "file": "cards/hand_of_greed.ogg",
+      "text": "贪婪之手",
+      "displayText": "贪婪之手"
+    },
+    "HAND_TRICK": {
+      "file": "cards/hand_trick.ogg",
+      "text": "手上技法",
+      "displayText": "手上技法"
+    },
+    "HANG": {
+      "file": "cards/hang.ogg",
+      "text": "吊杀",
+      "displayText": "吊杀"
+    },
+    "HAUNT": {
+      "file": "cards/haunt.ogg",
+      "text": "纠缠",
+      "displayText": "纠缠"
+    },
+    "HAVOC": {
+      "file": "cards/havoc.ogg",
+      "text": "破灭",
+      "displayText": "破灭"
+    },
+    "HAZE": {
+      "file": "cards/haze.ogg",
+      "text": "迷雾",
+      "displayText": "迷雾"
+    },
+    "HEADBUTT": {
+      "file": "cards/headbutt.ogg",
+      "text": "头槌",
+      "displayText": "头槌"
+    },
+    "HEAVENLY_DRILL": {
+      "file": "cards/heavenly_drill.ogg",
+      "text": "天际钻头",
+      "displayText": "天际钻头"
+    },
+    "HEGEMONY": {
+      "file": "cards/hegemony.ogg",
+      "text": "霸权",
+      "displayText": "霸权"
+    },
+    "HEIRLOOM_HAMMER": {
+      "file": "cards/heirloom_hammer.ogg",
+      "text": "传承之锤",
+      "displayText": "传承之锤"
+    },
+    "HELIX_DRILL": {
+      "file": "cards/helix_drill.ogg",
+      "text": "螺旋钻击",
+      "displayText": "螺旋钻击"
+    },
+    "HELLO_WORLD": {
+      "file": "cards/hello_world.ogg",
+      "text": "你好世界",
+      "displayText": "你好世界"
+    },
+    "HELLRAISER": {
+      "file": "cards/hellraiser.ogg",
+      "text": "地狱狂徒",
+      "displayText": "地狱狂徒"
+    },
+    "HEMOKINESIS": {
+      "file": "cards/hemokinesis.ogg",
+      "text": "御血术",
+      "displayText": "御血术"
+    },
+    "HIBERNATE": {
+      "file": "cards/hibernate.ogg",
+      "text": "休眠",
+      "displayText": "休眠"
+    },
+    "HIDDEN_CACHE": {
+      "file": "cards/hidden_cache.ogg",
+      "text": "隐秘藏品",
+      "displayText": "隐秘藏品"
+    },
+    "HIDDEN_DAGGERS": {
+      "file": "cards/hidden_daggers.ogg",
+      "text": "隐秘匕首",
+      "displayText": "隐秘匕首"
+    },
+    "HIDDEN_GEM": {
+      "file": "cards/hidden_gem.ogg",
+      "text": "未掘宝石",
+      "displayText": "未掘宝石"
+    },
+    "HIGH_FIVE": {
+      "file": "cards/high_five.ogg",
+      "text": "击掌",
+      "displayText": "击掌"
+    },
+    "HOLOGRAM": {
+      "file": "cards/hologram.ogg",
+      "text": "全息影像",
+      "displayText": "全息影像"
+    },
+    "HOTFIX": {
+      "file": "cards/hotfix.ogg",
+      "text": "热修复",
+      "displayText": "热修复"
+    },
+    "HOWL_FROM_BEYOND": {
+      "file": "cards/howl_from_beyond.ogg",
+      "text": "彼岸咆哮",
+      "displayText": "彼岸咆哮"
+    },
+    "HUDDLE_UP": {
+      "file": "cards/huddle_up.ogg",
+      "text": "抱团",
+      "displayText": "抱团"
+    },
+    "HYPERBEAM": {
+      "file": "cards/hyperbeam.ogg",
+      "text": "超能光束",
+      "displayText": "超能光束"
+    },
+    "ICE_LANCE": {
+      "file": "cards/ice_lance.ogg",
+      "text": "冰之长枪",
+      "displayText": "冰之长枪"
+    },
+    "IGNITION": {
+      "file": "cards/ignition.ogg",
+      "text": "引火",
+      "displayText": "引火"
+    },
+    "IMITATION_LEARNING": {
+      "file": "cards/imitation_learning.ogg",
+      "text": "模仿学习",
+      "displayText": "模仿学习"
+    },
+    "IMPATIENCE": {
+      "file": "cards/impatience.ogg",
+      "text": "急躁",
+      "displayText": "急躁"
+    },
+    "IMPERVIOUS": {
+      "file": "cards/impervious.ogg",
+      "text": "岿然不动",
+      "displayText": "岿然不动"
+    },
+    "INFECTION": {
+      "file": "cards/infection.ogg",
+      "text": "感染",
+      "displayText": "感染"
+    },
+    "INFERNAL_BLADE": {
+      "file": "cards/infernal_blade.ogg",
+      "text": "地狱之刃",
+      "displayText": "地狱之刃"
+    },
+    "INFERNO": {
+      "file": "cards/inferno.ogg",
+      "text": "狱火",
+      "displayText": "狱火"
+    },
+    "INFINITE_BLADES": {
+      "file": "cards/infinite_blades.ogg",
+      "text": "无尽刀刃",
+      "displayText": "无尽刀刃"
+    },
+    "INFLAME": {
+      "file": "cards/inflame.ogg",
+      "text": "燃烧",
+      "displayText": "燃烧"
+    },
+    "INJURY": {
+      "file": "cards/injury.ogg",
+      "text": "受伤",
+      "displayText": "受伤"
+    },
+    "INTERCEPT": {
+      "file": "cards/intercept.ogg",
+      "text": "拦截",
+      "displayText": "拦截"
+    },
+    "INVOKE": {
+      "file": "cards/invoke.ogg",
+      "text": "唤起",
+      "displayText": "唤起"
+    },
+    "IRON_WAVE": {
+      "file": "cards/iron_wave.ogg",
+      "text": "铁斩波",
+      "displayText": "铁斩波"
+    },
+    "ITERATION": {
+      "file": "cards/iteration.ogg",
+      "text": "迭代",
+      "displayText": "迭代"
+    },
+    "I_AM_INVINCIBLE": {
+      "file": "cards/i_am_invincible.ogg",
+      "text": "所向无敌",
+      "displayText": "所向无敌"
+    },
+    "JACKPOT": {
+      "file": "cards/jackpot.ogg",
+      "text": "大奖",
+      "displayText": "大奖"
+    },
+    "JACK_OF_ALL_TRADES": {
+      "file": "cards/jack_of_all_trades.ogg",
+      "text": "花样百出",
+      "displayText": "花样百出"
+    },
+    "JUGGERNAUT": {
+      "file": "cards/juggernaut.ogg",
+      "text": "势不可当",
+      "displayText": "势不可当"
+    },
+    "JUGGLING": {
+      "file": "cards/juggling.ogg",
+      "text": "杂耍",
+      "displayText": "杂耍"
+    },
+    "KINGLY_KICK": {
+      "file": "cards/kingly_kick.ogg",
+      "text": "王者之踢",
+      "displayText": "王者之踢"
+    },
+    "KINGLY_PUNCH": {
+      "file": "cards/kingly_punch.ogg",
+      "text": "王者之拳",
+      "displayText": "王者之拳"
+    },
+    "KNIFE_TRAP": {
+      "file": "cards/knife_trap.ogg",
+      "text": "刀刃陷阱",
+      "displayText": "刀刃陷阱"
+    },
+    "KNOCKDOWN": {
+      "file": "cards/knockdown.ogg",
+      "text": "击倒",
+      "displayText": "击倒"
+    },
+    "KNOCKOUT_BLOW": {
+      "file": "cards/knockout_blow.ogg",
+      "text": "决胜一击",
+      "displayText": "决胜一击"
+    },
+    "KNOW_THY_PLACE": {
+      "file": "cards/know_thy_place.ogg",
+      "text": "何人僭越",
+      "displayText": "何人僭越"
+    },
+    "LANTERN_KEY": {
+      "file": "cards/lantern_key.ogg",
+      "text": "灯火钥匙",
+      "displayText": "灯火钥匙"
+    },
+    "LARGESSE": {
+      "file": "cards/largesse.ogg",
+      "text": "慷慨捐助",
+      "displayText": "慷慨捐助"
+    },
+    "LEADING_STRIKE": {
+      "file": "cards/leading_strike.ogg",
+      "text": "先制打击",
+      "displayText": "先制打击"
+    },
+    "LEAP": {
+      "file": "cards/leap.ogg",
+      "text": "飞跃",
+      "displayText": "飞跃"
+    },
+    "LEECH_PARASITE": {
+      "file": "cards/leech_parasite.ogg",
+      "text": "寄生",
+      "displayText": "寄生"
+    },
+    "LEGION_OF_BONE": {
+      "file": "cards/legion_of_bone.ogg",
+      "text": "骸骨军团",
+      "displayText": "骸骨军团"
+    },
+    "LEG_SWEEP": {
+      "file": "cards/leg_sweep.ogg",
+      "text": "扫腿",
+      "displayText": "扫腿"
+    },
+    "LETHALITY": {
+      "file": "cards/lethality.ogg",
+      "text": "致死性",
+      "displayText": "致死性"
+    },
+    "LIFT": {
+      "file": "cards/lift.ogg",
+      "text": "托举",
+      "displayText": "托举"
+    },
+    "LIGHTNING_ROD": {
+      "file": "cards/lightning_rod.ogg",
+      "text": "引雷针",
+      "displayText": "引雷针"
+    },
+    "LOOP": {
+      "file": "cards/loop.ogg",
+      "text": "循环",
+      "displayText": "循环"
+    },
+    "LUMINESCE": {
+      "file": "cards/luminesce.ogg",
+      "text": "冷光",
+      "displayText": "冷光"
+    },
+    "LUNAR_BLAST": {
+      "file": "cards/lunar_blast.ogg",
+      "text": "月面射击",
+      "displayText": "月面射击"
+    },
+    "MACHINE_LEARNING": {
+      "file": "cards/machine_learning.ogg",
+      "text": "机器学习",
+      "displayText": "机器学习"
+    },
+    "MAD_SCIENCE": {
+      "file": "cards/mad_science.ogg",
+      "text": "疯狂科学",
+      "displayText": "疯狂科学"
+    },
+    "MAKE_IT_SO": {
+      "file": "cards/make_it_so.ogg",
+      "text": "如此甚好",
+      "displayText": "如此甚好"
+    },
+    "MALAISE": {
+      "file": "cards/malaise.ogg",
+      "text": "萎靡",
+      "displayText": "萎靡"
+    },
+    "MANGLE": {
+      "file": "cards/mangle.ogg",
+      "text": "凌虐",
+      "displayText": "凌虐"
+    },
+    "MANIFEST_AUTHORITY": {
+      "file": "cards/manifest_authority.ogg",
+      "text": "君权自授",
+      "displayText": "君权自授"
+    },
+    "MASTER_OF_STRATEGY": {
+      "file": "cards/master_of_strategy.ogg",
+      "text": "战略大师",
+      "displayText": "战略大师"
+    },
+    "MASTER_PLANNER": {
+      "file": "cards/master_planner.ogg",
+      "text": "谋划专家",
+      "displayText": "谋划专家"
+    },
+    "MAUL": {
+      "file": "cards/maul.ogg",
+      "text": "撕咬",
+      "displayText": "撕咬"
+    },
+    "MAYHEM": {
+      "file": "cards/mayhem.ogg",
+      "text": "乱战",
+      "displayText": "乱战"
+    },
+    "MELANCHOLY": {
+      "file": "cards/melancholy.ogg",
+      "text": "忧郁",
+      "displayText": "忧郁"
+    },
+    "MEMENTO_MORI": {
+      "file": "cards/memento_mori.ogg",
+      "text": "铭记死亡",
+      "displayText": "铭记死亡"
+    },
+    "METAMORPHOSIS": {
+      "file": "cards/metamorphosis.ogg",
+      "text": "羽化",
+      "displayText": "羽化"
+    },
+    "METEOR_SHOWER": {
+      "file": "cards/meteor_shower.ogg",
+      "text": "流星雨",
+      "displayText": "流星雨"
+    },
+    "METEOR_STRIKE": {
+      "file": "cards/meteor_strike.ogg",
+      "text": "陨石打击",
+      "displayText": "陨石打击"
+    },
+    "MIDNIGHT": {
+      "file": "cards/midnight.ogg",
+      "text": "午夜",
+      "displayText": "午夜"
+    },
+    "MIMIC": {
+      "file": "cards/mimic.ogg",
+      "text": "拟态",
+      "displayText": "拟态"
+    },
+    "MIND_BLAST": {
+      "file": "cards/mind_blast.ogg",
+      "text": "心灵震慑",
+      "displayText": "心灵震慑"
+    },
+    "MIND_ROT": {
+      "file": "cards/mind_rot.ogg",
+      "text": "心灵腐化",
+      "displayText": "心灵腐化"
+    },
+    "MINION_DIVE_BOMB": {
+      "file": "cards/minion_dive_bomb.ogg",
+      "text": "仆从俯冲",
+      "displayText": "仆从俯冲"
+    },
+    "MINION_SACRIFICE": {
+      "file": "cards/minion_sacrifice.ogg",
+      "text": "仆从捐躯",
+      "displayText": "仆从捐躯"
+    },
+    "MINION_STRIKE": {
+      "file": "cards/minion_strike.ogg",
+      "text": "仆从打击",
+      "displayText": "仆从打击"
+    },
+    "MIRAGE": {
+      "file": "cards/mirage.ogg",
+      "text": "蜃景",
+      "displayText": "蜃景"
+    },
+    "MISERY": {
+      "file": "cards/misery.ogg",
+      "text": "苦难",
+      "displayText": "苦难"
+    },
+    "MODDED": {
+      "file": "cards/modded.ogg",
+      "text": "模组改造",
+      "displayText": "模组改造"
+    },
+    "MOLTEN_FIST": {
+      "file": "cards/molten_fist.ogg",
+      "text": "熔融之拳",
+      "displayText": "熔融之拳"
+    },
+    "MOMENTUM_STRIKE": {
+      "file": "cards/momentum_strike.ogg",
+      "text": "趁势打击",
+      "displayText": "趁势打击"
+    },
+    "MONARCHS_GAZE": {
+      "file": "cards/monarchs_gaze.ogg",
+      "text": "王之凝视",
+      "displayText": "王之凝视"
+    },
+    "MONOLOGUE": {
+      "file": "cards/monologue.ogg",
+      "text": "独白",
+      "displayText": "独白"
+    },
+    "MULTI_CAST": {
+      "file": "cards/multi_cast.ogg",
+      "text": "多重释放",
+      "displayText": "多重释放"
+    },
+    "MURDER": {
+      "file": "cards/murder.ogg",
+      "text": "谋杀",
+      "displayText": "谋杀"
+    },
+    "NECRO_MASTERY": {
+      "file": "cards/necro_mastery.ogg",
+      "text": "亡灵精通",
+      "displayText": "亡灵精通"
+    },
+    "NEGATIVE_PULSE": {
+      "file": "cards/negative_pulse.ogg",
+      "text": "负能量脉冲",
+      "displayText": "负能量脉冲"
+    },
+    "NEOWS_FURY": {
+      "file": "cards/neows_fury.ogg",
+      "text": "涅奥之怒",
+      "displayText": "涅奥之怒"
+    },
+    "NEUROSURGE": {
+      "file": "cards/neurosurge.ogg",
+      "text": "精神过载",
+      "displayText": "精神过载"
+    },
+    "NEUTRALIZE": {
+      "file": "cards/neutralize.ogg",
+      "text": "中和",
+      "displayText": "中和"
+    },
+    "NEUTRON_AEGIS": {
+      "file": "cards/neutron_aegis.ogg",
+      "text": "中子护盾",
+      "displayText": "中子护盾"
+    },
+    "NIGHTMARE": {
+      "file": "cards/nightmare.ogg",
+      "text": "夜魇",
+      "displayText": "夜魇"
+    },
+    "NORMALITY": {
+      "file": "cards/normality.ogg",
+      "text": "凡庸",
+      "displayText": "凡庸"
+    },
+    "NOSTALGIA": {
+      "file": "cards/nostalgia.ogg",
+      "text": "怀旧",
+      "displayText": "怀旧"
+    },
+    "NOT_YET": {
+      "file": "cards/not_yet.ogg",
+      "text": "时候未到",
+      "displayText": "时候未到"
+    },
+    "NOXIOUS_FUMES": {
+      "file": "cards/noxious_fumes.ogg",
+      "text": "毒雾",
+      "displayText": "毒雾"
+    },
+    "NO_ESCAPE": {
+      "file": "cards/no_escape.ogg",
+      "text": "无处可逃",
+      "displayText": "无处可逃"
+    },
+    "NULL": {
+      "file": "cards/null.ogg",
+      "text": "空值",
+      "displayText": "空值"
+    },
+    "OBLIVION": {
+      "file": "cards/oblivion.ogg",
+      "text": "湮灭",
+      "displayText": "湮灭"
+    },
+    "OFFERING": {
+      "file": "cards/offering.ogg",
+      "text": "祭品",
+      "displayText": "祭品"
+    },
+    "OMNISLICE": {
+      "file": "cards/omnislice.ogg",
+      "text": "万向斩",
+      "displayText": "万向斩"
+    },
+    "ONE_FOR_ALL": {
+      "file": "cards/one_for_all.ogg",
+      "text": "一心化万",
+      "displayText": "一心化万"
+    },
+    "ONE_TWO_PUNCH": {
+      "file": "cards/one_two_punch.ogg",
+      "text": "连环拳",
+      "displayText": "连环拳"
+    },
+    "ORBIT": {
+      "file": "cards/orbit.ogg",
+      "text": "环绕轨道",
+      "displayText": "环绕轨道"
+    },
+    "OUTBREAK": {
+      "file": "cards/outbreak.ogg",
+      "text": "毒性爆发",
+      "displayText": "毒性爆发"
+    },
+    "OUTMANEUVER": {
+      "file": "cards/outmaneuver.ogg",
+      "text": "抢占先机",
+      "displayText": "抢占先机"
+    },
+    "OUTRAGE": {
+      "file": "cards/outrage.ogg",
+      "text": "群情激愤",
+      "displayText": "群情激愤"
+    },
+    "OVERCLOCK": {
+      "file": "cards/overclock.ogg",
+      "text": "超频",
+      "displayText": "超频"
+    },
+    "PACTS_END": {
+      "file": "cards/pacts_end.ogg",
+      "text": "契约终结",
+      "displayText": "契约终结"
+    },
+    "PAGESTORM": {
+      "file": "cards/pagestorm.ogg",
+      "text": "书页风暴",
+      "displayText": "书页风暴"
+    },
+    "PALE_BLUE_DOT": {
+      "file": "cards/pale_blue_dot.ogg",
+      "text": "暗淡蓝点",
+      "displayText": "暗淡蓝点"
+    },
+    "PANACHE": {
+      "file": "cards/panache.ogg",
+      "text": "神气制胜",
+      "displayText": "神气制胜"
+    },
+    "PANIC_BUTTON": {
+      "file": "cards/panic_button.ogg",
+      "text": "应急按钮",
+      "displayText": "应急按钮"
+    },
+    "PARRY": {
+      "file": "cards/parry.ogg",
+      "text": "招架",
+      "displayText": "招架"
+    },
+    "PARSE": {
+      "file": "cards/parse.ogg",
+      "text": "领会",
+      "displayText": "领会"
+    },
+    "PARTICLE_WALL": {
+      "file": "cards/particle_wall.ogg",
+      "text": "粒子墙",
+      "displayText": "粒子墙"
+    },
+    "PATTER": {
+      "file": "cards/patter.ogg",
+      "text": "星星点点",
+      "displayText": "星星点点"
+    },
+    "PECK": {
+      "file": "cards/peck.ogg",
+      "text": "啄击",
+      "displayText": "啄击"
+    },
+    "PERFECTED_STRIKE": {
+      "file": "cards/perfected_strike.ogg",
+      "text": "完美打击",
+      "displayText": "完美打击"
+    },
+    "PHANTOM_BLADES": {
+      "file": "cards/phantom_blades.ogg",
+      "text": "幻影之刃",
+      "displayText": "幻影之刃"
+    },
+    "PHOTON_CUT": {
+      "file": "cards/photon_cut.ogg",
+      "text": "光子切割",
+      "displayText": "光子切割"
+    },
+    "PIERCING_WAIL": {
+      "file": "cards/piercing_wail.ogg",
+      "text": "尖啸",
+      "displayText": "尖啸"
+    },
+    "PILLAGE": {
+      "file": "cards/pillage.ogg",
+      "text": "劫掠",
+      "displayText": "劫掠"
+    },
+    "PILLAR_OF_CREATION": {
+      "file": "cards/pillar_of_creation.ogg",
+      "text": "创世之柱",
+      "displayText": "创世之柱"
+    },
+    "PINPOINT": {
+      "file": "cards/pinpoint.ogg",
+      "text": "精密瞄准",
+      "displayText": "精密瞄准"
+    },
+    "PLOT": {
+      "file": "cards/plot.ogg",
+      "text": "筹划",
+      "displayText": "筹划"
+    },
+    "POISONED_STAB": {
+      "file": "cards/poisoned_stab.ogg",
+      "text": "带毒刺击",
+      "displayText": "带毒刺击"
+    },
+    "POKE": {
+      "file": "cards/poke.ogg",
+      "text": "戳击",
+      "displayText": "戳击"
+    },
+    "POMMEL_STRIKE": {
+      "file": "cards/pommel_strike.ogg",
+      "text": "剑柄打击",
+      "displayText": "剑柄打击"
+    },
+    "POOR_SLEEP": {
+      "file": "cards/poor_sleep.ogg",
+      "text": "睡眠不佳",
+      "displayText": "睡眠不佳"
+    },
+    "POUNCE": {
+      "file": "cards/pounce.ogg",
+      "text": "猛扑",
+      "displayText": "猛扑"
+    },
+    "PRECISE_CUT": {
+      "file": "cards/precise_cut.ogg",
+      "text": "精确切击",
+      "displayText": "精确切击"
+    },
+    "PREDATOR": {
+      "file": "cards/predator.ogg",
+      "text": "猎杀者",
+      "displayText": "猎杀者"
+    },
+    "PREPARED": {
+      "file": "cards/prepared.ogg",
+      "text": "早有准备",
+      "displayText": "早有准备"
+    },
+    "PREP_TIME": {
+      "file": "cards/prep_time.ogg",
+      "text": "准备时间",
+      "displayText": "准备时间"
+    },
+    "PRIMAL_FORCE": {
+      "file": "cards/primal_force.ogg",
+      "text": "原始力量",
+      "displayText": "原始力量"
+    },
+    "PRODUCTION": {
+      "file": "cards/production.ogg",
+      "text": "生产制造",
+      "displayText": "生产制造"
+    },
+    "PROLONG": {
+      "file": "cards/prolong.ogg",
+      "text": "延伸",
+      "displayText": "延伸"
+    },
+    "PROPHESIZE": {
+      "file": "cards/prophesize.ogg",
+      "text": "预言",
+      "displayText": "预言"
+    },
+    "PROTECTOR": {
+      "file": "cards/protector.ogg",
+      "text": "守护者",
+      "displayText": "守护者"
+    },
+    "PROWESS": {
+      "file": "cards/prowess.ogg",
+      "text": "非凡技艺",
+      "displayText": "非凡技艺"
+    },
+    "PULL_AGGRO": {
+      "file": "cards/pull_aggro.ogg",
+      "text": "吸引仇恨",
+      "displayText": "吸引仇恨"
+    },
+    "PULL_FROM_BELOW": {
+      "file": "cards/pull_from_below.ogg",
+      "text": "亡魂牵引",
+      "displayText": "亡魂牵引"
+    },
+    "PURITY": {
+      "file": "cards/purity.ogg",
+      "text": "净化",
+      "displayText": "净化"
+    },
+    "PUTREFY": {
+      "file": "cards/putrefy.ogg",
+      "text": "腐败",
+      "displayText": "腐败"
+    },
+    "PYRE": {
+      "file": "cards/pyre.ogg",
+      "text": "薪火之源",
+      "displayText": "薪火之源"
+    },
+    "QUADCAST": {
+      "file": "cards/quadcast.ogg",
+      "text": "四重释放",
+      "displayText": "四重释放"
+    },
+    "QUASAR": {
+      "file": "cards/quasar.ogg",
+      "text": "类星体",
+      "displayText": "类星体"
+    },
+    "RADIATE": {
+      "file": "cards/radiate.ogg",
+      "text": "辐射",
+      "displayText": "辐射"
+    },
+    "RAGE": {
+      "file": "cards/rage.ogg",
+      "text": "狂怒",
+      "displayText": "狂怒"
+    },
+    "RAINBOW": {
+      "file": "cards/rainbow.ogg",
+      "text": "彩虹",
+      "displayText": "彩虹"
+    },
+    "RALLY": {
+      "file": "cards/rally.ogg",
+      "text": "集结",
+      "displayText": "集结"
+    },
+    "RAMPAGE": {
+      "file": "cards/rampage.ogg",
+      "text": "暴走",
+      "displayText": "暴走"
+    },
+    "RATTLE": {
+      "file": "cards/rattle.ogg",
+      "text": "猛晃",
+      "displayText": "猛晃"
+    },
+    "REANIMATE": {
+      "file": "cards/reanimate.ogg",
+      "text": "死者苏生",
+      "displayText": "死者苏生"
+    },
+    "REAP": {
+      "file": "cards/reap.ogg",
+      "text": "收割",
+      "displayText": "收割"
+    },
+    "REAPER_FORM": {
+      "file": "cards/reaper_form.ogg",
+      "text": "死神形态",
+      "displayText": "死神形态"
+    },
+    "REAVE": {
+      "file": "cards/reave.ogg",
+      "text": "剥夺",
+      "displayText": "剥夺"
+    },
+    "REBOOT": {
+      "file": "cards/reboot.ogg",
+      "text": "重启",
+      "displayText": "重启"
+    },
+    "REBOUND": {
+      "file": "cards/rebound.ogg",
+      "text": "弹回",
+      "displayText": "弹回"
+    },
+    "REFINE_BLADE": {
+      "file": "cards/refine_blade.ogg",
+      "text": "淬炼刀刃",
+      "displayText": "淬炼刀刃"
+    },
+    "REFLECT": {
+      "file": "cards/reflect.ogg",
+      "text": "倒映",
+      "displayText": "倒映"
+    },
+    "REFLEX": {
+      "file": "cards/reflex.ogg",
+      "text": "本能反应",
+      "displayText": "本能反应"
+    },
+    "REFRACT": {
+      "file": "cards/refract.ogg",
+      "text": "折射",
+      "displayText": "折射"
+    },
+    "REGRET": {
+      "file": "cards/regret.ogg",
+      "text": "悔恨",
+      "displayText": "悔恨"
+    },
+    "RELAX": {
+      "file": "cards/relax.ogg",
+      "text": "放松",
+      "displayText": "放松"
+    },
+    "REND": {
+      "file": "cards/rend.ogg",
+      "text": "撕碎",
+      "displayText": "撕碎"
+    },
+    "RESONANCE": {
+      "file": "cards/resonance.ogg",
+      "text": "共鸣",
+      "displayText": "共鸣"
+    },
+    "RESTLESSNESS": {
+      "file": "cards/restlessness.ogg",
+      "text": "心神不宁",
+      "displayText": "心神不宁"
+    },
+    "RICOCHET": {
+      "file": "cards/ricochet.ogg",
+      "text": "连续反弹",
+      "displayText": "连续反弹"
+    },
+    "RIGHT_HAND_HAND": {
+      "file": "cards/right_hand_hand.ogg",
+      "text": "得力助手",
+      "displayText": "得力助手"
+    },
+    "RIP_AND_TEAR": {
+      "file": "cards/rip_and_tear.ogg",
+      "text": "狂乱撕扯",
+      "displayText": "狂乱撕扯"
+    },
+    "ROCKET_PUNCH": {
+      "file": "cards/rocket_punch.ogg",
+      "text": "火箭飞拳",
+      "displayText": "火箭飞拳"
+    },
+    "ROLLING_BOULDER": {
+      "file": "cards/rolling_boulder.ogg",
+      "text": "滚石",
+      "displayText": "滚石"
+    },
+    "ROYALTIES": {
+      "file": "cards/royalties.ogg",
+      "text": "王国资产",
+      "displayText": "王国资产"
+    },
+    "ROYAL_GAMBLE": {
+      "file": "cards/royal_gamble.ogg",
+      "text": "胜券在王",
+      "displayText": "胜券在王"
+    },
+    "RUPTURE": {
+      "file": "cards/rupture.ogg",
+      "text": "撕裂",
+      "displayText": "撕裂"
+    },
+    "SACRIFICE": {
+      "file": "cards/sacrifice.ogg",
+      "text": "牺牲",
+      "displayText": "牺牲"
+    },
+    "SALVO": {
+      "file": "cards/salvo.ogg",
+      "text": "箭雨",
+      "displayText": "箭雨"
+    },
+    "SCAVENGE": {
+      "file": "cards/scavenge.ogg",
+      "text": "内存清理",
+      "displayText": "内存清理"
+    },
+    "SCOURGE": {
+      "file": "cards/scourge.ogg",
+      "text": "鞭打",
+      "displayText": "鞭打"
+    },
+    "SCRAPE": {
+      "file": "cards/scrape.ogg",
+      "text": "刮削",
+      "displayText": "刮削"
+    },
+    "SCRAWL": {
+      "file": "cards/scrawl.ogg",
+      "text": "潦草急就",
+      "displayText": "潦草急就"
+    },
+    "SCULPTING_STRIKE": {
+      "file": "cards/sculpting_strike.ogg",
+      "text": "雕琢打击",
+      "displayText": "雕琢打击"
+    },
+    "SEANCE": {
+      "file": "cards/seance.ogg",
+      "text": "降灵",
+      "displayText": "降灵"
+    },
+    "SECOND_WIND": {
+      "file": "cards/second_wind.ogg",
+      "text": "重振精神",
+      "displayText": "重振精神"
+    },
+    "SECRET_TECHNIQUE": {
+      "file": "cards/secret_technique.ogg",
+      "text": "秘密技法",
+      "displayText": "秘密技法"
+    },
+    "SECRET_WEAPON": {
+      "file": "cards/secret_weapon.ogg",
+      "text": "秘密武器",
+      "displayText": "秘密武器"
+    },
+    "SEEKER_STRIKE": {
+      "file": "cards/seeker_strike.ogg",
+      "text": "探寻打击",
+      "displayText": "探寻打击"
+    },
+    "SEEKING_EDGE": {
+      "file": "cards/seeking_edge.ogg",
+      "text": "追踪之刃",
+      "displayText": "追踪之刃"
+    },
+    "SENTRY_MODE": {
+      "file": "cards/sentry_mode.ogg",
+      "text": "哨卫模式",
+      "displayText": "哨卫模式"
+    },
+    "SERPENT_FORM": {
+      "file": "cards/serpent_form.ogg",
+      "text": "群蛇形态",
+      "displayText": "群蛇形态"
+    },
+    "SETUP_STRIKE": {
+      "file": "cards/setup_strike.ogg",
+      "text": "预备打击",
+      "displayText": "预备打击"
+    },
+    "SEVEN_STARS": {
+      "file": "cards/seven_stars.ogg",
+      "text": "七星",
+      "displayText": "七星"
+    },
+    "SEVERANCE": {
+      "file": "cards/severance.ogg",
+      "text": "切断",
+      "displayText": "切断"
+    },
+    "SHADOWMELD": {
+      "file": "cards/shadowmeld.ogg",
+      "text": "融入暗影",
+      "displayText": "融入暗影"
+    },
+    "SHADOW_SHIELD": {
+      "file": "cards/shadow_shield.ogg",
+      "text": "暗影之盾",
+      "displayText": "暗影之盾"
+    },
+    "SHADOW_STEP": {
+      "file": "cards/shadow_step.ogg",
+      "text": "暗影步",
+      "displayText": "暗影步"
+    },
+    "SHAME": {
+      "file": "cards/shame.ogg",
+      "text": "羞耻",
+      "displayText": "羞耻"
+    },
+    "SHARED_FATE": {
+      "file": "cards/shared_fate.ogg",
+      "text": "命运同担",
+      "displayText": "命运同担"
+    },
+    "SHATTER": {
+      "file": "cards/shatter.ogg",
+      "text": "打碎",
+      "displayText": "打碎"
+    },
+    "SHINING_STRIKE": {
+      "file": "cards/shining_strike.ogg",
+      "text": "明耀打击",
+      "displayText": "明耀打击"
+    },
+    "SHIV": {
+      "file": "cards/shiv.ogg",
+      "text": "小刀",
+      "displayText": "小刀"
+    },
+    "SHOCKWAVE": {
+      "file": "cards/shockwave.ogg",
+      "text": "震荡波",
+      "displayText": "震荡波"
+    },
+    "SHROUD": {
+      "file": "cards/shroud.ogg",
+      "text": "厄运之衣",
+      "displayText": "厄运之衣"
+    },
+    "SHRUG_IT_OFF": {
+      "file": "cards/shrug_it_off.ogg",
+      "text": "耸肩无视",
+      "displayText": "耸肩无视"
+    },
+    "SIC_EM": {
+      "file": "cards/sic_em.ogg",
+      "text": "紧追不放",
+      "displayText": "紧追不放"
+    },
+    "SIDESTEP": {
+      "file": "cards/sidestep.ogg",
+      "text": "侧步",
+      "displayText": "侧步"
+    },
+    "SIGNAL_BOOST": {
+      "file": "cards/signal_boost.ogg",
+      "text": "信号增强",
+      "displayText": "信号增强"
+    },
+    "SKEWER": {
+      "file": "cards/skewer.ogg",
+      "text": "串刺",
+      "displayText": "串刺"
+    },
+    "SKIM": {
+      "file": "cards/skim.ogg",
+      "text": "快速检索",
+      "displayText": "快速检索"
+    },
+    "SLEIGHT_OF_FLESH": {
+      "file": "cards/sleight_of_flesh.ogg",
+      "text": "血肉戏法",
+      "displayText": "血肉戏法"
+    },
+    "SLICE": {
+      "file": "cards/slice.ogg",
+      "text": "切割",
+      "displayText": "切割"
+    },
+    "SLIMED": {
+      "file": "cards/slimed.ogg",
+      "text": "黏液",
+      "displayText": "黏液"
+    },
+    "SLOTH": {
+      "file": "cards/sloth.ogg",
+      "text": "懒惰",
+      "displayText": "懒惰"
+    },
+    "SMOKESTACK": {
+      "file": "cards/smokestack.ogg",
+      "text": "烟囱",
+      "displayText": "烟囱"
+    },
+    "SNAIL_CRYSTAL_CHIP": {
+      "file": "cards/snail_crystal_chip.ogg",
+      "text": "晶片",
+      "displayText": "晶片"
+    },
+    "SNAKEBITE": {
+      "file": "cards/snakebite.ogg",
+      "text": "蛇咬",
+      "displayText": "蛇咬"
+    },
+    "SNAP": {
+      "file": "cards/snap.ogg",
+      "text": "响指",
+      "displayText": "响指"
+    },
+    "SNEAKY": {
+      "file": "cards/sneaky.ogg",
+      "text": "鬼祟",
+      "displayText": "鬼祟"
+    },
+    "SOLAR_STRIKE": {
+      "file": "cards/solar_strike.ogg",
+      "text": "太阳打击",
+      "displayText": "太阳打击"
+    },
+    "SOOT": {
+      "file": "cards/soot.ogg",
+      "text": "煤灰",
+      "displayText": "煤灰"
+    },
+    "SOUL": {
+      "file": "cards/soul.ogg",
+      "text": "灵魂",
+      "displayText": "灵魂"
+    },
+    "SOULBOUND": {
+      "file": "cards/soulbound.ogg",
+      "text": "灵魂绑定",
+      "displayText": "灵魂绑定"
+    },
+    "SOULFYSH_DISEASE": {
+      "file": "cards/soulfysh_disease.ogg",
+      "text": "异鱼症",
+      "displayText": "异鱼症"
+    },
+    "SOUL_STORM": {
+      "file": "cards/soul_storm.ogg",
+      "text": "灵魂风暴",
+      "displayText": "灵魂风暴"
+    },
+    "SOVEREIGN_BLADE": {
+      "file": "cards/sovereign_blade.ogg",
+      "text": "君王之剑",
+      "displayText": "君王之剑"
+    },
+    "SOW": {
+      "file": "cards/sow.ogg",
+      "text": "播种",
+      "displayText": "播种"
+    },
+    "SPECTRUM_SHIFT": {
+      "file": "cards/spectrum_shift.ogg",
+      "text": "光谱偏移",
+      "displayText": "光谱偏移"
+    },
+    "SPEEDSTER": {
+      "file": "cards/speedster.ogg",
+      "text": "速行者",
+      "displayText": "速行者"
+    },
+    "SPINNER": {
+      "file": "cards/spinner.ogg",
+      "text": "旋转工艺",
+      "displayText": "旋转工艺"
+    },
+    "SPIRIT_OF_ASH": {
+      "file": "cards/spirit_of_ash.ogg",
+      "text": "灰烬之灵",
+      "displayText": "灰烬之灵"
+    },
+    "SPITE": {
+      "file": "cards/spite.ogg",
+      "text": "怨恨",
+      "displayText": "怨恨"
+    },
+    "SPLASH": {
+      "file": "cards/splash.ogg",
+      "text": "飞溅",
+      "displayText": "飞溅"
+    },
+    "SPOILS_MAP": {
+      "file": "cards/spoils_map.ogg",
+      "text": "藏宝图",
+      "displayText": "藏宝图"
+    },
+    "SPOILS_OF_BATTLE": {
+      "file": "cards/spoils_of_battle.ogg",
+      "text": "战利品",
+      "displayText": "战利品"
+    },
+    "SPORE_MIND": {
+      "file": "cards/spore_mind.ogg",
+      "text": "孢子心灵",
+      "displayText": "孢子心灵"
+    },
+    "SPUR": {
+      "file": "cards/spur.ogg",
+      "text": "增生",
+      "displayText": "增生"
+    },
+    "SQUASH": {
+      "file": "cards/squash.ogg",
+      "text": "压扁",
+      "displayText": "压扁"
+    },
+    "SQUEEZE": {
+      "file": "cards/squeeze.ogg",
+      "text": "榨取",
+      "displayText": "榨取"
+    },
+    "STACK": {
+      "file": "cards/stack.ogg",
+      "text": "堆栈",
+      "displayText": "堆栈"
+    },
+    "STAMPEDE": {
+      "file": "cards/stampede.ogg",
+      "text": "惊逃",
+      "displayText": "惊逃"
+    },
+    "STARDUST": {
+      "file": "cards/stardust.ogg",
+      "text": "星尘",
+      "displayText": "星尘"
+    },
+    "STOKE": {
+      "file": "cards/stoke.ogg",
+      "text": "添柴",
+      "displayText": "添柴"
+    },
+    "STOMP": {
+      "file": "cards/stomp.ogg",
+      "text": "踩踏",
+      "displayText": "踩踏"
+    },
+    "STONE_ARMOR": {
+      "file": "cards/stone_armor.ogg",
+      "text": "岩石铠甲",
+      "displayText": "岩石铠甲"
+    },
+    "STORM": {
+      "file": "cards/storm.ogg",
+      "text": "雷暴",
+      "displayText": "雷暴"
+    },
+    "STORM_OF_STEEL": {
+      "file": "cards/storm_of_steel.ogg",
+      "text": "钢铁风暴",
+      "displayText": "钢铁风暴"
+    },
+    "STRANGLE": {
+      "file": "cards/strangle.ogg",
+      "text": "紧勒",
+      "displayText": "紧勒"
+    },
+    "STRATAGEM": {
+      "file": "cards/stratagem.ogg",
+      "text": "计策",
+      "displayText": "计策"
+    },
+    "STRIKE_DEFECT": {
+      "file": "cards/strike_defect.ogg",
+      "text": "打击",
+      "displayText": "打击"
+    },
+    "STRIKE_IRONCLAD": {
+      "file": "cards/strike_ironclad.ogg",
+      "text": "打击",
+      "displayText": "打击"
+    },
+    "STRIKE_NECROBINDER": {
+      "file": "cards/strike_necrobinder.ogg",
+      "text": "打击",
+      "displayText": "打击"
+    },
+    "STRIKE_REGENT": {
+      "file": "cards/strike_regent.ogg",
+      "text": "打击",
+      "displayText": "打击"
+    },
+    "STRIKE_SILENT": {
+      "file": "cards/strike_silent.ogg",
+      "text": "打击",
+      "displayText": "打击"
+    },
+    "SUBROUTINE": {
+      "file": "cards/subroutine.ogg",
+      "text": "子程序",
+      "displayText": "子程序"
+    },
+    "SUCKER_PUNCH": {
+      "file": "cards/sucker_punch.ogg",
+      "text": "突然一拳",
+      "displayText": "突然一拳"
+    },
+    "SUMMON_FORTH": {
+      "file": "cards/summon_forth.ogg",
+      "text": "征召上前",
+      "displayText": "征召上前"
+    },
+    "SUNDER": {
+      "file": "cards/sunder.ogg",
+      "text": "分离",
+      "displayText": "分离"
+    },
+    "SUPERCRITICAL": {
+      "file": "cards/supercritical.ogg",
+      "text": "超临界态",
+      "displayText": "超临界态"
+    },
+    "SUPERMASSIVE": {
+      "file": "cards/supermassive.ogg",
+      "text": "超质量体",
+      "displayText": "超质量体"
+    },
+    "SUPPRESS": {
+      "file": "cards/suppress.ogg",
+      "text": "压制",
+      "displayText": "压制"
+    },
+    "SURVIVOR": {
+      "file": "cards/survivor.ogg",
+      "text": "生存者",
+      "displayText": "生存者"
+    },
+    "SWEEPING_BEAM": {
+      "file": "cards/sweeping_beam.ogg",
+      "text": "扫荡射线",
+      "displayText": "扫荡射线"
+    },
+    "SWEEPING_GAZE": {
+      "file": "cards/sweeping_gaze.ogg",
+      "text": "扫荡凝视",
+      "displayText": "扫荡凝视"
+    },
+    "SWORD_BOOMERANG": {
+      "file": "cards/sword_boomerang.ogg",
+      "text": "飞剑回旋镖",
+      "displayText": "飞剑回旋镖"
+    },
+    "SWORD_SAGE": {
+      "file": "cards/sword_sage.ogg",
+      "text": "剑圣",
+      "displayText": "剑圣"
+    },
+    "SYNCHRONIZE": {
+      "file": "cards/synchronize.ogg",
+      "text": "同步",
+      "displayText": "同步"
+    },
+    "SYNTHESIS": {
+      "file": "cards/synthesis.ogg",
+      "text": "人工合成",
+      "displayText": "人工合成"
+    },
+    "TACTICIAN": {
+      "file": "cards/tactician.ogg",
+      "text": "战术大师",
+      "displayText": "战术大师"
+    },
+    "TAG_TEAM": {
+      "file": "cards/tag_team.ogg",
+      "text": "双打组合",
+      "displayText": "双打组合"
+    },
+    "TANK": {
+      "file": "cards/tank.ogg",
+      "text": "肉盾",
+      "displayText": "肉盾"
+    },
+    "TAUNT": {
+      "file": "cards/taunt.ogg",
+      "text": "挑衅",
+      "displayText": "挑衅"
+    },
+    "TEAR_ASUNDER": {
+      "file": "cards/tear_asunder.ogg",
+      "text": "扯碎",
+      "displayText": "扯碎"
+    },
+    "TEMPEST": {
+      "file": "cards/tempest.ogg",
+      "text": "暴风雨",
+      "displayText": "暴风雨"
+    },
+    "TERRAFORMING": {
+      "file": "cards/terraforming.ogg",
+      "text": "地形改造",
+      "displayText": "地形改造"
+    },
+    "TESLA_COIL": {
+      "file": "cards/tesla_coil.ogg",
+      "text": "特斯拉线圈",
+      "displayText": "特斯拉线圈"
+    },
+    "THE_BALL": {
+      "file": "cards/the_ball.ogg",
+      "text": "魔球",
+      "displayText": "魔球"
+    },
+    "THE_BOMB": {
+      "file": "cards/the_bomb.ogg",
+      "text": "炸弹",
+      "displayText": "炸弹"
+    },
+    "THE_GAMBIT": {
+      "file": "cards/the_gambit.ogg",
+      "text": "孤注一掷",
+      "displayText": "孤注一掷"
+    },
+    "THE_HUNT": {
+      "file": "cards/the_hunt.ogg",
+      "text": "狩猎",
+      "displayText": "狩猎"
+    },
+    "THE_SCYTHE": {
+      "file": "cards/the_scythe.ogg",
+      "text": "巨镰",
+      "displayText": "巨镰"
+    },
+    "THE_SEALED_THRONE": {
+      "file": "cards/the_sealed_throne.ogg",
+      "text": "封印王座",
+      "displayText": "封印王座"
+    },
+    "THE_SMITH": {
+      "file": "cards/the_smith.ogg",
+      "text": "铸剑者",
+      "displayText": "铸剑者"
+    },
+    "THINGS_CAVE_GOD_CRYSTAL_SHARD": {
+      "file": "cards/things_cave_god_crystal_shard.ogg",
+      "text": "碎晶",
+      "displayText": "碎晶"
+    },
+    "THINGS_COLLISION": {
+      "file": "cards/things_collision.ogg",
+      "text": "对撞",
+      "displayText": "对撞"
+    },
+    "THINGS_PACK_UP": {
+      "file": "cards/things_pack_up.ogg",
+      "text": "整顿",
+      "displayText": "整顿"
+    },
+    "THINGS_RECALL": {
+      "file": "cards/things_recall.ogg",
+      "text": "追忆",
+      "displayText": "追忆"
+    },
+    "THINGS_REUSE": {
+      "file": "cards/things_reuse.ogg",
+      "text": "再利用",
+      "displayText": "再利用"
+    },
+    "THINGS_SURRENDER": {
+      "file": "cards/things_surrender.ogg",
+      "text": "诈降",
+      "displayText": "诈降"
+    },
+    "THINKING_AHEAD": {
+      "file": "cards/thinking_ahead.ogg",
+      "text": "深谋远虑",
+      "displayText": "深谋远虑"
+    },
+    "THRASH": {
+      "file": "cards/thrash.ogg",
+      "text": "痛殴",
+      "displayText": "痛殴"
+    },
+    "THRUMMING_HATCHET": {
+      "file": "cards/thrumming_hatchet.ogg",
+      "text": "无休手斧",
+      "displayText": "无休手斧"
+    },
+    "THUNDER": {
+      "file": "cards/thunder.ogg",
+      "text": "雷霆",
+      "displayText": "雷霆"
+    },
+    "THUNDERCLAP": {
+      "file": "cards/thunderclap.ogg",
+      "text": "闪电霹雳",
+      "displayText": "闪电霹雳"
+    },
+    "TIMES_UP": {
+      "file": "cards/times_up.ogg",
+      "text": "大限已至",
+      "displayText": "大限已至"
+    },
+    "TOOLS_OF_THE_TRADE": {
+      "file": "cards/tools_of_the_trade.ogg",
+      "text": "必备工具",
+      "displayText": "必备工具"
+    },
+    "TORIC_TOUGHNESS": {
+      "file": "cards/toric_toughness.ogg",
+      "text": "坚韧之环",
+      "displayText": "坚韧之环"
+    },
+    "TOXIC": {
+      "file": "cards/toxic.ogg",
+      "text": "毒素",
+      "displayText": "毒素"
+    },
+    "TRACKING": {
+      "file": "cards/tracking.ogg",
+      "text": "跟踪",
+      "displayText": "跟踪"
+    },
+    "TRANSFIGURE": {
+      "file": "cards/transfigure.ogg",
+      "text": "重构",
+      "displayText": "重构"
+    },
+    "TRASH_TO_TREASURE": {
+      "file": "cards/trash_to_treasure.ogg",
+      "text": "化废为宝",
+      "displayText": "化废为宝"
+    },
+    "TREMBLE": {
+      "file": "cards/tremble.ogg",
+      "text": "战栗",
+      "displayText": "战栗"
+    },
+    "TRUE_GRIT": {
+      "file": "cards/true_grit.ogg",
+      "text": "坚毅",
+      "displayText": "坚毅"
+    },
+    "TURBO": {
+      "file": "cards/turbo.ogg",
+      "text": "内核加速",
+      "displayText": "内核加速"
+    },
+    "TUTOR": {
+      "file": "cards/tutor.ogg",
+      "text": "指导",
+      "displayText": "指导"
+    },
+    "TWIN_STRIKE": {
+      "file": "cards/twin_strike.ogg",
+      "text": "双重打击",
+      "displayText": "双重打击"
+    },
+    "TYRANNY": {
+      "file": "cards/tyranny.ogg",
+      "text": "暴政",
+      "displayText": "暴政"
+    },
+    "ULTIMATE_DEFEND": {
+      "file": "cards/ultimate_defend.ogg",
+      "text": "究极防御",
+      "displayText": "究极防御"
+    },
+    "ULTIMATE_STRIKE": {
+      "file": "cards/ultimate_strike.ogg",
+      "text": "究极打击",
+      "displayText": "究极打击"
+    },
+    "UNDEATH": {
+      "file": "cards/undeath.ogg",
+      "text": "不死",
+      "displayText": "不死"
+    },
+    "UNDERWORLD": {
+      "file": "cards/underworld.ogg",
+      "text": "幽冥之界",
+      "displayText": "幽冥之界"
+    },
+    "UNLEASH": {
+      "file": "cards/unleash.ogg",
+      "text": "出击",
+      "displayText": "出击"
+    },
+    "UNMOVABLE": {
+      "file": "cards/unmovable.ogg",
+      "text": "坚定不移",
+      "displayText": "坚定不移"
+    },
+    "UNRELENTING": {
+      "file": "cards/unrelenting.ogg",
+      "text": "无情猛攻",
+      "displayText": "无情猛攻"
+    },
+    "UNTOUCHABLE": {
+      "file": "cards/untouchable.ogg",
+      "text": "触不可及",
+      "displayText": "触不可及"
+    },
+    "UPPERCUT": {
+      "file": "cards/uppercut.ogg",
+      "text": "上勾拳",
+      "displayText": "上勾拳"
+    },
+    "UPROAR": {
+      "file": "cards/uproar.ogg",
+      "text": "骚动",
+      "displayText": "骚动"
+    },
+    "UP_MY_SLEEVE": {
+      "file": "cards/up_my_sleeve.ogg",
+      "text": "袖里乾坤",
+      "displayText": "袖里乾坤"
+    },
+    "VEILPIERCER": {
+      "file": "cards/veilpiercer.ogg",
+      "text": "刺破帷幕",
+      "displayText": "刺破帷幕"
+    },
+    "VENERATE": {
+      "file": "cards/venerate.ogg",
+      "text": "崇拜",
+      "displayText": "崇拜"
+    },
+    "VICIOUS": {
+      "file": "cards/vicious.ogg",
+      "text": "凶恶",
+      "displayText": "凶恶"
+    },
+    "VOID": {
+      "file": "cards/void.ogg",
+      "text": "虚空",
+      "displayText": "虚空"
+    },
+    "VOID_FORM": {
+      "file": "cards/void_form.ogg",
+      "text": "虚空形态",
+      "displayText": "虚空形态"
+    },
+    "VOLLEY": {
+      "file": "cards/volley.ogg",
+      "text": "连射",
+      "displayText": "连射"
+    },
+    "VOLTAIC": {
+      "file": "cards/voltaic.ogg",
+      "text": "电流相生",
+      "displayText": "电流相生"
+    },
+    "WASTE_AWAY": {
+      "file": "cards/waste_away.ogg",
+      "text": "衰朽",
+      "displayText": "衰朽"
+    },
+    "WELL_LAID_PLANS": {
+      "file": "cards/well_laid_plans.ogg",
+      "text": "计划妥当",
+      "displayText": "计划妥当"
+    },
+    "WHIRLWIND": {
+      "file": "cards/whirlwind.ogg",
+      "text": "旋风斩",
+      "displayText": "旋风斩"
+    },
+    "WHISTLE": {
+      "file": "cards/whistle.ogg",
+      "text": "吹哨",
+      "displayText": "吹哨"
+    },
+    "WHITE_NOISE": {
+      "file": "cards/white_noise.ogg",
+      "text": "白噪声",
+      "displayText": "白噪声"
+    },
+    "WISH": {
+      "file": "cards/wish.ogg",
+      "text": "许愿",
+      "displayText": "许愿"
+    },
+    "WISP": {
+      "file": "cards/wisp.ogg",
+      "text": "鬼火",
+      "displayText": "鬼火"
+    },
+    "WITHER": {
+      "file": "cards/wither.ogg",
+      "text": "凋萎",
+      "displayText": "凋萎"
+    },
+    "WOUND": {
+      "file": "cards/wound.ogg",
+      "text": "伤口",
+      "displayText": "伤口"
+    },
+    "WRAITH_FORM": {
+      "file": "cards/wraith_form.ogg",
+      "text": "幽魂形态",
+      "displayText": "幽魂形态"
+    },
+    "WRITHE": {
+      "file": "cards/writhe.ogg",
+      "text": "苦恼",
+      "displayText": "苦恼"
+    },
+    "WROUGHT_IN_WAR": {
+      "file": "cards/wrought_in_war.ogg",
+      "text": "战火铸就",
+      "displayText": "战火铸就"
+    },
+    "ZAP": {
+      "file": "cards/zap.ogg",
+      "text": "电击",
+      "displayText": "电击"
+    }
+  }
+}

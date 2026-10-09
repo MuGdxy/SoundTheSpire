@@ -36,6 +36,11 @@ public static class DefenseMonitor
             _combat = null;
             return;
         }
+        if (combat.PlayerCreatures.Count == 0)
+        {
+            _combat = null;
+            return;
+        }
         if (LocalContext.GetMe(combat)?.Creature is not { Player: { } player } me || !combat.Enemies.Any(e => e.IsAlive))
             return;
 
@@ -76,6 +81,8 @@ public static class DefenseMonitor
     /// </summary>
     public static void StartWatching(ICombatState combat)
     {
+        if (combat.PlayerCreatures.Count == 0)
+            return;
         if (LocalContext.GetMe(combat)?.Creature is not { } me)
             return;
         _combat = combat;

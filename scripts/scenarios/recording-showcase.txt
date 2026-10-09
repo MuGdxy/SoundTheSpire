@@ -1,0 +1,55 @@
+# Recording showcase: encounter announcement, attack tiers, multi-hit, buff/defend articulations,
+# then defense resolution.
+fight SLIMES_WEAK
+wait combat
+sleep 7
+
+# Three visible damage tiers, played left to right.
+sts_intent 0 attack 3
+sts_intent 1 attack 15
+sts_intent 2 attack 50
+sts_focus 0
+sleep 2.5
+sts_focus 1
+sleep 2.5
+sts_focus 2
+sleep 2.5
+
+# Same hit count at two very different total-damage tiers.
+sts_intent 0 attack 2 4
+sts_focus 0
+sleep 2.5
+sts_intent 0 attack 12 4
+sts_focus clear
+sts_focus 0
+sleep 2.5
+
+# Non-attack enemy intents.
+sts_intent 1 buff 2
+sts_focus 1
+sleep 2
+sts_intent 2 defend 8
+sts_focus 2
+sleep 2
+
+# Incoming 22. The custom defense phrase resolves only when block crosses 22.
+sts_intent 0 attack 4
+sts_intent 1 attack 8
+sts_intent 2 attack 5 2
+block 10
+sleep 1.5
+block 10
+sleep 1.5
+block 5
+sleep 4
+
+# Lively finale: progressively longer and heavier multi-hit attacks.
+sts_intent 0 attack 3 4
+sts_intent 1 attack 5 6
+sts_intent 2 attack 7 8
+sts_focus 0
+sleep 3
+sts_focus 1
+sleep 4
+sts_focus 2
+sleep 5

@@ -13,13 +13,23 @@ public sealed class HotEntry : IHotModule
     {
         MusicClock.RefreshCurrentTrack();
         context.OnFrame(PollTestHotkey);
+        context.OnFrame(VoicePlayback.Poll);
+        context.OnFrame(EncounterAnnouncer.Poll);
+        context.OnFrame(CardAnnouncer.Poll);
         context.OnFrame(IntentAnnouncer.PollReplayKey);
         context.OnFrame(DefenseMonitor.Poll);
         context.OnFrame(IntentVeil.Poll);
         context.OnFrame(NumberVeil.Poll);
         context.OnFrame(ListeningTutorial.Poll);
         context.OnFrame(TutorialButton.Poll);
+        AccessibilitySpeech.Initialize();
+        EncounterAnnouncer.Initialize();
+        CardAnnouncer.Initialize();
         NumberVeil.Refresh();
+        CombatManager.Instance.CombatSetUp += EncounterAnnouncer.OnCombatSetUp;
+        CombatManager.Instance.CombatBegan += EncounterAnnouncer.OnCombatBegan;
+        CombatManager.Instance.CreaturesChanged += EncounterAnnouncer.OnCreaturesChanged;
+        CombatManager.Instance.CombatEnded += EncounterAnnouncer.OnCombatEnded;
         CombatManager.Instance.TurnStarted += IntentAnnouncer.OnTurnStarted;
         CombatManager.Instance.TurnStarted += ListeningTutorial.OnTurnStarted;
         CombatManager.Instance.CombatWon += ListeningTutorial.OnCombatWon;
@@ -30,10 +40,17 @@ public sealed class HotEntry : IHotModule
 
     public void Unload()
     {
+        CombatManager.Instance.CombatSetUp -= EncounterAnnouncer.OnCombatSetUp;
+        CombatManager.Instance.CombatBegan -= EncounterAnnouncer.OnCombatBegan;
+        CombatManager.Instance.CreaturesChanged -= EncounterAnnouncer.OnCreaturesChanged;
+        CombatManager.Instance.CombatEnded -= EncounterAnnouncer.OnCombatEnded;
         CombatManager.Instance.TurnStarted -= IntentAnnouncer.OnTurnStarted;
         CombatManager.Instance.TurnStarted -= ListeningTutorial.OnTurnStarted;
         CombatManager.Instance.CombatWon -= ListeningTutorial.OnCombatWon;
         CombatManager.Instance.CombatEnded -= ListeningTutorial.OnCombatEnded;
+        CardAnnouncer.Shutdown();
+        EncounterAnnouncer.Shutdown();
+        AccessibilitySpeech.Shutdown();
         IntentVeil.Set(false);
         ListeningTutorial.Stop();
         TutorialButton.Remove();

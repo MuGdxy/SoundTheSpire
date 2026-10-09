@@ -48,7 +48,10 @@ public static class BlockMotif
     public static void PlayStatus(SynthEngine engine, int block, int incoming)
     {
         LegatoLine.Interrupt(engine);
-        ScheduleStatus(engine, MusicClock.DelayToNextBeat(), block, incoming);
+        ScheduleStatus(engine, MusicClock.DelayToNextBeat(), block, incoming,
+            Combat.IntentAnnouncer.HasFocusedEnemy
+                ? Profile?.FocusedDefenseVolume ?? 45
+                : Profile?.DefenseVolume ?? 100);
     }
 
     /// <summary>One held chord for querying the current state; unlike a transition, it has no before/after motion.</summary>
@@ -149,9 +152,14 @@ public static class BlockMotif
     }
 
     /// <summary>One bar starting at <paramref name="at"/> describing the defense against this turn's attacks.</summary>
-    public static void ScheduleStatus(SynthEngine engine, double at, int block, int incoming)
+    public static void ScheduleStatus(
+        SynthEngine engine,
+        double at,
+        int block,
+        int incoming,
+        int? channelVolume = null)
     {
-        Setup(engine, at);
+        Setup(engine, at, channelVolume);
         var tier = HurtTier(block, incoming);
         var songChord = HarmonyTimeline.ChordAt(at, out _);
         if (incoming <= 0)
@@ -203,10 +211,11 @@ public static class BlockMotif
             ? IntentVoicing.TransposeFromTonic(keys, profile, chord)
             : keys;
 
-    private static void Setup(SynthEngine engine, double at) =>
+    private static void Setup(SynthEngine engine, double at, int? channelVolume = null) =>
         engine.Schedule(at, s =>
         {
             s.SetProgram(Channel, Midi.Program.AcousticGrandPiano);
             s.SetPan(Channel, 64);
+            s.SetVolume(Channel, channelVolume ?? Profile?.DefenseVolume ?? 100);
         });
 }

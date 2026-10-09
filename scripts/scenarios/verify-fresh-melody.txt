@@ -1,0 +1,19 @@
+sts_menu
+wait menu
+sts_regular_test glory-a1
+wait run
+fight TEST_SUBJECT_BOSS
+wait combat
+sts_test_subject_phase2
+sts_intent 0 attack 10 1
+sts_focus 0
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 2
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 3
+sts_melody
+sleep 2.7
+sts_intent 0 attack 10 4
+sts_melody

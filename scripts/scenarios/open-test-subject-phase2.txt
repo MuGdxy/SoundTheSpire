@@ -1,0 +1,8 @@
+sts_menu
+wait menu
+sts_regular_test glory-a1
+wait run
+fight TEST_SUBJECT_BOSS
+wait combat
+sts_test_subject_phase2
+sleep 3

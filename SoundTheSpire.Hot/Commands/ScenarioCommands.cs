@@ -293,6 +293,41 @@ public class StsEndTurnConsoleCmd : AbstractConsoleCmd
     }
 }
 
+/// <summary>Auditions one General MIDI preset without changing combat state.</summary>
+public class StsProgramConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_program";
+    public override string Args => "<program> [key] [velocity]";
+    public override string Description => "Audition one SoundFont program.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (SynthEngine.Instance is not { } engine ||
+            args.Length == 0 ||
+            !int.TryParse(args[0], out var program))
+            return new CmdResult(false, "Usage: sts_program " + Args);
+        var key = args.Length > 1 && int.TryParse(args[1], out var parsedKey) ? parsedKey : 69;
+        var velocity = args.Length > 2 && int.TryParse(args[2], out var parsedVelocity) ? parsedVelocity : 90;
+        program = Math.Clamp(program, 0, 127);
+        key = Math.Clamp(key, 0, 127);
+        velocity = Math.Clamp(velocity, 1, 127);
+        var voice = MusicClock.ActiveProfile?.Voices.FirstOrDefault(candidate => candidate.Program == program);
+        LegatoLine.Interrupt(engine);
+        engine.Schedule(0, synth =>
+        {
+            synth.SetProgram(7, program);
+            synth.SetPan(7, 64);
+            synth.SetReverb(7, voice?.Reverb ?? 0);
+            synth.SetChorus(7, voice?.Chorus ?? 0);
+            synth.SetModulation(7, voice?.Modulation ?? 0);
+        });
+        engine.Chord(0, 1.2, 7, velocity, key);
+        return new CmdResult(true, $"Playing program {program}, key {key}, velocity {velocity}.");
+    }
+}
+
 /// <summary>Plain-text snapshot of the run/combat, for checking scenarios without looking at the screen.</summary>
 public class StsStateConsoleCmd : AbstractConsoleCmd
 {
@@ -306,6 +341,7 @@ public class StsStateConsoleCmd : AbstractConsoleCmd
     {
         var sb = new StringBuilder();
         sb.AppendLine($"run: {RunManager.Instance.IsInProgress}");
+        sb.AppendLine($"menu: {NGame.Instance?.MainMenu != null}");
         sb.AppendLine($"ready: {StsRunConsoleCmd.IsRunReady}");
         sb.AppendLine($"room: {RunManager.Instance.DebugOnlyGetState()?.CurrentRoom?.GetType().Name ?? "none"}");
         var combat = CombatManager.Instance.DebugOnlyGetState();

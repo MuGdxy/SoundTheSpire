@@ -85,10 +85,15 @@
         <ItemGroup>
             <SoundFontFiles Include="SoundTheSpire/soundfonts/*" />
             <ProfileFiles Include="SoundTheSpire/profiles/*" />
+            <VoiceFiles Include="SoundTheSpire/voices/**/*"
+                        Exclude="SoundTheSpire/voices/**/monsters/**/*;SoundTheSpire/voices/**/status/**/*" />
+            <ScreenReaderFiles Include="SoundTheSpire/screen-reader/*" />
         </ItemGroup>
         <Error Condition="'@(SoundFontFiles)' == ''" Text="SoundFont missing; run scripts/fetch-assets.ps1 first." />
         <Copy SourceFiles="@(SoundFontFiles)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/soundfonts/" SkipUnchangedFiles="true" />
         <Copy SourceFiles="@(ProfileFiles)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/profiles/" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(VoiceFiles)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/voices/%(RecursiveDir)" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(ScreenReaderFiles)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" SkipUnchangedFiles="true" />
     </Target>
 
     <!-- The hot module compiles against the loader just deployed above, so it is built afterwards. -->

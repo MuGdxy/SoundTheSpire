@@ -9,8 +9,12 @@ public static class MusicProfileRegistry
 
     public static IReadOnlyCollection<MusicProfileData> All => Loaded.Value.Values.ToArray();
 
-    public static MusicProfileData? Find(string eventPath) =>
-        Loaded.Value.TryGetValue(eventPath, out var profile) ? profile : null;
+    public static MusicProfileData? Find(string eventPath)
+    {
+        if (Loaded.Value.TryGetValue(eventPath, out var profile))
+            return profile;
+        return Loaded.Value.TryGetValue("*", out var fallback) ? fallback : null;
+    }
 
     private static IReadOnlyDictionary<string, MusicProfileData> LoadAll()
     {
@@ -84,6 +88,7 @@ public sealed class MusicProfileData
 {
     public string Id { get; set; } = "";
     public string EventPath { get; set; } = "";
+    public string SourceTrackName { get; set; } = "";
     public string Key { get; set; } = "";
     public string IntentHarmonyMode { get; set; } = "chord";
     public double OutputGainDb { get; set; }
@@ -109,6 +114,7 @@ public sealed class MusicProfileData
     public int BackingChorus { get; set; }
     public int PalmMuteVelocityDrop { get; set; }
     public double StrumSpreadSeconds { get; set; }
+    public double MelodyOverlapSeconds { get; set; } = 0.08;
     public MusicPercussionTierData[] MultiHitPercussionTiers { get; set; } = [];
     public int[] MinorThirdTiers { get; set; } = [];
     public int[] DefendNotes { get; set; } = [];
@@ -124,6 +130,8 @@ public sealed class MusicProfileData
     public int NoIncomingVelocity { get; set; }
     public int SuspendedVelocity { get; set; }
     public int ResolvedVelocity { get; set; }
+    public int DefenseVolume { get; set; } = 100;
+    public int FocusedDefenseVolume { get; set; } = 45;
     public MusicVoiceData[] Voices { get; set; } = [];
     public MusicHarmonyData? Harmony { get; set; }
     public MusicStatusChangeData? StatusChange { get; set; }

@@ -1,4 +1,5 @@
-# Rebuilds SoundTheSpire.Hot and swaps it into the running game; the current run and combat stay as they are.
+# Rebuilds SoundTheSpire.Hot, copies encounter voice assets and swaps it into the running game; the current run and
+# combat stay as they are.
 # Optionally runs commands afterwards, e.g.: .\scripts\hot.ps1 "sts_intents"
 # Changes to the loader (SoundTheSpireCode/) are not picked up; those still need scripts/dev-restart.ps1.
 param([string[]]$Then = @())

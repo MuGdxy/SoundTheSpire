@@ -6,6 +6,8 @@ public sealed class Phrase
     private readonly List<(double At, double Duration, int Velocity, int Key)> _notes = new();
     private readonly List<(double At, double Duration, int Velocity, int Key)> _backing = new();
     private readonly List<(double At, double Duration, int Velocity, int Key)> _percussion = new();
+    public bool IsLegatoMelody { get; private set; }
+    public IReadOnlyList<int> LeadKeys => _notes.Select(note => note.Key).ToArray();
 
     /// <summary>When the last note ends.</summary>
     public double Length { get; private set; }
@@ -114,6 +116,55 @@ public sealed class Phrase
             var note = _notes[i];
             _notes[i] = (note.At, note.Duration * ratio, note.Velocity, note.Key);
         }
+    }
+
+    public void ReplaceLeadWithMelody(IReadOnlyList<int> notes, double step, double overlap)
+    {
+        if (notes.Count == 0 || _notes.Count == 0)
+            return;
+        var velocity = _notes.Max(note => note.Velocity);
+        _notes.Clear();
+        IsLegatoMelody = true;
+        for (var start = 0; start < notes.Count;)
+        {
+            if (notes[start] < 0)
+            {
+                start++;
+                continue;
+            }
+            var end = start + 1;
+            while (end < notes.Count && notes[end] == notes[start])
+                end++;
+            var duration = (end - start) * step +
+                (end < notes.Count && notes[end] >= 0 ? overlap : 0);
+            _notes.Add((start * step, duration, velocity, notes[start]));
+            start = end;
+        }
+        Length = Math.Max(Length, notes.Count * step);
+    }
+
+    public void SnapPercussionEndToBar(double barSeconds)
+    {
+        if (_percussion.Count == 0 || barSeconds <= 0)
+            return;
+        var naturalEnd = _percussion.Max(note => note.At + note.Duration);
+        var targetEnd = Math.Max(barSeconds, Math.Ceiling(naturalEnd / barSeconds) * barSeconds);
+        Length = Math.Max(Length, targetEnd);
+    }
+
+    public void KeepLeadOnly()
+    {
+        _backing.Clear();
+        _percussion.Clear();
+        Length = _notes.Count == 0 ? 0 : _notes.Max(note => note.At + note.Duration);
+    }
+
+    public void RemoveLead()
+    {
+        _notes.Clear();
+        var backingEnd = _backing.Count == 0 ? 0 : _backing.Max(note => note.At + note.Duration);
+        var percussionEnd = _percussion.Count == 0 ? 0 : _percussion.Max(note => note.At + note.Duration);
+        Length = Math.Max(backingEnd, percussionEnd);
     }
 
     public void ScheduleOn(SynthEngine engine, double start, int channel, int? backingChannel = null)

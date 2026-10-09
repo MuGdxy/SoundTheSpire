@@ -41,6 +41,9 @@ public static class Midi
     public static void SetPan(this Synthesizer synth, int channel, int pan) =>
         synth.ProcessMidiMessage(channel, 0xB0, 0x0A, pan);
 
+    public static void SetVolume(this Synthesizer synth, int channel, int amount) =>
+        synth.ProcessMidiMessage(channel, 0xB0, 7, Math.Clamp(amount, 0, 127));
+
     public static void SetReverb(this Synthesizer synth, int channel, int amount) =>
         synth.ProcessMidiMessage(channel, 0xB0, 91, Math.Clamp(amount, 0, 127));
 

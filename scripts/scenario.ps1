@@ -19,7 +19,7 @@ function Send([string]$line) {
 
 function Test-State([string]$state, [string]$text) {
     switch ($state) {
-        "menu"   { return $text -match "run: False" }
+        "menu"   { return ($text -match "run: False") -and ($text -match "menu: True") }
         "run"    { return $text -match "ready: True" }
         "combat" { return ($text -match "combat: True") -and ($text -match "enemy 0") -and ($text -notmatch "UNSET_MOVE") }
         default  { throw "Unknown wait target '$state'" }

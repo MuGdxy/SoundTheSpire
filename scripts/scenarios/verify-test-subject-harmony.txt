@@ -1,0 +1,12 @@
+sts_intent 0 attack 10 3
+sts_focus clear
+sts_focus 0
+sleep 3
+sts_focus clear
+sts_focus 0
+sleep 3
+sts_focus clear
+sts_focus 0
+sleep 3
+sts_focus clear
+sts_focus 0

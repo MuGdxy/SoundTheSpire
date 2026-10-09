@@ -1,0 +1,31 @@
+fight ENTOMANCER_ELITE
+wait combat
+sts_intent 0 attack 3 7
+sts_veil on
+sts_focus 0
+sleep 4
+sts_veil off
+sts_focus clear
+sts_focus 0
+sleep 2.6
+sts_focus clear
+sts_focus 0
+sleep 2.6
+sts_focus clear
+sts_focus 0
+sleep 3
+sts_intent 0 attack 3 8
+sts_veil on
+sts_focus clear
+sts_focus 0
+sleep 4
+sts_veil off
+sts_focus clear
+sts_focus 0
+sleep 2.6
+sts_focus clear
+sts_focus 0
+sleep 2.6
+sts_focus clear
+sts_focus 0
+sleep 3

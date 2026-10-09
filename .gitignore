@@ -8,6 +8,12 @@ obj/
 publish/
 dist/
 tools/
+!tools/
+tools/*
+!tools/voice-generation/
+!tools/voice-generation/**
+tools/voice-generation/__pycache__/
+tools/voice-generation/*.pyc
 workshop/content/
 Properties/
 packages/
@@ -16,3 +22,4 @@ packages/
 Directory.Build.props
 decompiled/
 SoundTheSpire/soundfonts/
+mod-uploader.log

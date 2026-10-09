@@ -27,6 +27,13 @@
         <Using Include="SoundTheSpire.SoundTheSpireCode.Core"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <VoiceFiles Include="../SoundTheSpire/voices/**/*"
+                    Exclude="../SoundTheSpire/voices/**/monsters/**/*;../SoundTheSpire/voices/**/status/**/*" />
+        <ProfileFiles Include="../SoundTheSpire/profiles/*.json" />
+        <ScreenReaderFiles Include="../SoundTheSpire/screen-reader/*" />
+    </ItemGroup>
+
     <Target Name="CheckLoaderDeployed" BeforeTargets="ResolveAssemblyReferences">
         <Error Condition="!Exists('$(ModFolder)SoundTheSpire.dll')"
                Text="Loader not deployed at $(ModFolder); build SoundTheSpire.csproj first (scripts/dev-restart.ps1)."/>
@@ -34,5 +41,8 @@
 
     <Target Name="CopyHotModuleToModsFolder" AfterTargets="PostBuildEvent">
         <Copy SourceFiles="$(TargetPath);$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModFolder)"/>
+        <Copy SourceFiles="@(VoiceFiles)" DestinationFolder="$(ModFolder)voices/%(RecursiveDir)" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(ProfileFiles)" DestinationFolder="$(ModFolder)profiles/" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(ScreenReaderFiles)" DestinationFolder="$(ModFolder)" SkipUnchangedFiles="true" />
     </Target>
 </Project>

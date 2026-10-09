@@ -1,4 +1,5 @@
 using Godot;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.DevConsole;
 using MegaCrit.Sts2.Core.DevConsole.ConsoleCommands;
 using MegaCrit.Sts2.Core.Context;
@@ -48,7 +49,9 @@ public class StsMusicConsoleCmd : AbstractConsoleCmd
             : -1;
         return new CmdResult(true,
             $"track {MusicClock.CurrentTrack ?? "none"} profile {profile} key {MusicClock.ActiveProfile?.Key ?? "none"} " +
+            $"source {MusicClock.ActiveProfile?.SourceTrackName ?? "none"} " +
             $"clock {MusicClock.Tempo:F2} BPM {MusicClock.BeatsPerBar}/{MusicClock.BeatUnit} callback {MusicClock.HasFmodBeat} " +
+            $"playback {MusicClock.PlaybackState?.ToString() ?? "none"} " +
             $"loaded_profiles {MusicProfileRegistry.All.Count} run_seed {state?.Rng.Seed} bg_roll {roll}");
     }
 }
@@ -73,6 +76,39 @@ public class StsIntentsConsoleCmd : AbstractConsoleCmd
         return IntentAnnouncer.PlayEnemy(index)
             ? new CmdResult(true, $"Playing intent of enemy {index}.")
             : new CmdResult(false, $"No living enemy {index}, or not in combat.");
+    }
+}
+
+public class StsAnnounceConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_announce";
+    public override string Args => "";
+    public override string Description => "Replay the localized identity-only announcement for the current encounter.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        VoicePlayback.Stop();
+        return new CmdResult(EncounterAnnouncer.Replay(out var report), report);
+    }
+}
+
+public class StsSpeakConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_speak";
+    public override string Args => "<text>";
+    public override string Description => "Send text to the active screen reader, with SAPI as fallback.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (args.Length == 0)
+            return new CmdResult(false, "Usage: sts_speak " + Args);
+        var text = string.Join(" ", args);
+        var success = AccessibilitySpeech.Output(text, interrupt: true);
+        return new CmdResult(success, $"{AccessibilitySpeech.DriverName}: {text}");
     }
 }
 
@@ -163,6 +199,56 @@ public class StsFindCardConsoleCmd : AbstractConsoleCmd
     }
 }
 
+public class StsCardVoiceConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_card_voice";
+    public override string Args => "<card_id|localized title>";
+    public override string Description => "Play a generated card-name announcement.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (args.Length == 0)
+            return new CmdResult(false, "Usage: sts_card_voice " + Args);
+        var query = string.Join(" ", args);
+        var card = ModelDb.AllCards.FirstOrDefault(candidate =>
+                candidate.Id.Entry.Equals(query, StringComparison.OrdinalIgnoreCase))
+            ?? ModelDb.AllCards.FirstOrDefault(candidate =>
+                candidate.Title.Equals(query, StringComparison.OrdinalIgnoreCase))
+            ?? ModelDb.AllCards.FirstOrDefault(candidate =>
+                candidate.Title.Contains(query, StringComparison.OrdinalIgnoreCase));
+        if (card == null)
+            return new CmdResult(false, $"No card matches '{query}'.");
+        return new CmdResult(CardAnnouncer.Play(card), $"{card.Id.Entry}: {card.Title}");
+    }
+}
+
+public class StsCardAnnounceSettingConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_card_announce";
+    public override string Args => "[on|off]";
+    public override string Description => "Enable or disable card-name announcements.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (args.Length == 0)
+            return new CmdResult(true, $"Card name announcements are {(CardAnnouncer.Enabled ? "on" : "off")}.");
+        var enabled = args[0] switch
+        {
+            "on" => true,
+            "off" => false,
+            _ => (bool?)null,
+        };
+        if (enabled is not { } value)
+            return new CmdResult(false, $"Expected on or off, got '{args[0]}'.");
+        CardAnnouncer.SetEnabled(value);
+        return new CmdResult(true, $"Card name announcements {(value ? "on" : "off")}.");
+    }
+}
+
 public class StsFindMonsterConsoleCmd : AbstractConsoleCmd
 {
     public override string CmdName => "sts_findmonster";
@@ -182,6 +268,167 @@ public class StsFindMonsterConsoleCmd : AbstractConsoleCmd
             .Select(m => $"{m.Model.Id.Entry} {m.Name} ({m.Model.GetType().Name})");
         return new CmdResult(true, string.Join("\n", found));
     }
+}
+
+public class StsVoiceCatalogConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_voice_catalog";
+    public override string Args => "<path.json>";
+    public override string Description => "Export every monster ID and current localized name for encounter voice authoring.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (args.Length == 0)
+            return new CmdResult(false, "Usage: sts_voice_catalog " + Args);
+        var path = string.Join(" ", args);
+        var catalog = ModelDb.Monsters
+            .OrderBy(monster => monster.Id.Entry)
+            .ToDictionary(
+                monster => monster.Id.Entry,
+                monster => new
+                {
+                    file = $"monsters/{monster.Id.Entry.ToLowerInvariant()}.ogg",
+                    text = monster.Title.GetFormattedText(),
+                });
+        File.WriteAllText(path, System.Text.Json.JsonSerializer.Serialize(
+            catalog,
+            new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
+        return new CmdResult(true, $"Exported {catalog.Count} localized monster names to {path}.");
+    }
+}
+
+public class StsCardVoiceCatalogConsoleCmd : AbstractConsoleCmd
+{
+    public override string CmdName => "sts_card_voice_catalog";
+    public override string Args => "<path.json>";
+    public override string Description => "Export every card ID and current localized title for voice generation.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (args.Length == 0)
+            return new CmdResult(false, "Usage: sts_card_voice_catalog " + Args);
+        var path = string.Join(" ", args);
+        var catalog = ModelDb.AllCards
+            .OrderBy(card => card.Id.Entry)
+            .ToDictionary(
+                card => card.Id.Entry,
+                card => new
+                {
+                    file = $"cards/{card.Id.Entry.ToLowerInvariant()}.ogg",
+                    text = card.Title,
+                });
+        File.WriteAllText(path, System.Text.Json.JsonSerializer.Serialize(
+            catalog,
+            new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
+        return new CmdResult(true, $"Exported {catalog.Count} localized card names to {path}.");
+    }
+}
+
+public class StsEncounterRosterCatalogConsoleCmd : AbstractConsoleCmd
+{
+    private sealed class Entry
+    {
+        public string File { get; set; } = "";
+        public string Text { get; set; } = "";
+        public HashSet<string> Encounters { get; set; } = new();
+    }
+
+    public override string CmdName => "sts_roster_catalog";
+    public override string Args => "<path.json> [samples=512]";
+    public override string Description => "Enumerate possible initial enemy rosters and export full localized encounter lines.";
+    public override bool IsNetworked => false;
+    public override bool DebugOnly => false;
+
+    public override CmdResult Process(Player? issuingPlayer, string[] args)
+    {
+        if (args.Length == 0)
+            return new CmdResult(false, "Usage: sts_roster_catalog " + Args);
+        var path = args[0];
+        var samples = args.Length > 1 && int.TryParse(args[1], out var parsed) ? Math.Clamp(parsed, 1, 4096) : 512;
+        var rngField = AccessTools.Field(typeof(EncounterModel), "_rng");
+        var rosters = new Dictionary<string, Entry>(StringComparer.Ordinal);
+        var failures = new List<string>();
+
+        foreach (var canonical in ModelDb.AllEncounters.OrderBy(encounter => encounter.Id.Entry))
+        {
+            try
+            {
+                for (var seed = 0; seed < samples; seed++)
+                {
+                    var encounter = canonical.ToMutable();
+                    rngField.SetValue(encounter, new Rng((ulong)seed));
+                    encounter.GenerateMonstersWithSlots(NullRunState.Instance);
+                    var monsters = encounter.MonstersWithSlots.Select(pair => pair.Item1).ToList();
+                    var key = string.Join("+", monsters.Select(monster => monster.Id.Entry).Order(StringComparer.Ordinal));
+                    if (!rosters.TryGetValue(key, out var entry))
+                    {
+                        entry = new Entry
+                        {
+                            File = $"encounters/rosters/{RosterHash(key)}.ogg",
+                            Text = EncounterText(monsters),
+                        };
+                        rosters.Add(key, entry);
+                    }
+                    entry.Encounters.Add(canonical.Id.Entry);
+                }
+            }
+            catch (Exception e)
+            {
+                failures.Add($"{canonical.Id.Entry}: {e.Message}");
+            }
+        }
+
+        File.WriteAllText(path, System.Text.Json.JsonSerializer.Serialize(
+            rosters,
+            new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
+        var failureText = failures.Count == 0 ? "" : $" Failures: {string.Join(" | ", failures)}";
+        return new CmdResult(true, $"Exported {rosters.Count} unique rosters from {ModelDb.AllEncounters.Count()} encounters ({samples} seeds each).{failureText}");
+    }
+
+    private static string RosterHash(string key)
+    {
+        var bytes = System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(key));
+        return Convert.ToHexString(bytes)[..16].ToLowerInvariant();
+    }
+
+    private static string EncounterText(IReadOnlyList<MonsterModel> monsters)
+    {
+        var labels = monsters
+            .GroupBy(monster => monster.Id.Entry)
+            .Select(group =>
+            {
+                var name = group.First().Title.GetFormattedText();
+                var count = group.Count();
+                return count == 1 ? name : $"{name}{ChineseCount(count)}只";
+            })
+            .ToList();
+        var roster = labels.Count switch
+        {
+            0 => "未知敌人",
+            1 => labels[0],
+            2 => $"{labels[0]}与{labels[1]}",
+            _ => $"{string.Join("、", labels.Take(labels.Count - 1))}与{labels[^1]}",
+        };
+        return $"敌人来袭。{roster}。";
+    }
+
+    private static string ChineseCount(int count) => count switch
+    {
+        2 => "两",
+        3 => "三",
+        4 => "四",
+        5 => "五",
+        6 => "六",
+        7 => "七",
+        8 => "八",
+        9 => "九",
+        10 => "十",
+        _ => count.ToString(),
+    };
 }
 
 public class StsVeilConsoleCmd : AbstractConsoleCmd

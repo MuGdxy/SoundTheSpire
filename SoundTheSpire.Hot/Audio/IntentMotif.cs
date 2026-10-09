@@ -14,6 +14,8 @@ namespace SoundTheSpire.Hot.Audio;
 /// </summary>
 public static class IntentMotif
 {
+    public static string LastMelodyReport { get; private set; } = "melody unavailable";
+
     // Per damage tier (the game's attack icon tiers), lightest first. Profiled tracks override these defaults.
     private static readonly int[] AttackRoots = { 72, 64, 55, 48, 40 };
     private static readonly int[] AttackVelocities = { 45, 62, 82, 104, 124 };
@@ -50,7 +52,6 @@ public static class IntentMotif
     /// <returns>When the line-up ends, on a bar line.</returns>
     public static double Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies)
     {
-        LegatoLine.Interrupt(engine);
         EnemyVoices.Assign(enemies);
         var barDelay = MusicClock.DelayToNextBar();
         if (MusicClock.ActiveProfile is { } profile)
@@ -70,6 +71,8 @@ public static class IntentMotif
                     (melody.HasValue ? $", melody step {melodyStep}, MIDI {melody.Value}" : "") +
                     $", loudness gain {gainDb:F1}dB.");
             var phrase = Compose(enemies[i], chord, melody);
+            ApplyMelodyContour(phrase, at);
+            phrase.SnapPercussionEndToBar(BarSeconds);
             phrase.ApplyGainDb(gainDb);
             Schedule(engine, at, enemies[i], phrase);
         }
@@ -77,9 +80,8 @@ public static class IntentMotif
     }
 
     /// <param name="enemies">All living enemies; instruments are ranked across them.</param>
-    public static void Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies, EnemyInfo enemy)
+    public static double Play(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies, EnemyInfo enemy)
     {
-        LegatoLine.Interrupt(engine);
         EnemyVoices.Assign(enemies);
         var subdivisions = Math.Max(1, MusicClock.ActiveProfile?.SelectionSubdivisionsPerBeat ?? 1);
         var at = MusicClock.DelayToNextSubdivision(subdivisions);
@@ -92,6 +94,42 @@ public static class IntentMotif
                 (melody.HasValue ? $", melody step {melodyStep}, MIDI {melody.Value}" : "") +
                 $", loudness gain {gainDb:F1}dB.");
         var phrase = Compose(enemy, chord, melody);
+        ApplyMelodyContour(phrase, at);
+        phrase.SnapPercussionEndToBar(BarSeconds);
+        phrase.ApplyGainDb(gainDb);
+        Schedule(engine, at, enemy, phrase);
+        return at + BarsFor(phrase.Length) * BarSeconds;
+    }
+
+    /// <summary>Schedules only the next bar of the continuously focused melody; no backing or drums retrigger.</summary>
+    public static double ContinueMelody(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies, EnemyInfo enemy)
+    {
+        EnemyVoices.Assign(enemies);
+        const double at = 0;
+        var chord = HarmonyTimeline.ChordAt(at, out _);
+        var melody = HarmonyTimeline.MelodyAt(at, out _);
+        var gainDb = HarmonyTimeline.LoudnessGainDbAt(at, out _);
+        var phrase = Compose(enemy, chord, melody);
+        ApplyMelodyContour(phrase, at);
+        if (!phrase.IsLegatoMelody)
+            return 0;
+        phrase.KeepLeadOnly();
+        phrase.ApplyGainDb(gainDb);
+        Schedule(engine, at, enemy, phrase);
+        return BarSeconds;
+    }
+
+    /// <summary>Plays changed intent backing/drums without restarting the continuously focused melody.</summary>
+    public static void PlayChangedRhythm(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies, EnemyInfo enemy)
+    {
+        EnemyVoices.Assign(enemies);
+        const double at = 0;
+        var chord = HarmonyTimeline.ChordAt(at, out _);
+        var melody = HarmonyTimeline.MelodyAt(at, out _);
+        var gainDb = HarmonyTimeline.LoudnessGainDbAt(at, out _);
+        var phrase = Compose(enemy, chord, melody);
+        phrase.RemoveLead();
+        phrase.SnapPercussionEndToBar(BarSeconds);
         phrase.ApplyGainDb(gainDb);
         Schedule(engine, at, enemy, phrase);
     }
@@ -118,8 +156,11 @@ public static class IntentMotif
         if (voice != null)
         {
             phrase.ConstrainLeadRange(voice.MinNote, voice.MaxNote);
-            phrase.ScaleLeadDurations(voice.GateRatio);
+            if (!phrase.IsLegatoMelody)
+                phrase.ScaleLeadDurations(voice.GateRatio);
         }
+        if (phrase.IsLegatoMelody)
+            LastMelodyReport += $" rendered MIDI [{string.Join(",", phrase.LeadKeys)}]";
         var spatial = profile?.Spatial;
         if (spatial != null)
         {
@@ -332,5 +373,33 @@ public static class IntentMotif
     {
         var gain = Math.Pow(10, (MusicClock.ActiveProfile?.BackingGainDb ?? 0) / 40.0);
         return Math.Clamp((int)Math.Round(velocity * gain), 1, 127);
+    }
+
+    private static void ApplyMelodyContour(Phrase phrase, double timelineOffset)
+    {
+        if (MusicClock.ActiveProfile?.IntentHarmonyMode.Equals(
+                "melody", StringComparison.OrdinalIgnoreCase) != true)
+            return;
+        var subdivisions = Math.Max(
+            1,
+            MusicClock.ActiveProfile?.Harmony?.MelodySubdivisionsPerBeat ?? 1);
+        var noteStep = BeatSeconds / subdivisions;
+        var count = MusicClock.BeatsPerBar * subdivisions;
+        var notes = new List<int>(count);
+        var steps = new List<int>(count);
+        for (var stepIndex = 0; stepIndex < count; stepIndex++)
+        {
+            if (HarmonyTimeline.MelodyAt(timelineOffset + stepIndex * noteStep, out var step) is not { } note)
+            {
+                LastMelodyReport = "melody unavailable";
+                return;
+            }
+            notes.Add(note);
+            steps.Add(step);
+        }
+        LastMelodyReport =
+            $"melody steps {steps[0]}..{steps[^1]} MIDI [{string.Join(",", notes)}]";
+        var configuredOverlap = MusicClock.ActiveProfile?.MelodyOverlapSeconds ?? 0.08;
+        phrase.ReplaceLeadWithMelody(notes, noteStep, Math.Min(configuredOverlap, noteStep * 0.75));
     }
 }
