@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SoundTheSpire.Hot.Audio;
 
@@ -90,7 +91,7 @@ public sealed class MusicProfileData
     public string EventPath { get; set; } = "";
     public string SourceTrackName { get; set; } = "";
     public string Key { get; set; } = "";
-    public string IntentHarmonyMode { get; set; } = "chord";
+    public IntentPitchMode IntentPitchMode { get; set; } = IntentPitchMode.Tonic;
     public double OutputGainDb { get; set; }
     public bool DynamicLoudness { get; set; }
     public int TonicPitchClass { get; set; }
@@ -136,6 +137,14 @@ public sealed class MusicProfileData
     public MusicHarmonyData? Harmony { get; set; }
     public MusicStatusChangeData? StatusChange { get; set; }
     public MusicSpatialData? Spatial { get; set; }
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter<IntentPitchMode>))]
+public enum IntentPitchMode
+{
+    Tonic,
+    ChordRoot,
+    Melody,
 }
 
 public sealed class MusicVoiceData

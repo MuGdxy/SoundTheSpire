@@ -129,15 +129,15 @@ public static class IntentAnnouncer
         {
             MainFile.Logger.Info(
                 $"Enemy {focused.Slot} intent changed while focused: updating drums without restarting melody.");
-            var changedDuration = IntentMotif.ContinueMelody(engine, enemies, focused);
+            var changedDuration = IntentMotif.ContinueFocusedPitch(engine, enemies, focused);
             IntentMotif.PlayChangedRhythm(engine, enemies, focused);
             _focusedIntentSignature = signature;
             _nextFocusedReplayTicks = Time.GetTicksMsec() +
                 (ulong)Math.Ceiling(Math.Max(changedDuration, MusicClock.BarSeconds) * 1000);
             return;
         }
-        MainFile.Logger.Info($"Enemy {focused.Slot} remains focused: continuing its melody.");
-        var duration = IntentMotif.ContinueMelody(engine, enemies, focused);
+        MainFile.Logger.Info($"Enemy {focused.Slot} remains focused: continuing its pitch layer.");
+        var duration = IntentMotif.ContinueFocusedPitch(engine, enemies, focused);
         _nextFocusedReplayTicks = Time.GetTicksMsec() +
             (ulong)Math.Ceiling(Math.Max(duration, MusicClock.BarSeconds) * 1000);
     }

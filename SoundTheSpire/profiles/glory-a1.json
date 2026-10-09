@@ -2,7 +2,6 @@
   "id": "glory-a1",
   "eventPath": "event:/music/act3_a1_v1",
   "key": "A minor",
-  "intentHarmonyMode": "melody",
   "outputGainDb": 18.5,
   "tonicPitchClass": 9,
   "bpm": 82.0,
@@ -841,5 +840,6 @@
   "backingProgram": 5,
   "backingGainDb": 0.0,
   "backingReverb": 40,
-  "backingChorus": 25
+  "backingChorus": 25,
+  "intentPitchMode": "Tonic"
 }

@@ -19,11 +19,13 @@ public static class IntentVoicing
         int[] defaultRoots)
     {
         var anchor = (profile?.AttackRoots ?? defaultRoots)[tier - 1];
-        var followMelody =
-            profile?.IntentHarmonyMode.Equals("melody", StringComparison.OrdinalIgnoreCase) == true;
-        var leadPitchClass = followMelody && melodyNote.HasValue
-            ? Mod(melodyNote.Value, 12)
-            : songChord?.Root;
+        var leadPitchClass = profile?.IntentPitchMode switch
+        {
+            IntentPitchMode.Melody when melodyNote.HasValue => Mod(melodyNote.Value, 12),
+            IntentPitchMode.ChordRoot => songChord?.Root,
+            IntentPitchMode.Tonic => profile.TonicPitchClass,
+            _ => songChord?.Root,
+        };
         var root = leadPitchClass.HasValue ? NearestPitch(anchor, leadPitchClass.Value) : anchor;
         if (profile?.AttackBackingVelocities.Length == 5)
         {
@@ -49,7 +51,7 @@ public static class IntentVoicing
             return new AttackVoicing(keys, [], 0);
         }
 
-        if (profile?.IntentHarmonyMode.Equals("root", StringComparison.OrdinalIgnoreCase) == true)
+        if (profile?.IntentPitchMode is IntentPitchMode.Tonic or IntentPitchMode.ChordRoot)
             return new AttackVoicing([root], [], 0);
         var chord = ChordKeys(songChord, root);
         int[] lead = tier switch

@@ -75,7 +75,7 @@ public sealed class StsFocusConsoleCmd : AbstractConsoleCmd
         if (!node.IsFocused)
             AccessTools.Method(typeof(NCreature), "OnFocus").Invoke(node, null);
         node.ShowSingleSelectReticle();
-        return new CmdResult(true, $"Focused {label}; {IntentMotif.LastMelodyReport}.");
+        return new CmdResult(true, $"Focused {label}; {IntentMotif.LastPitchReport}.");
     }
 }
 
@@ -188,112 +188,6 @@ public sealed class StsMusicProbeConsoleCmd : AbstractConsoleCmd
             controller.StopCustomMusic();
         return new CmdResult(true, $"{(available ? "available" : "missing")} {path}");
     }
-}
-
-/// <summary>Starts one available FMOD music event and leaves it playing for capture/analysis.</summary>
-public sealed class StsMusicPlayConsoleCmd : AbstractConsoleCmd
-{
-    public override string CmdName => "sts_music_play";
-    public override string Args => "<ceremonial|kin|vantom|event_path>";
-    public override string Description => "Play one FMOD music event for offline capture.";
-    public override bool IsNetworked => false;
-    public override bool DebugOnly => false;
-
-    public override CmdResult Process(Player? issuingPlayer, string[] args)
-    {
-        if (NRunMusicController.Instance is not { } controller || args.Length == 0)
-            return new CmdResult(false, "Usage: sts_music_play " + Args);
-        var path = args[0].ToLowerInvariant() switch
-        {
-            "ceremonial" => "event:/music/act1_boss_ceremonial_beast",
-            "kin" => "event:/music/act1_boss_the_kin",
-            "vantom" => "event:/music/act1_boss_vantom",
-            _ => args[0],
-        };
-        controller.PlayCustomMusic(path);
-        return MusicClock.CurrentTrack == path && MusicClock.HasAttachedEvent
-            ? new CmdResult(true, $"Playing {path}")
-            : new CmdResult(false, $"Unavailable {path}");
-    }
-}
-
-public abstract class StsFixedMusicPlayConsoleCmd : AbstractConsoleCmd
-{
-    protected abstract string EventPath { get; }
-    public override string Args => "";
-    public override string Description => "Play one fixed FMOD boss event for offline capture.";
-    public override bool IsNetworked => false;
-    public override bool DebugOnly => false;
-
-    public override CmdResult Process(Player? issuingPlayer, string[] args)
-    {
-        if (NRunMusicController.Instance is not { } controller)
-            return new CmdResult(false, "Run music controller is unavailable.");
-        controller.PlayCustomMusic(EventPath);
-        return MusicClock.CurrentTrack == EventPath && MusicClock.HasAttachedEvent
-            ? new CmdResult(true, $"Playing {EventPath}")
-            : new CmdResult(false, $"Unavailable {EventPath}");
-    }
-}
-
-public sealed class StsMusicCeremonialConsoleCmd : StsFixedMusicPlayConsoleCmd
-{
-    public override string CmdName => "sts_music_ceremonial";
-    protected override string EventPath => "event:/music/act1_boss_ceremonial_beast";
-}
-
-public sealed class StsMusicKinConsoleCmd : StsFixedMusicPlayConsoleCmd
-{
-    public override string CmdName => "sts_music_kin";
-    protected override string EventPath => "event:/music/act1_boss_the_kin";
-}
-
-public sealed class StsMusicVantomConsoleCmd : StsFixedMusicPlayConsoleCmd
-{
-    public override string CmdName => "sts_music_vantom";
-    protected override string EventPath => "event:/music/act1_boss_vantom";
-}
-
-public sealed class StsMusicSoulFyshConsoleCmd : StsFixedMusicPlayConsoleCmd
-{
-    public override string CmdName => "sts_music_soul_fysh";
-    protected override string EventPath => "event:/music/act1_b_boss_soul_fysh";
-}
-
-public sealed class StsMusicWaterfallConsoleCmd : StsFixedMusicPlayConsoleCmd
-{
-    public override string CmdName => "sts_music_waterfall";
-    protected override string EventPath => "event:/music/act1_b_boss_waterfall_giant";
-}
-
-public sealed class StsMusicKaiserConsoleCmd : StsFixedMusicPlayConsoleCmd
-{
-    public override string CmdName => "sts_music_kaiser";
-    protected override string EventPath => "event:/music/act2_boss_kaiser_crab";
-}
-
-public sealed class StsMusicKnowledgeConsoleCmd : StsFixedMusicPlayConsoleCmd
-{
-    public override string CmdName => "sts_music_knowledge";
-    protected override string EventPath => "event:/music/act2_boss_knowledge_demon";
-}
-
-public sealed class StsMusicInsatiableConsoleCmd : StsFixedMusicPlayConsoleCmd
-{
-    public override string CmdName => "sts_music_insatiable";
-    protected override string EventPath => "event:/music/act2_boss_the_insatiable";
-}
-
-public sealed class StsMusicQueenConsoleCmd : StsFixedMusicPlayConsoleCmd
-{
-    public override string CmdName => "sts_music_queen";
-    protected override string EventPath => "event:/music/act3_boss_queen";
-}
-
-public sealed class StsMusicTestSubjectConsoleCmd : StsFixedMusicPlayConsoleCmd
-{
-    public override string CmdName => "sts_music_test_subject";
-    protected override string EventPath => "event:/music/act3_boss_test_subject";
 }
 
 /// <summary>Moves Test Subject directly to its genuine two-headed second form for audio demos.</summary>

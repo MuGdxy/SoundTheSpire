@@ -2,7 +2,6 @@
   "id": "generic-fallback",
   "eventPath": "*",
   "key": "generic D minor",
-  "intentHarmonyMode": "melody",
   "outputGainDb": 19.6,
   "tonicPitchClass": 2,
   "bpm": 120.0,
@@ -303,6 +302,7 @@
   "backingGainDb": 0.0,
   "backingReverb": 40,
   "backingChorus": 25,
+  "intentPitchMode": "Tonic",
   "dynamicLoudness": false,
   "defenseVolume": 100,
   "focusedDefenseVolume": 45

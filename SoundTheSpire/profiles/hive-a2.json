@@ -2,7 +2,6 @@
   "id": "hive-a2",
   "eventPath": "event:/music/act2_a2_v2",
   "key": "B-flat / E-flat minor axis",
-  "intentHarmonyMode": "melody",
   "outputGainDb": 17.0,
   "tonicPitchClass": 10,
   "bpm": 115.0,
@@ -876,5 +875,6 @@
   "backingProgram": 5,
   "backingGainDb": 0.0,
   "backingReverb": 40,
-  "backingChorus": 25
+  "backingChorus": 25,
+  "intentPitchMode": "Tonic"
 }

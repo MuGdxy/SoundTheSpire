@@ -2,7 +2,6 @@
   "id": "hive-a1",
   "eventPath": "event:/music/act2_a1_v2",
   "key": "G major / G minor",
-  "intentHarmonyMode": "melody",
   "outputGainDb": 18.0,
   "tonicPitchClass": 7,
   "bpm": 120.0,
@@ -773,5 +772,6 @@
   "backingProgram": 5,
   "backingGainDb": 0.0,
   "backingReverb": 40,
-  "backingChorus": 25
+  "backingChorus": 25,
+  "intentPitchMode": "Tonic"
 }

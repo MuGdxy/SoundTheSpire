@@ -6,7 +6,7 @@ public sealed class Phrase
     private readonly List<(double At, double Duration, int Velocity, int Key)> _notes = new();
     private readonly List<(double At, double Duration, int Velocity, int Key)> _backing = new();
     private readonly List<(double At, double Duration, int Velocity, int Key)> _percussion = new();
-    public bool IsLegatoMelody { get; private set; }
+    public bool IsContinuousLead { get; private set; }
     public IReadOnlyList<int> LeadKeys => _notes.Select(note => note.Key).ToArray();
 
     /// <summary>When the last note ends.</summary>
@@ -124,7 +124,7 @@ public sealed class Phrase
             return;
         var velocity = _notes.Max(note => note.Velocity);
         _notes.Clear();
-        IsLegatoMelody = true;
+        IsContinuousLead = true;
         for (var start = 0; start < notes.Count;)
         {
             if (notes[start] < 0)
@@ -141,6 +141,19 @@ public sealed class Phrase
             start = end;
         }
         Length = Math.Max(Length, notes.Count * step);
+    }
+
+    public void SustainLead(double duration)
+    {
+        if (_notes.Count == 0)
+            return;
+        IsContinuousLead = true;
+        for (var i = 0; i < _notes.Count; i++)
+        {
+            var note = _notes[i];
+            _notes[i] = (note.At, Math.Max(note.Duration, duration - note.At), note.Velocity, note.Key);
+        }
+        Length = Math.Max(Length, duration);
     }
 
     public void SnapPercussionEndToBar(double barSeconds)

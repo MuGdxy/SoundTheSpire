@@ -14,7 +14,7 @@ namespace SoundTheSpire.Hot.Audio;
 /// </summary>
 public static class IntentMotif
 {
-    public static string LastMelodyReport { get; private set; } = "melody unavailable";
+    public static string LastPitchReport { get; private set; } = "pitch layer unavailable";
 
     // Per damage tier (the game's attack icon tiers), lightest first. Profiled tracks override these defaults.
     private static readonly int[] AttackRoots = { 72, 64, 55, 48, 40 };
@@ -71,7 +71,7 @@ public static class IntentMotif
                     (melody.HasValue ? $", melody step {melodyStep}, MIDI {melody.Value}" : "") +
                     $", loudness gain {gainDb:F1}dB.");
             var phrase = Compose(enemies[i], chord, melody);
-            ApplyMelodyContour(phrase, at);
+            ApplyPitchLayer(phrase, at);
             phrase.SnapPercussionEndToBar(BarSeconds);
             phrase.ApplyGainDb(gainDb);
             Schedule(engine, at, enemies[i], phrase);
@@ -94,7 +94,7 @@ public static class IntentMotif
                 (melody.HasValue ? $", melody step {melodyStep}, MIDI {melody.Value}" : "") +
                 $", loudness gain {gainDb:F1}dB.");
         var phrase = Compose(enemy, chord, melody);
-        ApplyMelodyContour(phrase, at);
+        ApplyPitchLayer(phrase, at);
         phrase.SnapPercussionEndToBar(BarSeconds);
         phrase.ApplyGainDb(gainDb);
         Schedule(engine, at, enemy, phrase);
@@ -102,7 +102,7 @@ public static class IntentMotif
     }
 
     /// <summary>Schedules only the next bar of the continuously focused melody; no backing or drums retrigger.</summary>
-    public static double ContinueMelody(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies, EnemyInfo enemy)
+    public static double ContinueFocusedPitch(SynthEngine engine, IReadOnlyList<EnemyInfo> enemies, EnemyInfo enemy)
     {
         EnemyVoices.Assign(enemies);
         const double at = 0;
@@ -110,8 +110,8 @@ public static class IntentMotif
         var melody = HarmonyTimeline.MelodyAt(at, out _);
         var gainDb = HarmonyTimeline.LoudnessGainDbAt(at, out _);
         var phrase = Compose(enemy, chord, melody);
-        ApplyMelodyContour(phrase, at);
-        if (!phrase.IsLegatoMelody)
+        ApplyPitchLayer(phrase, at);
+        if (!phrase.IsContinuousLead)
             return 0;
         phrase.KeepLeadOnly();
         phrase.ApplyGainDb(gainDb);
@@ -156,11 +156,11 @@ public static class IntentMotif
         if (voice != null)
         {
             phrase.ConstrainLeadRange(voice.MinNote, voice.MaxNote);
-            if (!phrase.IsLegatoMelody)
+            if (!phrase.IsContinuousLead)
                 phrase.ScaleLeadDurations(voice.GateRatio);
         }
-        if (phrase.IsLegatoMelody)
-            LastMelodyReport += $" rendered MIDI [{string.Join(",", phrase.LeadKeys)}]";
+        if (phrase.IsContinuousLead)
+            LastPitchReport += $" rendered MIDI [{string.Join(",", phrase.LeadKeys)}]";
         var spatial = profile?.Spatial;
         if (spatial != null)
         {
@@ -375,10 +375,17 @@ public static class IntentMotif
         return Math.Clamp((int)Math.Round(velocity * gain), 1, 127);
     }
 
-    private static void ApplyMelodyContour(Phrase phrase, double timelineOffset)
+    private static void ApplyPitchLayer(Phrase phrase, double timelineOffset)
     {
-        if (MusicClock.ActiveProfile?.IntentHarmonyMode.Equals(
-                "melody", StringComparison.OrdinalIgnoreCase) != true)
+        if (MusicClock.ActiveProfile is not { } profile)
+            return;
+        if (profile.IntentPitchMode == IntentPitchMode.Tonic)
+        {
+            phrase.SustainLead(BarSeconds + Math.Min(0.08, BeatSeconds * 0.25));
+            LastPitchReport = $"tonic pitch class {profile.TonicPitchClass}";
+            return;
+        }
+        if (profile.IntentPitchMode != IntentPitchMode.Melody)
             return;
         var subdivisions = Math.Max(
             1,
@@ -391,13 +398,13 @@ public static class IntentMotif
         {
             if (HarmonyTimeline.MelodyAt(timelineOffset + stepIndex * noteStep, out var step) is not { } note)
             {
-                LastMelodyReport = "melody unavailable";
+                LastPitchReport = "melody unavailable";
                 return;
             }
             notes.Add(note);
             steps.Add(step);
         }
-        LastMelodyReport =
+        LastPitchReport =
             $"melody steps {steps[0]}..{steps[^1]} MIDI [{string.Join(",", notes)}]";
         var configuredOverlap = MusicClock.ActiveProfile?.MelodyOverlapSeconds ?? 0.08;
         phrase.ReplaceLeadWithMelody(notes, noteStep, Math.Min(configuredOverlap, noteStep * 0.75));

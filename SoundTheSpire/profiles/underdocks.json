@@ -2,7 +2,6 @@
   "id": "underdocks",
   "eventPath": "event:/music/act1_b1_v1",
   "key": "A minor / F minor sections",
-  "intentHarmonyMode": "melody",
   "outputGainDb": 18.0,
   "tonicPitchClass": 9,
   "bpm": 87.0,
@@ -776,5 +775,6 @@
   "backingProgram": 5,
   "backingGainDb": 0.0,
   "backingReverb": 40,
-  "backingChorus": 25
+  "backingChorus": 25,
+  "intentPitchMode": "Tonic"
 }

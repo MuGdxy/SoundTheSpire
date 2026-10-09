@@ -282,10 +282,10 @@ v1 不做：手牌信息朗读、导航、地图、商店、事件、多人、�
 - 和声时间线初版：`HarmonyTimeline` 用 FMOD section marker 锚定离线逐小节和弦表，`IntentVoicing` 将单音/五度/和弦/低音根音投影到目标小节和弦；防御钢琴的状态查询、sus→解决和快速连音也查询各自拍点和弦。A2 Combat stem 为 1 拍 pickup + 81 个 4/4 小节，首轮自动分析表已写入 Profile；运行验证从 D5 前进到 G5/D5，并在第 17 小节让防御钢琴跟随 Gm。
 - 实验体专用 Profile：原始 FSB A/B/C 段实测为 B 小调，FMOD 回调为 106 BPM、9/8，共用 `Start A` marker；第二阶段使用原始 stream `STS2_Glory_TestSubject_v1_B1`，为 1 个八分 pickup + 38 小节。逐小节和弦表写入 `test-subject.json`，沿用既有 `HarmonyTimeline`，不增加运行时特例。Profile 激活日志与 `sts_music` 同时打印 event、Profile、source stream 与调性，防止分析错曲。实验体调试命令只切阶段/意图；声音由原生 `NCreature.OnFocus` 补丁自然触发。
 - 实验体意图主声部改用失真电吉他并整体降低一个八度，小号降为第二优先级；单怪实测 `sts_state` 显示 `voice distortion guitar`。实验体 Profile 的旋律异音重叠设为 180ms，并提高吉他混响/合唱，形成受控延音而不使用会无限累积旧音的 sustain pedal。
-- 意图前景从“当前和弦根音”改为 Profile 的主旋律时间线：按记谱细分读取 `melodyNotes`，鼓组仍独立表示攻击段数，和弦铺底表示伤害强度。实验体 B 段生成 684 个十六分旋律采样（38×9×2），范围 MIDI 55–86；实验体小号上限扩到88，避免高音折低八度。没有旋律表的曲目自动回退当前和弦根音。
+- Profile 音高策略重构为 `IntentPitchMode` 枚举：`Tonic`（默认，严格跟随曲目调性主音）、`ChordRoot`、`Melody`。主旋律能力保留为可选模式：按记谱细分读取 `melodyNotes`；鼓组仍独立表示攻击段数，和弦铺底表示伤害强度。实验体 B 段保留 684 个十六分旋律采样（38×9×2）供以后切换/校订，默认运行不启用。
 - `melodyNotes` 是可替换的数据产物，不绑定当前自动转谱模型。现阶段使用 Basic Pitch / 本地原始 FSB 生成；未来若获得官方谱、更高质量 MIDI 或人工校订 MIDI，应读取其音符起止、力度和休止符，按 Profile 的 FMOD BPM/拍号/marker 重新量化并覆盖旋律表，无需修改运行时代码。保留 MIDI→Profile 的可重复生成流程，避免手工把谱子写死在程序中。
-- 主旋律线使用连音而非短奏门限：相邻异音重叠最多 80ms，连续同音合并为一个持续音；主旋律不再乘各乐器的 `GateRatio`，避免小号等短奏配置把逐拍旋律切断。鼓组门限保持独立。
-- 焦点主旋律作为连续声部跨小节保持连音：每小节最后一个旋律音延伸并与下一小节首音重叠，不把完整意图当作循环重播。鼓组不拉伸节奏型；鼓点按原速度结束，剩余时值为空拍。只有意图内容改变时才在最近的小节边界触发新鼓组。
+- 可选 `Melody` 模式使用连音而非短奏门限：相邻异音重叠最多 80ms，连续同音合并为一个持续音，且不再乘各乐器的 `GateRatio`。默认 `Tonic` 模式同样维持跨小节持续主音。鼓组不拉伸节奏型；鼓点按原速度结束，剩余时值为空拍；只有意图内容改变时才触发新鼓组。
+- 全部已知战斗曲统一为电声乐组与 `Tonic` 模式。除7首常规曲、瀑布巨兽、实验体外，为 Soul Fysh、仪式兽、亲族、Vantom、Kaiser Crab、知识恶魔、Insatiable、女王/Aeonglass 建立精确 `eventPath` 的基础 Profile；`sts_music_catalog` 验证全部原生自定义 Boss 事件均为 `profiled`。
 
 ### 2026-10-08
 

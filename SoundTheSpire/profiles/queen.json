@@ -1,19 +1,19 @@
 {
-  "id": "waterfall-giant",
-  "eventPath": "event:/music/act1_b_boss_waterfall_giant",
-  "key": "D major / B minor (vi)",
-  "outputGainDb": 0.0,
-  "tonicPitchClass": 11,
-  "bpm": 82.5,
-  "beatsPerBar": 5,
-  "beatUnit": 8,
-  "leadBeats": 2.0,
+  "id": "queen",
+  "eventPath": "event:/music/act3_boss_queen",
+  "key": "A minor / C minor",
+  "outputGainDb": 19.6,
+  "tonicPitchClass": 9,
+  "bpm": 96.0,
+  "beatsPerBar": 4,
+  "beatUnit": 4,
+  "leadBeats": 1.0,
   "resolveBeats": 3.0,
-  "holdBeats": 4.0,
+  "holdBeats": 3.0,
   "gateRatio": 0.95,
   "rapidInputQuarterNotes": 1.0,
   "rapidSubdivisionsPerBeat": 2,
-  "selectionSubdivisionsPerBeat": 2,
+  "selectionSubdivisionsPerBeat": 4,
   "attackThresholds": [
     5,
     10,
@@ -21,18 +21,25 @@
     40
   ],
   "attackRoots": [
-    71,
-    62,
-    54,
-    47,
-    38
+    45,
+    57,
+    69,
+    81,
+    93
   ],
   "attackVelocities": [
-    45,
-    62,
     82,
-    104,
-    124
+    100,
+    98,
+    103,
+    121
+  ],
+  "attackBackingVelocities": [
+    0,
+    0,
+    54,
+    70,
+    98
   ],
   "palmMuteVelocityDrop": 20,
   "strumSpreadSeconds": 0.008,
@@ -129,66 +136,66 @@
     4
   ],
   "defendNotes": [
-    35,
-    42
+    38,
+    45
   ],
   "buffNotes": [
-    59,
     62,
-    66,
-    71
+    65,
+    69,
+    74
   ],
   "debuffNotes": [
-    71,
-    66,
-    62,
-    59
+    74,
+    69,
+    65,
+    62
   ],
-  "unknownNote": 54,
+  "unknownNote": 57,
   "suspended": [
-    59,
-    64,
-    66
+    62,
+    67,
+    69
   ],
   "resolved": [
-    59,
     62,
-    66,
-    71
+    65,
+    69,
+    74
   ],
   "hurtChords": [
     [
-      59,
-      64,
-      66
-    ],
-    [
-      59,
       62,
-      65
+      67,
+      69
     ],
     [
-      59,
+      62,
       65,
-      70
+      68
     ],
     [
-      59,
-      60,
-      65
+      62,
+      68,
+      73
+    ],
+    [
+      62,
+      63,
+      68
     ]
   ],
   "clash": [
-    47,
-    59,
-    60,
-    65
+    50,
+    62,
+    63,
+    68
   ],
   "clashAfter": [
-    46,
-    58,
-    59,
-    64
+    49,
+    61,
+    62,
+    67
   ],
   "hurtVelocities": [
     72,
@@ -200,6 +207,15 @@
   "noIncomingVelocity": 70,
   "suspendedVelocity": 80,
   "resolvedVelocity": 95,
+  "statusChange": {
+    "buffProgram": 46,
+    "debuffProgram": 70,
+    "applyVelocity": 88,
+    "removeVelocity": 70,
+    "stepBeats": 0.25,
+    "noteDurationBeats": 0.55,
+    "subdivisionsPerBeat": 4
+  },
   "voices": [
     {
       "program": 56,
@@ -272,11 +288,6 @@
       "modulation": 0
     }
   ],
-  "intentPitchMode": "Tonic",
-  "backingProgram": 5,
-  "backingGainDb": 0.0,
-  "backingReverb": 40,
-  "backingChorus": 25,
   "spatial": {
     "panMin": 0,
     "panMax": 127,
@@ -286,5 +297,14 @@
     "frontReverbAdd": 0,
     "backBrightness": 48,
     "frontBrightness": 82
-  }
+  },
+  "backingProgram": 5,
+  "backingGainDb": 0.0,
+  "backingReverb": 40,
+  "backingChorus": 25,
+  "intentPitchMode": "Tonic",
+  "dynamicLoudness": false,
+  "defenseVolume": 100,
+  "focusedDefenseVolume": 45,
+  "sourceTrackName": "STS2_A3_Boss_TheQueen_A1/B1_v1"
 }

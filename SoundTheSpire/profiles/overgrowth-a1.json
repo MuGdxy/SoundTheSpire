@@ -665,5 +665,5 @@
   "backingGainDb": 0.0,
   "backingReverb": 40,
   "backingChorus": 25,
-  "intentHarmonyMode": "melody"
+  "intentPitchMode": "Tonic"
 }

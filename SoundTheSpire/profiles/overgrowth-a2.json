@@ -2,7 +2,6 @@
   "id": "overgrowth-a2",
   "eventPath": "event:/music/act1_a2_v2",
   "key": "D minor",
-  "intentHarmonyMode": "melody",
   "outputGainDb": 19.6,
   "tonicPitchClass": 2,
   "bpm": 82.0,
@@ -1039,5 +1038,6 @@
   "backingProgram": 5,
   "backingGainDb": 0.0,
   "backingReverb": 40,
-  "backingChorus": 25
+  "backingChorus": 25,
+  "intentPitchMode": "Tonic"
 }
