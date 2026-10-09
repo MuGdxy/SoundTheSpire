@@ -24,26 +24,26 @@ public static class IntentMotif
     private const int Eighths = 2;
     private const int Triplets = 3;
     private const int FullBarHits = 8;
+    private static readonly int[] BackingChannels = { 8, 12, 13, 14, 15 };
 
     /// <summary>
-    /// Riff per hit count. '1' = open strum, 'x' = palm-muted chug, spaces only group by ear;
+    /// Riff per hit count. D = downbeat, B = backbeat, s = subdivision; spaces only group by ear;
     /// <c>StepsPerBeat</c> is the grid (eighth notes or eighth-note triplets).
     /// </summary>
     private static readonly Dictionary<int, (string Pattern, int StepsPerBeat)> Riffs = new()
     {
-        [1] = ("1", Eighths),
-        [2] = ("11", Eighths),
-        [3] = ("1xx", Triplets),
-        [4] = ("1xxx", Eighths),
-        [5] = ("1xxx 1", Eighths),
-        [6] = ("1xx 1xx", Triplets),
-        [7] = ("1xx1 xx1", Eighths),
-        [8] = ("1xx1 xx1x", Eighths),
-        [9] = ("1xx 1xx 1xx", Triplets),
-        [10] = ("1xx1 xx1x 11", Eighths),
+        [1] = ("D", Eighths),
+        [2] = ("DB", Eighths),
+        [3] = ("Dss", Triplets),
+        [4] = ("DsBs", Eighths),
+        [5] = ("DsBs D", Eighths),
+        [6] = ("Dss Bss", Triplets),
+        [7] = ("DsBs DsB", Eighths),
+        [8] = ("DsBs DsBs", Eighths),
+        [9] = ("Dss Bss Dss", Triplets),
+        [10] = ("DsBs DsBs Ds", Eighths),
     };
 
-    private const int PalmMuteVelocityDrop = 20;
     private const double StrumSpread = 0.008;
 
     /// <summary>The whole line-up, beginning directly on the next authored bar line when a music clock is available.</summary>
@@ -110,14 +110,67 @@ public static class IntentMotif
     {
         // Channels 0-7 stay clear of the percussion channel.
         var channel = enemy.Slot % 8;
+        var backingChannel = BackingChannels[enemy.Slot % BackingChannels.Length];
         var program = EnemyVoices.ProgramOf(enemy);
-        var pan = (int)Math.Round(16 + enemy.ScreenX * 95);
+        var voice = EnemyVoices.SettingsOf(enemy);
+        var profile = MusicClock.ActiveProfile;
+        phrase.Transpose(voice?.OctaveOffset ?? 0);
+        if (voice != null)
+        {
+            phrase.ConstrainLeadRange(voice.MinNote, voice.MaxNote);
+            phrase.ScaleLeadDurations(voice.GateRatio);
+        }
+        var spatial = profile?.Spatial;
+        if (spatial != null)
+        {
+            var gainDb = spatial.BackGainDb +
+                enemy.ScreenDepth * (spatial.FrontGainDb - spatial.BackGainDb);
+            phrase.ApplyGainDb(gainDb);
+        }
+        var panMin = spatial?.PanMin ?? 8;
+        var panMax = spatial?.PanMax ?? 119;
+        var pan = (int)Math.Round(panMin + enemy.ScreenX * (panMax - panMin));
+        var initialPan = voice is { PanMotionDepth: > 0 }
+            ? Math.Clamp(pan - voice.PanMotionDepth, 0, 127)
+            : pan;
         engine.Schedule(start, s =>
         {
             s.SetProgram(channel, program);
-            s.SetPan(channel, pan);
+            s.SetPan(channel, initialPan);
+            var depthReverb = spatial == null ? 0 : (int)Math.Round(
+                spatial.BackReverbAdd +
+                enemy.ScreenDepth * (spatial.FrontReverbAdd - spatial.BackReverbAdd));
+            var brightness = spatial == null ? 64 : (int)Math.Round(
+                spatial.BackBrightness +
+                enemy.ScreenDepth * (spatial.FrontBrightness - spatial.BackBrightness));
+            s.SetReverb(channel, (voice?.Reverb ?? 0) + depthReverb);
+            s.SetChorus(channel, voice?.Chorus ?? 0);
+            s.SetBrightness(channel, brightness);
+            s.SetModulation(channel, voice?.Modulation ?? 0);
+            s.SetProgram(backingChannel, profile?.BackingProgram ?? Midi.Program.AcousticGrandPiano);
+            s.SetPan(backingChannel, pan);
+            s.SetReverb(backingChannel, (profile?.BackingReverb ?? 0) + depthReverb);
+            s.SetChorus(backingChannel, profile?.BackingChorus ?? 0);
+            s.SetBrightness(backingChannel, brightness);
+            s.SetPan(Midi.PercussionChannel, pan);
+            s.SetReverb(Midi.PercussionChannel, depthReverb);
+            s.SetChorus(Midi.PercussionChannel, 0);
+            s.SetBrightness(Midi.PercussionChannel, brightness);
         });
-        phrase.ScheduleOn(engine, start, channel);
+        if (voice is { PanMotionDepth: > 0, PanMotionRateBeats: > 0 } && phrase.Length > 0)
+        {
+            var configuredStep = MusicClock.BeatSeconds * voice.PanMotionRateBeats;
+            var step = Math.Min(configuredStep, Math.Max(phrase.Length / 2.0, 0.02));
+            var direction = 1;
+            for (var at = step; at < phrase.Length; at += step)
+            {
+                var movingPan = Math.Clamp(pan + direction * voice.PanMotionDepth, 0, 127);
+                engine.Schedule(start + at, synth => synth.SetPan(channel, movingPan));
+                direction *= -1;
+            }
+            engine.Schedule(start + phrase.Length, synth => synth.SetPan(channel, pan));
+        }
+        phrase.ScheduleOn(engine, start, channel, backingChannel);
     }
 
     private static Phrase Compose(EnemyInfo enemy, MusicChordChangeData? chord, int? melodyNote)
@@ -189,8 +242,14 @@ public static class IntentMotif
             var duration = (0.2 + tier * 0.1) * TempoScale;
             phrase.Note(t, duration, velocity, voicing.Lead);
             if (voicing.Backing.Length > 0)
-                phrase.Note(t, duration,
-                    EnemyVoices.BalancedVelocity(enemy, voicing.BackingVelocity), voicing.Backing);
+                phrase.BackingNote(t, duration,
+                    BackingVelocity(voicing.BackingVelocity), voicing.Backing);
+            if (profile?.MultiHitPercussionTiers.ElementAtOrDefault(tier - 1) is { } percussion)
+                phrase.Percussion(
+                    t,
+                    duration * percussion.GateRatio,
+                    percussion.OpenVelocity,
+                    percussion.OpenNotes);
             return t + duration + 0.1 * TempoScale;
         }
         return ComposeRiff(phrase, t, velocity, hits, voicing, tier, enemy);
@@ -209,47 +268,54 @@ public static class IntentMotif
         int tier,
         EnemyInfo enemy)
     {
+        var start = t;
         var maxInTable = Riffs.Keys.Max();
         while (hits > maxInTable)
         {
-            t = ComposePattern(phrase, t, velocity, voicing, Riffs[FullBarHits], tier, enemy);
+            t = ComposePattern(phrase, t, Riffs[FullBarHits], tier);
             hits -= FullBarHits;
         }
-        return ComposePattern(phrase, t, velocity, voicing, Riffs[hits], tier, enemy);
+        t = ComposePattern(phrase, t, Riffs[hits], tier);
+
+        var duration = Math.Max(0.05, (t - start) * 0.95);
+        var strumSpread = MusicClock.ActiveProfile?.StrumSpreadSeconds ?? StrumSpread;
+        phrase.Strum(start, duration, velocity, strumSpread, voicing.Lead);
+        if (voicing.Backing.Length > 0)
+            phrase.BackingStrum(start, duration,
+                BackingVelocity(voicing.BackingVelocity),
+                strumSpread, voicing.Backing);
+        return t;
     }
 
     private static double ComposePattern(
         Phrase phrase,
         double t,
-        int velocity,
-        IntentVoicing.AttackVoicing voicing,
         (string Pattern, int StepsPerBeat) riff,
-        int tier,
-        EnemyInfo enemy)
+        int tier)
     {
         var step = BeatSeconds / riff.StepsPerBeat;
         var profile = MusicClock.ActiveProfile;
-        var velocityDrop = profile?.PalmMuteVelocityDrop ?? PalmMuteVelocityDrop;
-        var strumSpread = profile?.StrumSpreadSeconds ?? StrumSpread;
         var percussion = profile?.MultiHitPercussionTiers.ElementAtOrDefault(tier - 1);
         foreach (var strike in riff.Pattern.Where(c => c != ' '))
         {
-            var strikeVelocity = strike == '1' ? velocity : Math.Max(1, velocity - velocityDrop);
-            phrase.Strum(t, step, strikeVelocity, strumSpread, voicing.Lead);
-            if (voicing.Backing.Length > 0)
-            {
-                var balancedBacking = EnemyVoices.BalancedVelocity(enemy, voicing.BackingVelocity);
-                var backingVelocity = strike == '1'
-                    ? balancedBacking
-                    : Math.Max(1, balancedBacking - velocityDrop / 2);
-                phrase.Strum(t, step, backingVelocity, strumSpread, voicing.Backing);
-            }
             if (percussion != null)
+            {
+                var backbeat = strike == 'B';
+                var downbeat = strike == 'D';
                 phrase.Percussion(
                     t,
                     step * percussion.GateRatio,
-                    strike == '1' ? percussion.OpenVelocity : percussion.MutedVelocity,
-                    strike == '1' ? percussion.OpenNotes : percussion.MutedNotes);
+                    downbeat
+                        ? percussion.OpenVelocity
+                        : backbeat
+                            ? percussion.BackbeatVelocity
+                            : percussion.MutedVelocity,
+                    downbeat
+                        ? percussion.OpenNotes
+                        : backbeat
+                            ? percussion.BackbeatNotes
+                            : percussion.MutedNotes);
+            }
             t += step;
         }
         return t;
@@ -260,5 +326,11 @@ public static class IntentMotif
         for (var k = 0; k < keys.Length; k++)
             phrase.Note(t + k * 0.08 * TempoScale, 0.15 * TempoScale, velocity, keys[k]);
         return t + (keys.Length * 0.08 + 0.2) * TempoScale;
+    }
+
+    private static int BackingVelocity(int velocity)
+    {
+        var gain = Math.Pow(10, (MusicClock.ActiveProfile?.BackingGainDb ?? 0) / 40.0);
+        return Math.Clamp((int)Math.Round(velocity * gain), 1, 127);
     }
 }

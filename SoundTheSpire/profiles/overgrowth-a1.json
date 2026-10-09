@@ -14,42 +14,655 @@
   "rapidInputQuarterNotes": 1.0,
   "rapidSubdivisionsPerBeat": 2,
   "selectionSubdivisionsPerBeat": 4,
-  "attackThresholds": [5, 10, 20, 40],
-  "attackRoots": [75, 67, 58, 51, 43],
-  "attackVelocities": [55, 68, 84, 104, 124],
+  "attackThresholds": [
+    5,
+    10,
+    20,
+    40
+  ],
+  "attackRoots": [
+    75,
+    67,
+    58,
+    51,
+    43
+  ],
+  "attackVelocities": [
+    55,
+    68,
+    84,
+    104,
+    124
+  ],
   "palmMuteVelocityDrop": 20,
   "strumSpreadSeconds": 0.008,
   "multiHitPercussionTiers": [
-    { "name": "triangle", "openNotes": [81], "mutedNotes": [80], "openVelocity": 64, "mutedVelocity": 48, "gateRatio": 0.65 },
-    { "name": "hi-hat", "openNotes": [46], "mutedNotes": [42], "openVelocity": 68, "mutedVelocity": 54, "gateRatio": 0.65 },
-    { "name": "snare", "openNotes": [38], "mutedNotes": [37], "openVelocity": 76, "mutedVelocity": 60, "gateRatio": 0.55 },
-    { "name": "tom", "openNotes": [45], "mutedNotes": [41], "openVelocity": 86, "mutedVelocity": 70, "gateRatio": 0.70 },
-    { "name": "kick-crash", "openNotes": [36, 49], "mutedNotes": [36], "openVelocity": 96, "mutedVelocity": 82, "gateRatio": 0.80 }
+    {
+      "name": "triangle",
+      "openNotes": [
+        81
+      ],
+      "backbeatNotes": [
+        81
+      ],
+      "mutedNotes": [
+        80
+      ],
+      "openVelocity": 127,
+      "backbeatVelocity": 118,
+      "mutedVelocity": 105,
+      "gateRatio": 0.8
+    },
+    {
+      "name": "snare",
+      "openNotes": [
+        38
+      ],
+      "backbeatNotes": [
+        40
+      ],
+      "mutedNotes": [
+        37
+      ],
+      "openVelocity": 108,
+      "backbeatVelocity": 116,
+      "mutedVelocity": 90,
+      "gateRatio": 0.7
+    },
+    {
+      "name": "double-tom",
+      "openNotes": [
+        45
+      ],
+      "backbeatNotes": [
+        50
+      ],
+      "mutedNotes": [
+        41,
+        45
+      ],
+      "openVelocity": 112,
+      "backbeatVelocity": 120,
+      "mutedVelocity": 95,
+      "gateRatio": 0.85
+    },
+    {
+      "name": "double-tom-kick",
+      "openNotes": [
+        36,
+        45
+      ],
+      "backbeatNotes": [
+        50
+      ],
+      "mutedNotes": [
+        41,
+        45
+      ],
+      "openVelocity": 108,
+      "backbeatVelocity": 116,
+      "mutedVelocity": 90,
+      "gateRatio": 0.9
+    },
+    {
+      "name": "double-tom-kick-crash",
+      "openNotes": [
+        36,
+        49
+      ],
+      "backbeatNotes": [
+        38,
+        50
+      ],
+      "mutedNotes": [
+        36,
+        45
+      ],
+      "openVelocity": 104,
+      "backbeatVelocity": 112,
+      "mutedVelocity": 88,
+      "gateRatio": 0.95
+    }
   ],
-  "minorThirdTiers": [5],
-  "defendNotes": [39, 46],
-  "buffNotes": [63, 67, 70, 75],
-  "debuffNotes": [75, 70, 67, 63],
+  "minorThirdTiers": [
+    5
+  ],
+  "defendNotes": [
+    39,
+    46
+  ],
+  "buffNotes": [
+    63,
+    67,
+    70,
+    75
+  ],
+  "debuffNotes": [
+    75,
+    70,
+    67,
+    63
+  ],
   "unknownNote": 58,
-  "suspended": [63, 68, 70],
-  "resolved": [63, 67, 70, 75],
-  "hurtChords": [
-    [63, 68, 70],
-    [63, 66, 69],
-    [63, 69, 74],
-    [63, 64, 69]
+  "suspended": [
+    63,
+    68,
+    70
   ],
-  "clash": [51, 63, 64, 69],
-  "clashAfter": [50, 62, 63, 68],
-  "hurtVelocities": [72, 80, 88, 96, 110],
+  "resolved": [
+    63,
+    67,
+    70,
+    75
+  ],
+  "hurtChords": [
+    [
+      63,
+      68,
+      70
+    ],
+    [
+      63,
+      66,
+      69
+    ],
+    [
+      63,
+      69,
+      74
+    ],
+    [
+      63,
+      64,
+      69
+    ]
+  ],
+  "clash": [
+    51,
+    63,
+    64,
+    69
+  ],
+  "clashAfter": [
+    50,
+    62,
+    63,
+    68
+  ],
+  "hurtVelocities": [
+    72,
+    80,
+    88,
+    96,
+    110
+  ],
   "noIncomingVelocity": 70,
   "suspendedVelocity": 80,
   "resolvedVelocity": 95,
   "voices": [
-    { "program": 30, "name": "distortion guitar", "minimumVelocity": 0, "gainDb": 0.0 },
-    { "program": 29, "name": "overdriven guitar", "minimumVelocity": 0, "gainDb": -1.5 },
-    { "program": 27, "name": "clean guitar", "minimumVelocity": 0, "gainDb": 0.7 },
-    { "program": 26, "name": "jazz guitar", "minimumVelocity": 0, "gainDb": -1.5 },
-    { "program": 28, "name": "muted guitar", "minimumVelocity": 0, "gainDb": 4.5 }
-  ]
+    {
+      "program": 56,
+      "name": "trumpet",
+      "minimumVelocity": 0,
+      "gainDb": 1.6,
+      "reverb": 35,
+      "chorus": 5,
+      "panMotionDepth": 0,
+      "panMotionRateBeats": 1.0,
+      "minNote": 54,
+      "maxNote": 84,
+      "gateRatio": 0.72,
+      "modulation": 10
+    },
+    {
+      "program": 30,
+      "name": "distortion guitar",
+      "minimumVelocity": 0,
+      "gainDb": 0.0,
+      "reverb": 30,
+      "chorus": 4,
+      "panMotionDepth": 0,
+      "panMotionRateBeats": 1.0,
+      "minNote": 40,
+      "maxNote": 88,
+      "gateRatio": 0.95,
+      "modulation": 0
+    },
+    {
+      "program": 65,
+      "name": "alto sax",
+      "minimumVelocity": 0,
+      "gainDb": 1.1,
+      "reverb": 40,
+      "chorus": 10,
+      "panMotionDepth": 0,
+      "panMotionRateBeats": 1.0,
+      "minNote": 49,
+      "maxNote": 80,
+      "gateRatio": 1.08,
+      "modulation": 32
+    },
+    {
+      "program": 110,
+      "name": "electric fiddle",
+      "minimumVelocity": 0,
+      "gainDb": -2.3,
+      "reverb": 55,
+      "chorus": 45,
+      "panMotionDepth": 0,
+      "panMotionRateBeats": 1.0,
+      "minNote": 55,
+      "maxNote": 96,
+      "gateRatio": 1.0,
+      "modulation": 55
+    },
+    {
+      "program": 7,
+      "name": "clavinet",
+      "minimumVelocity": 0,
+      "gainDb": 3.8,
+      "reverb": 45,
+      "chorus": 35,
+      "panMotionDepth": 0,
+      "panMotionRateBeats": 1.0,
+      "minNote": 36,
+      "maxNote": 96,
+      "gateRatio": 0.45,
+      "modulation": 0
+    }
+  ],
+  "spatial": {
+    "panMin": 0,
+    "panMax": 127,
+    "backGainDb": -2.0,
+    "frontGainDb": 1.0,
+    "backReverbAdd": 20,
+    "frontReverbAdd": 0,
+    "backBrightness": 48,
+    "frontBrightness": 82
+  },
+  "harmony": {
+    "marker": "Enemy Loop",
+    "pickupBeats": 1.0,
+    "loopBars": 99,
+    "referenceLoudnessLufs": -12.84,
+    "maxLoudnessAttenuationDb": 10.0,
+    "barLoudnessLufs": [
+      -21.37,
+      -22.4,
+      -21.7,
+      -23.51,
+      -20.78,
+      -22.03,
+      -22.02,
+      -27.73,
+      -17.82,
+      -17.4,
+      -17.39,
+      -18.12,
+      -17.8,
+      -18.34,
+      -16.39,
+      -19.43,
+      -16.64,
+      -18.48,
+      -15.82,
+      -16.32,
+      -20.02,
+      -18.04,
+      -14.76,
+      -16.46,
+      -18.54,
+      -16.77,
+      -18.91,
+      -17.64,
+      -19.6,
+      -18.46,
+      -22.82,
+      -22.75,
+      -24.03,
+      -21.8,
+      -22.05,
+      -22.87,
+      -20.86,
+      -20.43,
+      -19.93,
+      -18.15,
+      -18.18,
+      -21.75,
+      -21.38,
+      -21.37,
+      -21.06,
+      -16.12,
+      -16.28,
+      -17.36,
+      -17.3,
+      -19.36,
+      -16.69,
+      -18.79,
+      -15.96,
+      -20.73,
+      -26.03,
+      -26.32,
+      -24.81,
+      -21.44,
+      -17.09,
+      -19.21,
+      -15.52,
+      -15.87,
+      -15.86,
+      -21.54,
+      -23.38,
+      -24.51,
+      -22.86,
+      -22.13,
+      -22.14,
+      -23.39,
+      -17.64,
+      -18.28,
+      -17.71,
+      -16.85,
+      -12.84,
+      -20.04,
+      -13.43,
+      -19.03,
+      -15.07,
+      -19.87,
+      -21.53,
+      -23.26,
+      -21.77,
+      -20.57,
+      -21.81,
+      -20.7,
+      -21.88,
+      -19.79,
+      -20.72,
+      -20.42,
+      -18.64,
+      -21.04,
+      -19.3,
+      -20.24,
+      -20.24,
+      -24.18,
+      -21.24,
+      -23.93,
+      -49.6
+    ],
+    "changes": [
+      {
+        "bar": 0,
+        "name": "C sus4",
+        "root": 0,
+        "intervals": [
+          0,
+          5,
+          7
+        ]
+      },
+      {
+        "bar": 6,
+        "name": "Eb sus2",
+        "root": 3,
+        "intervals": [
+          0,
+          2,
+          7
+        ]
+      },
+      {
+        "bar": 9,
+        "name": "F fifth",
+        "root": 5,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 10,
+        "name": "G major",
+        "root": 7,
+        "intervals": [
+          0,
+          4,
+          7
+        ]
+      },
+      {
+        "bar": 12,
+        "name": "Eb minor",
+        "root": 3,
+        "intervals": [
+          0,
+          3,
+          7
+        ]
+      },
+      {
+        "bar": 14,
+        "name": "F fifth",
+        "root": 5,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 16,
+        "name": "C# fifth",
+        "root": 1,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 18,
+        "name": "Bb fifth",
+        "root": 10,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 22,
+        "name": "F# fifth",
+        "root": 6,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 26,
+        "name": "Eb sus2",
+        "root": 3,
+        "intervals": [
+          0,
+          2,
+          7
+        ]
+      },
+      {
+        "bar": 35,
+        "name": "F fifth",
+        "root": 5,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 39,
+        "name": "Eb sus2",
+        "root": 3,
+        "intervals": [
+          0,
+          2,
+          7
+        ]
+      },
+      {
+        "bar": 43,
+        "name": "Bb minor",
+        "root": 10,
+        "intervals": [
+          0,
+          3,
+          7
+        ]
+      },
+      {
+        "bar": 44,
+        "name": "C fifth",
+        "root": 0,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 46,
+        "name": "F fifth",
+        "root": 5,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 48,
+        "name": "E fifth",
+        "root": 4,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 50,
+        "name": "Eb fifth",
+        "root": 3,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 52,
+        "name": "Ab fifth",
+        "root": 8,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 54,
+        "name": "Eb fifth",
+        "root": 3,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 60,
+        "name": "F# sus4",
+        "root": 6,
+        "intervals": [
+          0,
+          5,
+          7
+        ]
+      },
+      {
+        "bar": 61,
+        "name": "A fifth",
+        "root": 9,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 62,
+        "name": "Ab fifth",
+        "root": 8,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 66,
+        "name": "Eb fifth",
+        "root": 3,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 70,
+        "name": "Ab fifth",
+        "root": 8,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 74,
+        "name": "E fifth",
+        "root": 4,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 77,
+        "name": "G fifth",
+        "root": 7,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 80,
+        "name": "Eb fifth",
+        "root": 3,
+        "intervals": [
+          0,
+          7
+        ]
+      },
+      {
+        "bar": 90,
+        "name": "C# sus2",
+        "root": 1,
+        "intervals": [
+          0,
+          2,
+          7
+        ]
+      },
+      {
+        "bar": 98,
+        "name": "D fifth",
+        "root": 2,
+        "intervals": [
+          0,
+          7
+        ]
+      }
+    ]
+  },
+  "backingProgram": 5,
+  "backingGainDb": 0.0,
+  "backingReverb": 40,
+  "backingChorus": 25
 }

@@ -15,7 +15,7 @@ public static class EnemyVoices
     {
         (Midi.Program.DistortionGuitar, "guitar"),
         (Midi.Program.OverdrivenGuitar, "overdriven guitar"),
-        (Midi.Program.CleanGuitar, "clean guitar"),
+        (Midi.Program.GuitarHarmonics, "guitar harmonics"),
         (Midi.Program.JazzGuitar, "jazz guitar"),
         (Midi.Program.MutedGuitar, "muted guitar"),
     };
@@ -67,6 +67,14 @@ public static class EnemyVoices
     }
 
     public static int ProgramOf(EnemyInfo enemy) => InstrumentOf(enemy.Creature).Program;
+
+    public static MusicVoiceData? SettingsOf(EnemyInfo enemy)
+    {
+        if (MusicClock.ActiveProfile is not { } profile)
+            return null;
+        var index = Assigned.TryGetValue(enemy.Creature, out var assigned) ? assigned : 0;
+        return profile.Voices.ElementAtOrDefault(index);
+    }
 
     /// <summary>
     /// SoundFont calibration for profiled voices. Per-program velocity floors come from the external music profile.

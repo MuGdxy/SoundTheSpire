@@ -20,9 +20,17 @@ public readonly record struct IntentInfo(IntentKind Kind, int DamagePerHit = 0, 
 }
 
 /// <param name="Slot">Stable index of the enemy within this combat; does not shift when others die.</param>
-/// <param name="ScreenX">Horizontal screen position, 0 = left edge, 1 = right edge.</param>
+/// <param name="ScreenX">Horizontal position normalized within the living enemy group, 0 = leftmost, 1 = rightmost.</param>
+/// <param name="ScreenDepth">Relative depth among enemies, 0 = back/top, 1 = front/bottom.</param>
 /// <param name="IsPrimary">False for minions and other secondary enemies.</param>
-public sealed record EnemyInfo(Creature Creature, int Slot, float ScreenX, bool IsPrimary, int MaxHp, IReadOnlyList<IntentInfo> Intents);
+public sealed record EnemyInfo(
+    Creature Creature,
+    int Slot,
+    float ScreenX,
+    float ScreenDepth,
+    bool IsPrimary,
+    int MaxHp,
+    IReadOnlyList<IntentInfo> Intents);
 
 /// <summary>
 /// Reads what a sighted player can see about the enemies. Everything the sonification knows about combat goes
@@ -38,11 +46,31 @@ public static class CombatReader
     {
         var players = combat.PlayerCreatures;
         var enemies = combat.Enemies.ToList();
-        return enemies
+        var visible = enemies
             .Select((e, slot) => (Enemy: e, Slot: slot))
             .Where(x => x.Enemy.IsAlive && x.Enemy.Monster != null)
-            .Select(x => new EnemyInfo(x.Enemy, x.Slot, ScreenX(x.Enemy, x.Slot, enemies.Count),
-                x.Enemy.IsPrimaryEnemy, x.Enemy.MaxHp, ReadIntents(x.Enemy, players)))
+            .Select(x => (x.Enemy, x.Slot,
+                X: ScreenX(x.Enemy, x.Slot, enemies.Count)))
+            .ToList();
+        var minX = visible.Count > 0 ? visible.Min(x => x.X) : 0.5f;
+        var maxX = visible.Count > 0 ? visible.Max(x => x.X) : 0.5f;
+        return visible
+            .Select((x, index) =>
+            {
+                var relativeX = visible.Count <= 1
+                    ? 0.5f
+                    : maxX - minX > 0.01f
+                        ? (x.X - minX) / (maxX - minX)
+                        : (float)index / (visible.Count - 1);
+                return new EnemyInfo(
+                    x.Enemy,
+                    x.Slot,
+                    relativeX,
+                    1f - relativeX,
+                    x.Enemy.IsPrimaryEnemy,
+                    x.Enemy.MaxHp,
+                    ReadIntents(x.Enemy, players));
+            })
             .OrderBy(e => e.ScreenX)
             .ToList();
     }
@@ -87,4 +115,5 @@ public static class CombatReader
         }
         return count <= 1 ? 0.5f : (float)index / (count - 1);
     }
+
 }

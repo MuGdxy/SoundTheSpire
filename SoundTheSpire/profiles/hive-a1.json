@@ -50,63 +50,86 @@
       "openNotes": [
         81
       ],
+      "backbeatNotes": [
+        81
+      ],
       "mutedNotes": [
         80
       ],
-      "openVelocity": 84,
-      "mutedVelocity": 68,
-      "gateRatio": 0.75
-    },
-    {
-      "name": "hi-hat",
-      "openNotes": [
-        46
-      ],
-      "mutedNotes": [
-        42
-      ],
-      "openVelocity": 90,
-      "mutedVelocity": 74,
-      "gateRatio": 0.75
+      "openVelocity": 127,
+      "backbeatVelocity": 118,
+      "mutedVelocity": 105,
+      "gateRatio": 0.8
     },
     {
       "name": "snare",
       "openNotes": [
         38
       ],
+      "backbeatNotes": [
+        40
+      ],
       "mutedNotes": [
         37
       ],
-      "openVelocity": 60,
-      "mutedVelocity": 46,
-      "gateRatio": 0.65
+      "openVelocity": 108,
+      "backbeatVelocity": 116,
+      "mutedVelocity": 90,
+      "gateRatio": 0.7
     },
     {
-      "name": "tom",
+      "name": "double-tom",
       "openNotes": [
-        45,
+        45
+      ],
+      "backbeatNotes": [
         50
       ],
       "mutedNotes": [
         41,
         45
       ],
-      "openVelocity": 62,
-      "mutedVelocity": 50,
-      "gateRatio": 0.8
+      "openVelocity": 112,
+      "backbeatVelocity": 120,
+      "mutedVelocity": 95,
+      "gateRatio": 0.85
     },
     {
-      "name": "kick-crash",
+      "name": "double-tom-kick",
+      "openNotes": [
+        36,
+        45
+      ],
+      "backbeatNotes": [
+        50
+      ],
+      "mutedNotes": [
+        41,
+        45
+      ],
+      "openVelocity": 108,
+      "backbeatVelocity": 116,
+      "mutedVelocity": 90,
+      "gateRatio": 0.9
+    },
+    {
+      "name": "double-tom-kick-crash",
       "openNotes": [
         36,
         49
       ],
-      "mutedNotes": [
-        36
+      "backbeatNotes": [
+        38,
+        50
       ],
-      "openVelocity": 68,
-      "mutedVelocity": 56,
-      "gateRatio": 0.9
+      "mutedNotes": [
+        36,
+        45
+      ],
+      "openVelocity": 104,
+      "backbeatVelocity": 112,
+      "mutedVelocity": 88,
+      "gateRatio": 0.95
     }
   ],
   "minorThirdTiers": [
@@ -667,34 +690,88 @@
   },
   "voices": [
     {
+      "program": 56,
+      "name": "trumpet",
+      "minimumVelocity": 0,
+      "gainDb": 1.6,
+      "reverb": 35,
+      "chorus": 5,
+      "panMotionDepth": 0,
+      "panMotionRateBeats": 1.0,
+      "minNote": 54,
+      "maxNote": 84,
+      "gateRatio": 0.72,
+      "modulation": 10
+    },
+    {
       "program": 30,
       "name": "distortion guitar",
       "minimumVelocity": 0,
-      "gainDb": 0.0
+      "gainDb": 0.0,
+      "reverb": 30,
+      "chorus": 4,
+      "panMotionDepth": 0,
+      "panMotionRateBeats": 1.0,
+      "minNote": 40,
+      "maxNote": 88,
+      "gateRatio": 0.95,
+      "modulation": 0
     },
     {
-      "program": 29,
-      "name": "overdriven guitar",
+      "program": 65,
+      "name": "alto sax",
       "minimumVelocity": 0,
-      "gainDb": -1.5
+      "gainDb": 1.1,
+      "reverb": 40,
+      "chorus": 10,
+      "panMotionDepth": 0,
+      "panMotionRateBeats": 1.0,
+      "minNote": 49,
+      "maxNote": 80,
+      "gateRatio": 1.08,
+      "modulation": 32
     },
     {
-      "program": 27,
-      "name": "clean guitar",
+      "program": 110,
+      "name": "electric fiddle",
       "minimumVelocity": 0,
-      "gainDb": 0.7
+      "gainDb": -2.3,
+      "reverb": 55,
+      "chorus": 45,
+      "panMotionDepth": 0,
+      "panMotionRateBeats": 1.0,
+      "minNote": 55,
+      "maxNote": 96,
+      "gateRatio": 1.0,
+      "modulation": 55
     },
     {
-      "program": 26,
-      "name": "jazz guitar",
+      "program": 7,
+      "name": "clavinet",
       "minimumVelocity": 0,
-      "gainDb": -1.5
-    },
-    {
-      "program": 28,
-      "name": "muted guitar",
-      "minimumVelocity": 0,
-      "gainDb": 4.5
+      "gainDb": 3.8,
+      "reverb": 45,
+      "chorus": 35,
+      "panMotionDepth": 0,
+      "panMotionRateBeats": 1.0,
+      "minNote": 36,
+      "maxNote": 96,
+      "gateRatio": 0.45,
+      "modulation": 0
     }
-  ]
+  ],
+  "spatial": {
+    "panMin": 0,
+    "panMax": 127,
+    "backGainDb": -2.0,
+    "frontGainDb": 1.0,
+    "backReverbAdd": 20,
+    "frontReverbAdd": 0,
+    "backBrightness": 48,
+    "frontBrightness": 82
+  },
+  "backingProgram": 5,
+  "backingGainDb": 0.0,
+  "backingReverb": 40,
+  "backingChorus": 25
 }

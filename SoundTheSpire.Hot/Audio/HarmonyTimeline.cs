@@ -64,8 +64,8 @@ public static class HarmonyTimeline
     public static double LoudnessGainDbAt(double secondsFromNow, out int bar)
     {
         bar = -1;
-        if (MusicClock.ActiveProfile?.Harmony is not
-            { BarLoudnessLufs.Length: > 0 } harmony)
+        if (MusicClock.ActiveProfile is not
+            { DynamicLoudness: true, Harmony: { BarLoudnessLufs.Length: > 0 } harmony })
             return 0;
         var musicalSeconds = MusicalSeconds(harmony, secondsFromNow);
         bar = (int)Math.Floor(musicalSeconds / MusicClock.BarSeconds) % harmony.LoopBars;

@@ -15,6 +15,7 @@ public static class Midi
         public const int MutedGuitar = 28;
         public const int OverdrivenGuitar = 29;
         public const int DistortionGuitar = 30;
+        public const int GuitarHarmonics = 31;
         public const int Cello = 42;
         public const int PizzicatoStrings = 45;
         public const int StringEnsemble = 48;
@@ -39,6 +40,18 @@ public static class Midi
     /// <param name="pan">0 = hard left, 64 = center, 127 = hard right.</param>
     public static void SetPan(this Synthesizer synth, int channel, int pan) =>
         synth.ProcessMidiMessage(channel, 0xB0, 0x0A, pan);
+
+    public static void SetReverb(this Synthesizer synth, int channel, int amount) =>
+        synth.ProcessMidiMessage(channel, 0xB0, 91, Math.Clamp(amount, 0, 127));
+
+    public static void SetChorus(this Synthesizer synth, int channel, int amount) =>
+        synth.ProcessMidiMessage(channel, 0xB0, 93, Math.Clamp(amount, 0, 127));
+
+    public static void SetBrightness(this Synthesizer synth, int channel, int amount) =>
+        synth.ProcessMidiMessage(channel, 0xB0, 74, Math.Clamp(amount, 0, 127));
+
+    public static void SetModulation(this Synthesizer synth, int channel, int amount) =>
+        synth.ProcessMidiMessage(channel, 0xB0, 1, Math.Clamp(amount, 0, 127));
 
     public static void Chord(this SynthEngine engine, double at, double duration, int channel, int velocity, params int[] keys)
     {

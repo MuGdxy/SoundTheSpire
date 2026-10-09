@@ -87,6 +87,7 @@ public sealed class MusicProfileData
     public string Key { get; set; } = "";
     public string IntentHarmonyMode { get; set; } = "chord";
     public double OutputGainDb { get; set; }
+    public bool DynamicLoudness { get; set; }
     public int TonicPitchClass { get; set; }
     public double Bpm { get; set; }
     public int BeatsPerBar { get; set; }
@@ -102,6 +103,10 @@ public sealed class MusicProfileData
     public int[] AttackRoots { get; set; } = [];
     public int[] AttackVelocities { get; set; } = [];
     public int[] AttackBackingVelocities { get; set; } = [];
+    public int BackingProgram { get; set; }
+    public double BackingGainDb { get; set; }
+    public int BackingReverb { get; set; }
+    public int BackingChorus { get; set; }
     public int PalmMuteVelocityDrop { get; set; }
     public double StrumSpreadSeconds { get; set; }
     public MusicPercussionTierData[] MultiHitPercussionTiers { get; set; } = [];
@@ -122,6 +127,7 @@ public sealed class MusicProfileData
     public MusicVoiceData[] Voices { get; set; } = [];
     public MusicHarmonyData? Harmony { get; set; }
     public MusicStatusChangeData? StatusChange { get; set; }
+    public MusicSpatialData? Spatial { get; set; }
 }
 
 public sealed class MusicVoiceData
@@ -130,14 +136,25 @@ public sealed class MusicVoiceData
     public string Name { get; set; } = "";
     public int MinimumVelocity { get; set; }
     public double GainDb { get; set; }
+    public int Reverb { get; set; }
+    public int Chorus { get; set; }
+    public int PanMotionDepth { get; set; }
+    public double PanMotionRateBeats { get; set; } = 1;
+    public int OctaveOffset { get; set; }
+    public int MinNote { get; set; }
+    public int MaxNote { get; set; } = 127;
+    public double GateRatio { get; set; } = 1;
+    public int Modulation { get; set; }
 }
 
 public sealed class MusicPercussionTierData
 {
     public string Name { get; set; } = "";
     public int[] OpenNotes { get; set; } = [];
+    public int[] BackbeatNotes { get; set; } = [];
     public int[] MutedNotes { get; set; } = [];
     public int OpenVelocity { get; set; }
+    public int BackbeatVelocity { get; set; }
     public int MutedVelocity { get; set; }
     public double GateRatio { get; set; }
 }
@@ -172,4 +189,16 @@ public sealed class MusicStatusChangeData
     public double StepBeats { get; set; }
     public double NoteDurationBeats { get; set; }
     public int SubdivisionsPerBeat { get; set; }
+}
+
+public sealed class MusicSpatialData
+{
+    public int PanMin { get; set; } = 8;
+    public int PanMax { get; set; } = 119;
+    public double BackGainDb { get; set; }
+    public double FrontGainDb { get; set; }
+    public int BackReverbAdd { get; set; }
+    public int FrontReverbAdd { get; set; }
+    public int BackBrightness { get; set; } = 64;
+    public int FrontBrightness { get; set; } = 64;
 }
